@@ -16,14 +16,14 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
 
     @Override
     public void addRecipes(RecipeOutput recipeOutput) {
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.MUSHROOM_STEW)
+        ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(Blocks.BROWN_MUSHROOM)
                 .requires(Blocks.RED_MUSHROOM)
                 .requires(Items.BOWL)
-                .unlockedBy("has_mushroom_stew", has(Items.MUSHROOM_STEW))
-                .unlockedBy("has_bowl", has(Items.BOWL))
-                .unlockedBy("has_brown_mushroom", has(Blocks.BROWN_MUSHROOM))
-                .unlockedBy("has_red_mushroom", has(Blocks.RED_MUSHROOM))
+                .unlockedBy("has_mushroom_stew", this.has(Items.MUSHROOM_STEW))
+                .unlockedBy("has_bowl", this.has(Items.BOWL))
+                .unlockedBy("has_brown_mushroom", this.has(Blocks.BROWN_MUSHROOM))
+                .unlockedBy("has_red_mushroom", this.has(Blocks.RED_MUSHROOM))
                 .save(recipeOutput);
     }
 }

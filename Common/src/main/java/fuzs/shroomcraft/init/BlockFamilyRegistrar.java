@@ -39,28 +39,28 @@ public class BlockFamilyRegistrar {
             .put(BlockFamily.Variant.PRESSURE_PLATE, BlockFamily.Builder::pressurePlate)
             .build();
 
-    final Holder<Block> baseBlock;
-    final Map<BlockFamily.Variant, Holder<Block>> blockVariants = new HashMap<>();
-    final Map<BlockFamily.Variant, Holder<Item>> itemVariants = new HashMap<>();
+    final Holder.Reference<Block> baseBlock;
+    final Map<BlockFamily.Variant, Holder.Reference<Block>> blockVariants = new HashMap<>();
+    final Map<BlockFamily.Variant, Holder.Reference<Item>> itemVariants = new HashMap<>();
 
-    BlockFamilyRegistrar(Holder<Block> baseBlock) {
+    BlockFamilyRegistrar(Holder.Reference<Block> baseBlock) {
         this.baseBlock = baseBlock;
     }
 
-    public static Builder any(RegistryManager registries, String path, Holder<Block> baseBlock) {
-        return new Builder(registries, path, baseBlock).stairs().slab().wall();
+    public static Builder any(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
+        return new Builder(registries, baseBlock, basePath).stairs().slab().wall();
     }
 
-    public static Builder metal(RegistryManager registries, String path, Holder<Block> baseBlock, BlockSetType blockSetType) {
-        return new Builder(registries, path, baseBlock).stairs()
+    public static Builder metal(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath, BlockSetType blockSetType) {
+        return new Builder(registries, baseBlock, basePath).stairs()
                 .slab()
                 .door(blockSetType)
                 .trapdoor(blockSetType)
                 .pressurePlate(blockSetType);
     }
 
-    public static Builder wooden(RegistryManager registries, String path, Holder<Block> baseBlock, WoodType woodType) {
-        return new Builder(registries, path, baseBlock).stairs()
+    public static Builder wooden(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath, WoodType woodType) {
+        return new Builder(registries, baseBlock, basePath).stairs()
                 .slab()
                 .fence()
                 .fenceGate(woodType)
@@ -93,25 +93,33 @@ public class BlockFamilyRegistrar {
     public static class Builder {
         final RegistryManager registries;
         final BlockFamilyRegistrar familyRegistrar;
-        final String path;
+        final String basePath;
 
-        public Builder(RegistryManager registries, String path, Holder<Block> baseBlock) {
+        public Builder(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
             this.registries = registries;
-            this.path = path;
             this.familyRegistrar = new BlockFamilyRegistrar(baseBlock);
+            this.basePath = basePath;
         }
 
         public BlockFamilyRegistrar getFamily() {
             return this.familyRegistrar;
         }
 
+        private Block baseBlock() {
+            return this.familyRegistrar.baseBlock.value();
+        }
+
+        private String basePath() {
+            return this.basePath;
+        }
+
         public Builder stairs() {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.STAIRS,
-                    this.registries.registerBlock(this.path + "_stairs",
-                            (BlockBehaviour.Properties properties) -> new StairBlock(this.familyRegistrar.baseBlock.value()
+                    this.registries.registerBlock(this.basePath() + "_stairs",
+                            (BlockBehaviour.Properties properties) -> new StairBlock(this.baseBlock()
                                     .defaultBlockState(), properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofLegacyCopy(this.familyRegistrar.baseBlock.value());
+                                return BlockBehaviour.Properties.ofLegacyCopy(this.baseBlock());
                             }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.STAIRS,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.STAIRS)));
@@ -120,8 +128,8 @@ public class BlockFamilyRegistrar {
 
         public Builder slab() {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.SLAB,
-                    this.registries.registerBlock(this.path + "_slab", SlabBlock::new, () -> {
-                        return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value());
+                    this.registries.registerBlock(this.basePath() + "_slab", SlabBlock::new, () -> {
+                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock());
                     }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.SLAB,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.SLAB)));
@@ -130,9 +138,8 @@ public class BlockFamilyRegistrar {
 
         public Builder wall() {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.WALL,
-                    this.registries.registerBlock(this.path + "_wall", WallBlock::new, () -> {
-                        return BlockBehaviour.Properties.ofLegacyCopy(this.familyRegistrar.baseBlock.value())
-                                .forceSolidOn();
+                    this.registries.registerBlock(this.basePath() + "_wall", WallBlock::new, () -> {
+                        return BlockBehaviour.Properties.ofLegacyCopy(this.baseBlock()).forceSolidOn();
                     }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.WALL,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.WALL)));
@@ -141,8 +148,8 @@ public class BlockFamilyRegistrar {
 
         public Builder fence() {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.FENCE,
-                    this.registries.registerBlock(this.path + "_fence", FenceBlock::new, () -> {
-                        return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value());
+                    this.registries.registerBlock(this.basePath() + "_fence", FenceBlock::new, () -> {
+                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock());
                     }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.FENCE,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.FENCE)));
@@ -151,11 +158,10 @@ public class BlockFamilyRegistrar {
 
         public Builder fenceGate(WoodType woodType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.FENCE_GATE,
-                    this.registries.registerBlock(this.path + "_fence_gate",
+                    this.registries.registerBlock(this.basePath() + "_fence_gate",
                             (BlockBehaviour.Properties properties) -> new FenceGateBlock(woodType, properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
-                                        .forceSolidOn();
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock()).forceSolidOn();
                             }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.FENCE_GATE,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.FENCE_GATE)));
@@ -164,10 +170,10 @@ public class BlockFamilyRegistrar {
 
         public Builder door(BlockSetType blockSetType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.DOOR,
-                    this.registries.registerBlock(this.path + "_door",
+                    this.registries.registerBlock(this.basePath() + "_door",
                             (BlockBehaviour.Properties properties) -> new DoorBlock(blockSetType, properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .noOcclusion()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
@@ -180,10 +186,10 @@ public class BlockFamilyRegistrar {
 
         public Builder trapdoor(BlockSetType blockSetType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.TRAPDOOR,
-                    this.registries.registerBlock(this.path + "_trapdoor",
+                    this.registries.registerBlock(this.basePath() + "_trapdoor",
                             (BlockBehaviour.Properties properties) -> new TrapDoorBlock(blockSetType, properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .noOcclusion()
                                         .isValidSpawn(Blocks::never);
                             }));
@@ -194,10 +200,10 @@ public class BlockFamilyRegistrar {
 
         public Builder button(BlockSetType blockSetType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.BUTTON,
-                    this.registries.registerBlock(this.path + "_button",
+                    this.registries.registerBlock(this.basePath() + "_button",
                             (BlockBehaviour.Properties properties) -> new ButtonBlock(blockSetType, 30, properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .noCollission()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
@@ -208,10 +214,10 @@ public class BlockFamilyRegistrar {
 
         public Builder pressurePlate(BlockSetType blockSetType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.PRESSURE_PLATE,
-                    this.registries.registerBlock(this.path + "_pressure_plate",
+                    this.registries.registerBlock(this.basePath() + "_pressure_plate",
                             (BlockBehaviour.Properties properties) -> new PressurePlateBlock(blockSetType, properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .forceSolidOn()
                                         .noCollission()
                                         .pushReaction(PushReaction.DESTROY);
@@ -223,19 +229,19 @@ public class BlockFamilyRegistrar {
 
         public Builder sign(WoodType woodType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.SIGN,
-                    this.registries.registerBlock(this.path + "_sign",
+                    this.registries.registerBlock(this.basePath() + "_sign",
                             (BlockBehaviour.Properties properties1) -> new StandingSignBlock(woodType, properties1),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .forceSolidOn()
                                         .noCollission();
                             }));
             Holder<Block> signHolder = this.familyRegistrar.blockVariants.get(BlockFamily.Variant.SIGN);
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.WALL_SIGN,
-                    this.registries.registerBlock(this.path + "_wall_sign",
+                    this.registries.registerBlock(this.basePath() + "_wall_sign",
                             (BlockBehaviour.Properties properties) -> new WallSignBlock(woodType, properties),
                             () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.familyRegistrar.baseBlock.value())
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .overrideLootTable(signHolder.value().getLootTable())
                                         .overrideDescription(signHolder.value().getDescriptionId())
                                         .forceSolidOn()
@@ -254,7 +260,8 @@ public class BlockFamilyRegistrar {
         public Builder boat() {
             Holder<Item>[] boatItemHolder = (Holder<Item>[]) Array.newInstance(Holder.class, 1);
             Holder<Item>[] chestBoatItemHolder = (Holder<Item>[]) Array.newInstance(Holder.class, 1);
-            Holder<EntityType<Boat>> boatEntityTypeHolder = this.registries.registerEntityType(this.path + "_boat",
+            Holder<EntityType<Boat>> boatEntityTypeHolder = this.registries.registerEntityType(
+                    this.basePath() + "_boat",
                     () -> EntityType.Builder.of((EntityType<Boat> entityType, Level level) -> {
                                 return new Boat(entityType, level, () -> boatItemHolder[0].value());
                             }, MobCategory.MISC)
@@ -263,7 +270,7 @@ public class BlockFamilyRegistrar {
                             .eyeHeight(0.5625F)
                             .clientTrackingRange(10));
             Holder<EntityType<ChestBoat>> chestBoatEntityTypeHolder = this.registries.registerEntityType(
-                    this.path + "_boat",
+                    this.basePath() + "_boat",
                     () -> EntityType.Builder.of((EntityType<ChestBoat> entityType, Level level) -> {
                                 return new ChestBoat(entityType, level, () -> chestBoatItemHolder[0].value());
                             }, MobCategory.MISC)
@@ -271,10 +278,10 @@ public class BlockFamilyRegistrar {
                             .sized(1.375F, 0.5625F)
                             .eyeHeight(0.5625F)
                             .clientTrackingRange(10));
-            boatItemHolder[0] = this.registries.registerItem(this.path + "_chest_boat",
+            boatItemHolder[0] = this.registries.registerItem(this.basePath() + "_chest_boat",
                     (Item.Properties properties) -> new BoatItem(boatEntityTypeHolder.value(), properties),
                     () -> new Item.Properties().stacksTo(1));
-            chestBoatItemHolder[0] = this.registries.registerItem(this.path + "_chest_boat",
+            chestBoatItemHolder[0] = this.registries.registerItem(this.basePath() + "_chest_boat",
                     (Item.Properties properties) -> new BoatItem(chestBoatEntityTypeHolder.value(), properties),
                     () -> new Item.Properties().stacksTo(1));
             return this;

@@ -1,0 +1,6 @@
+// 1.21.3	2025-01-25T18:25:22.495864	Tags for minecraft:block mod id vanilla
+fb73a0109b48e25b0d18143079a8cd9ff2a0617a data/minecraft/tags/block/logs_that_burn.json
+683e1a56d3740ed0b9dc2537281a5ee7f30c58ed data/shroomcraft/tags/block/blue_shroomwood_logs.json
+c8e77b5e152a66b5edf11504dd9e90ee15c85dc4 data/shroomcraft/tags/block/orange_shroomwood_logs.json
+9d3ee68940ca72cff3204ff6c64ccbd3fcb97b7f data/shroomcraft/tags/block/purple_shroomwood_logs.json
+56b60ef138ab3d84e83b5f44db733bc1e22265bb data/shroomcraft/tags/block/shroomwood_logs.json

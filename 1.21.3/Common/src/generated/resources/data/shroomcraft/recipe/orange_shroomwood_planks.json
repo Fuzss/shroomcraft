@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    "#shroomcraft:orange_shroomwood_logs"
+  ],
+  "result": {
+    "count": 4,
+    "id": "shroomcraft:orange_shroomwood_planks"
+  }
+}

@@ -7,20 +7,16 @@ import java.util.stream.Stream;
 public class ModBlockFamilies {
     public static final BlockFamilyRegistrar SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
             ModBlocks.SHROOMWOOD_PLANKS,
-            "shroomwood",
-            ModRegistry.SHROOMWOOD_WOOD_TYPE).getFamily();
+            "shroomwood").getFamily();
     public static final BlockFamilyRegistrar BLUE_SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
             ModBlocks.BLUE_SHROOMWOOD_PLANKS,
-            "blue_shroomwood",
-            ModRegistry.BLUE_SHROOMWOOD_WOOD_TYPE).getFamily();
+            "blue_shroomwood").getFamily();
     public static final BlockFamilyRegistrar ORANGE_SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
             ModBlocks.ORANGE_SHROOMWOOD_PLANKS,
-            "orange_shroomwood",
-            ModRegistry.ORANGE_SHROOMWOOD_WOOD_TYPE).getFamily();
+            "orange_shroomwood").getFamily();
     public static final BlockFamilyRegistrar PURPLE_SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
             ModBlocks.PURPLE_SHROOMWOOD_PLANKS,
-            "purple_shroomwood",
-            ModRegistry.PURPLE_SHROOMWOOD_WOOD_TYPE).getFamily();
+            "purple_shroomwood").getFamily();
 
     public static void bootstrap() {
         // NO-OP

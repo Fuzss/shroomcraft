@@ -37,9 +37,9 @@ public class Shroomcraft implements ModConstructor {
         PlayerInteractEvents.USE_BLOCK.register(AxeStrippingHandler::onUseBlock);
         AddBlockEntityTypeBlocksCallback.EVENT.register((BiConsumer<BlockEntityType<?>, Block> consumer) -> {
             ModBlockFamilies.getAllFamilyRegistrars()
-                    .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> consumer1) -> {
-                        consumer1.accept(registrar.getBlock(BlockFamily.Variant.SIGN));
-                        consumer1.accept(registrar.getBlock(BlockFamily.Variant.WALL_SIGN));
+                    .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> blockConsumer) -> {
+                        blockConsumer.accept(registrar.getBlock(BlockFamily.Variant.SIGN));
+                        blockConsumer.accept(registrar.getBlock(BlockFamily.Variant.WALL_SIGN));
                     })
                     .filter(Objects::nonNull)
                     .map(Holder::value)
@@ -51,14 +51,10 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onCommonSetup() {
-        BlockSetType.register(ModRegistry.SHROOMWOOD_BLOCK_SET_TYPE);
-        BlockSetType.register(ModRegistry.BLUE_SHROOMWOOD_BLOCK_SET_TYPE);
-        BlockSetType.register(ModRegistry.ORANGE_SHROOMWOOD_BLOCK_SET_TYPE);
-        BlockSetType.register(ModRegistry.PURPLE_SHROOMWOOD_BLOCK_SET_TYPE);
-        WoodType.register(ModRegistry.SHROOMWOOD_WOOD_TYPE);
-        WoodType.register(ModRegistry.BLUE_SHROOMWOOD_WOOD_TYPE);
-        WoodType.register(ModRegistry.ORANGE_SHROOMWOOD_WOOD_TYPE);
-        WoodType.register(ModRegistry.PURPLE_SHROOMWOOD_WOOD_TYPE);
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
+            BlockSetType.register(registrar.getBlockSetType());
+            WoodType.register(registrar.getWoodType());
+        });
     }
 
     public static ResourceLocation id(String path) {

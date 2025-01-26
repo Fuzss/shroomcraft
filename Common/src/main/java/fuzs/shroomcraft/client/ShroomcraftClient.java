@@ -1,10 +1,12 @@
 package fuzs.shroomcraft.client;
 
+import fuzs.puzzleslib.api.client.core.v1.ClientAbstractions;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.core.v1.context.EntityRenderersContext;
 import fuzs.puzzleslib.api.client.core.v1.context.LayerDefinitionsContext;
 import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
 import fuzs.shroomcraft.client.init.ModModelLayers;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import net.minecraft.client.model.BoatModel;
@@ -14,6 +16,13 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.level.block.Block;
 
 public class ShroomcraftClient implements ClientModConstructor {
+
+    @Override
+    public void onClientSetup() {
+        ModBlockFamilies.getAllFamilyRegistrars()
+                .map(BlockFamilyRegistrar::getWoodType)
+                .forEach(ClientAbstractions.INSTANCE::registerWoodType);
+    }
 
     @Override
     public void onRegisterEntityRenderers(EntityRenderersContext context) {

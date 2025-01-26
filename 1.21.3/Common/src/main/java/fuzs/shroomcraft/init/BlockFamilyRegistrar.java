@@ -38,40 +38,52 @@ public class BlockFamilyRegistrar {
             .put(BlockFamily.Variant.PRESSURE_PLATE, BlockFamily.Builder::pressurePlate)
             .build();
 
-    final Holder.Reference<Block> baseBlock;
     final Map<BlockFamily.Variant, Holder.Reference<Block>> blockVariants = new HashMap<>();
     final Map<BlockFamily.Variant, Holder.Reference<Item>> itemVariants = new HashMap<>();
+    final Holder.Reference<Block> baseBlock;
+    final BlockSetType blockSetType;
+    final WoodType woodType;
     Holder.Reference<Item> boatItem;
     Holder.Reference<Item> chestBoatItem;
     Holder.Reference<EntityType<Boat>> boatEntityType;
     Holder.Reference<EntityType<ChestBoat>> chestBoatEntityType;
 
-    BlockFamilyRegistrar(Holder.Reference<Block> baseBlock) {
+    BlockFamilyRegistrar(Holder.Reference<Block> baseBlock, BlockSetType blockSetType, WoodType woodType) {
         this.baseBlock = baseBlock;
+        this.blockSetType = blockSetType;
+        this.woodType = woodType;
+    }
+
+    public static Builder builder(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
+        BlockSetType blockSetType = new BlockSetType(registries.makeKey(basePath).toString());
+        WoodType woodType = new WoodType(registries.makeKey(basePath).toString(), blockSetType);
+        return new Builder(registries, new BlockFamilyRegistrar(baseBlock, blockSetType, woodType), basePath);
     }
 
     public static Builder any(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
-        return new Builder(registries, baseBlock, basePath).stairs().slab().wall();
+        return builder(registries, baseBlock, basePath).stairs().slab().wall();
     }
 
-    public static Builder metal(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath, BlockSetType blockSetType) {
-        return new Builder(registries, baseBlock, basePath).stairs()
+    public static Builder metal(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
+        Builder builder = builder(registries, baseBlock, basePath);
+        return builder.stairs()
                 .slab()
-                .door(blockSetType)
-                .trapdoor(blockSetType)
-                .pressurePlate(blockSetType);
+                .door(builder.familyRegistrar.blockSetType)
+                .trapdoor(builder.familyRegistrar.blockSetType)
+                .pressurePlate(builder.familyRegistrar.blockSetType);
     }
 
-    public static Builder wooden(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath, WoodType woodType) {
-        return new Builder(registries, baseBlock, basePath).stairs()
+    public static Builder wooden(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
+        Builder builder = builder(registries, baseBlock, basePath);
+        return builder.stairs()
                 .slab()
                 .fence()
-                .fenceGate(woodType)
-                .door(woodType.setType())
-                .trapdoor(woodType.setType())
-                .pressurePlate(woodType.setType())
-                .button(woodType.setType())
-                .sign(woodType)
+                .fenceGate(builder.familyRegistrar.woodType)
+                .door(builder.familyRegistrar.blockSetType)
+                .trapdoor(builder.familyRegistrar.blockSetType)
+                .pressurePlate(builder.familyRegistrar.blockSetType)
+                .button(builder.familyRegistrar.blockSetType)
+                .sign(builder.familyRegistrar.woodType)
                 .boat();
     }
 
@@ -93,6 +105,14 @@ public class BlockFamilyRegistrar {
 
     public Holder.Reference<Block> getBaseBlock() {
         return this.baseBlock;
+    }
+
+    public BlockSetType getBlockSetType() {
+        return this.blockSetType;
+    }
+
+    public WoodType getWoodType() {
+        return this.woodType;
     }
 
     public Holder.Reference<Item> boatItem() {
@@ -135,9 +155,9 @@ public class BlockFamilyRegistrar {
         final BlockFamilyRegistrar familyRegistrar;
         final String basePath;
 
-        public Builder(RegistryManager registries, Holder.Reference<Block> baseBlock, String basePath) {
+        public Builder(RegistryManager registries, BlockFamilyRegistrar familyRegistrar, String basePath) {
             this.registries = registries;
-            this.familyRegistrar = new BlockFamilyRegistrar(baseBlock);
+            this.familyRegistrar = familyRegistrar;
             this.basePath = basePath;
         }
 

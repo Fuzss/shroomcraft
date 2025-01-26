@@ -9,17 +9,17 @@ import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
     public static final Holder.Reference<Block> BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("blue_mushroom",
-            (properties) -> new MushroomBlock(ModFeatures.HUGE_BLUE_MUSHROOM, properties),
+            (properties) -> new MushroomBlock(ModFeatures.HUGE_BLUE_MUSHROOM_CONFIGURED_FEATURE, properties),
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                     .mapColor(MapColor.COLOR_BLUE)
                     .lightLevel((BlockState blockState) -> 2));
     public static final Holder.Reference<Block> ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("orange_mushroom",
-            (properties) -> new MushroomBlock(ModFeatures.HUGE_ORANGE_MUSHROOM, properties),
+            (properties) -> new MushroomBlock(ModFeatures.HUGE_ORANGE_MUSHROOM_CONFIGURED_FEATURE, properties),
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                     .mapColor(MapColor.COLOR_BLUE)
                     .lightLevel((BlockState blockState) -> 3));
     public static final Holder.Reference<Block> PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("purple_mushroom",
-            (properties) -> new MushroomBlock(ModFeatures.HUGE_PURPLE_MUSHROOM, properties),
+            (properties) -> new MushroomBlock(ModFeatures.HUGE_PURPLE_MUSHROOM_CONFIGURED_FEATURE, properties),
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                     .mapColor(MapColor.COLOR_BLUE)
                     .lightLevel((BlockState blockState) -> 4));

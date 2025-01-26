@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.PushReaction;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -42,6 +41,10 @@ public class BlockFamilyRegistrar {
     final Holder.Reference<Block> baseBlock;
     final Map<BlockFamily.Variant, Holder.Reference<Block>> blockVariants = new HashMap<>();
     final Map<BlockFamily.Variant, Holder.Reference<Item>> itemVariants = new HashMap<>();
+    Holder.Reference<Item> boatItem;
+    Holder.Reference<Item> chestBoatItem;
+    Holder.Reference<EntityType<Boat>> boatEntityType;
+    Holder.Reference<EntityType<ChestBoat>> chestBoatEntityType;
 
     BlockFamilyRegistrar(Holder.Reference<Block> baseBlock) {
         this.baseBlock = baseBlock;
@@ -66,9 +69,46 @@ public class BlockFamilyRegistrar {
                 .fenceGate(woodType)
                 .door(woodType.setType())
                 .trapdoor(woodType.setType())
-                .button(woodType.setType())
                 .pressurePlate(woodType.setType())
-                .sign(woodType);
+                .button(woodType.setType())
+                .sign(woodType)
+                .boat();
+    }
+
+    public Map<BlockFamily.Variant, Holder.Reference<Block>> getBlockVariants() {
+        return this.blockVariants;
+    }
+
+    public Map<BlockFamily.Variant, Holder.Reference<Item>> getItemVariants() {
+        return this.itemVariants;
+    }
+
+    public Holder.Reference<Block> getBlock(BlockFamily.Variant variant) {
+        return this.blockVariants.get(variant);
+    }
+
+    public Holder.Reference<Item> getItem(BlockFamily.Variant variant) {
+        return this.itemVariants.get(variant);
+    }
+
+    public Holder.Reference<Block> getBaseBlock() {
+        return this.baseBlock;
+    }
+
+    public Holder.Reference<Item> boatItem() {
+        return this.boatItem;
+    }
+
+    public Holder.Reference<Item> chestBoatItem() {
+        return this.chestBoatItem;
+    }
+
+    public Holder.Reference<EntityType<Boat>> boatEntityType() {
+        return this.boatEntityType;
+    }
+
+    public Holder.Reference<EntityType<ChestBoat>> chestBoatEntityType() {
+        return this.chestBoatEntityType;
     }
 
     public BlockFamily.Builder getFamily() {
@@ -86,8 +126,8 @@ public class BlockFamilyRegistrar {
         return builder;
     }
 
-    public BlockFamily.Builder getWoodenFamily() {
-        return this.getFamily().recipeGroupPrefix("wooden").recipeUnlockedBy("has_planks");
+    public BlockFamily getWoodenFamily() {
+        return this.getFamily().recipeGroupPrefix("wooden").recipeUnlockedBy("has_planks").getFamily();
     }
 
     public static class Builder {
@@ -198,20 +238,6 @@ public class BlockFamilyRegistrar {
             return this;
         }
 
-        public Builder button(BlockSetType blockSetType) {
-            this.familyRegistrar.blockVariants.put(BlockFamily.Variant.BUTTON,
-                    this.registries.registerBlock(this.basePath() + "_button",
-                            (BlockBehaviour.Properties properties) -> new ButtonBlock(blockSetType, 30, properties),
-                            () -> {
-                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
-                                        .noCollission()
-                                        .pushReaction(PushReaction.DESTROY);
-                            }));
-            this.familyRegistrar.itemVariants.put(BlockFamily.Variant.BUTTON,
-                    this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.BUTTON)));
-            return this;
-        }
-
         public Builder pressurePlate(BlockSetType blockSetType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.PRESSURE_PLATE,
                     this.registries.registerBlock(this.basePath() + "_pressure_plate",
@@ -224,6 +250,20 @@ public class BlockFamilyRegistrar {
                             }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.PRESSURE_PLATE,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.PRESSURE_PLATE)));
+            return this;
+        }
+
+        public Builder button(BlockSetType blockSetType) {
+            this.familyRegistrar.blockVariants.put(BlockFamily.Variant.BUTTON,
+                    this.registries.registerBlock(this.basePath() + "_button",
+                            (BlockBehaviour.Properties properties) -> new ButtonBlock(blockSetType, 30, properties),
+                            () -> {
+                                return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
+                                        .noCollission()
+                                        .pushReaction(PushReaction.DESTROY);
+                            }));
+            this.familyRegistrar.itemVariants.put(BlockFamily.Variant.BUTTON,
+                    this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.BUTTON)));
             return this;
         }
 
@@ -258,31 +298,30 @@ public class BlockFamilyRegistrar {
         }
 
         public Builder boat() {
-            Holder<Item>[] boatItemHolder = (Holder<Item>[]) Array.newInstance(Holder.class, 1);
-            Holder<Item>[] chestBoatItemHolder = (Holder<Item>[]) Array.newInstance(Holder.class, 1);
-            Holder<EntityType<Boat>> boatEntityTypeHolder = this.registries.registerEntityType(
-                    this.basePath() + "_boat",
+            this.familyRegistrar.boatEntityType = this.registries.registerEntityType(this.basePath() + "_boat",
                     () -> EntityType.Builder.of((EntityType<Boat> entityType, Level level) -> {
-                                return new Boat(entityType, level, () -> boatItemHolder[0].value());
+                                return new Boat(entityType, level, () -> this.familyRegistrar.boatItem.value());
                             }, MobCategory.MISC)
                             .noLootTable()
                             .sized(1.375F, 0.5625F)
                             .eyeHeight(0.5625F)
                             .clientTrackingRange(10));
-            Holder<EntityType<ChestBoat>> chestBoatEntityTypeHolder = this.registries.registerEntityType(
-                    this.basePath() + "_boat",
+            this.familyRegistrar.chestBoatEntityType = this.registries.registerEntityType(
+                    this.basePath() + "_chest_boat",
                     () -> EntityType.Builder.of((EntityType<ChestBoat> entityType, Level level) -> {
-                                return new ChestBoat(entityType, level, () -> chestBoatItemHolder[0].value());
+                                return new ChestBoat(entityType, level, () -> this.familyRegistrar.chestBoatItem.value());
                             }, MobCategory.MISC)
                             .noLootTable()
                             .sized(1.375F, 0.5625F)
                             .eyeHeight(0.5625F)
                             .clientTrackingRange(10));
-            boatItemHolder[0] = this.registries.registerItem(this.basePath() + "_chest_boat",
-                    (Item.Properties properties) -> new BoatItem(boatEntityTypeHolder.value(), properties),
+            this.familyRegistrar.boatItem = this.registries.registerItem(this.basePath() + "_boat",
+                    (Item.Properties properties) -> new BoatItem(this.familyRegistrar.boatEntityType.value(),
+                            properties),
                     () -> new Item.Properties().stacksTo(1));
-            chestBoatItemHolder[0] = this.registries.registerItem(this.basePath() + "_chest_boat",
-                    (Item.Properties properties) -> new BoatItem(chestBoatEntityTypeHolder.value(), properties),
+            this.familyRegistrar.chestBoatItem = this.registries.registerItem(this.basePath() + "_chest_boat",
+                    (Item.Properties properties) -> new BoatItem(this.familyRegistrar.chestBoatEntityType.value(),
+                            properties),
                     () -> new Item.Properties().stacksTo(1));
             return this;
         }

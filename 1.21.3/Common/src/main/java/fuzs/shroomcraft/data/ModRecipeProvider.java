@@ -2,6 +2,7 @@ package fuzs.shroomcraft.data;
 
 import fuzs.puzzleslib.api.data.v2.AbstractRecipeProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
@@ -30,6 +31,10 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
         this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
+            this.woodenBoat(registrar.boatItem().value(), registrar.getBaseBlock().value());
+            this.chestBoat(registrar.chestBoatItem().value(), registrar.boatItem().value());
+        });
         ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(Blocks.BROWN_MUSHROOM)
                 .requires(Blocks.RED_MUSHROOM)

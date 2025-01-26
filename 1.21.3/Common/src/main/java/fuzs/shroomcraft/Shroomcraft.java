@@ -1,14 +1,26 @@
 package fuzs.shroomcraft;
 
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.api.core.v1.context.BlockInteractionsContext;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
-import fuzs.shroomcraft.init.ModBlocks;
+import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
+import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
+import fuzs.shroomcraft.handler.AxeStrippingHandler;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
+import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModRegistry;
+import net.minecraft.core.Holder;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Shroomcraft implements ModConstructor {
     public static final String MOD_ID = "shroomcraft";
@@ -18,16 +30,35 @@ public class Shroomcraft implements ModConstructor {
     @Override
     public void onConstructMod() {
         ModRegistry.bootstrap();
+        registerEventHandler();
+    }
+
+    private static void registerEventHandler() {
+        PlayerInteractEvents.USE_BLOCK.register(AxeStrippingHandler::onUseBlock);
+        AddBlockEntityTypeBlocksCallback.EVENT.register((BiConsumer<BlockEntityType<?>, Block> consumer) -> {
+            ModBlockFamilies.getAllFamilyRegistrars()
+                    .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> consumer1) -> {
+                        consumer1.accept(registrar.getBlock(BlockFamily.Variant.SIGN));
+                        consumer1.accept(registrar.getBlock(BlockFamily.Variant.WALL_SIGN));
+                    })
+                    .filter(Objects::nonNull)
+                    .map(Holder::value)
+                    .forEach((Block block) -> {
+                        consumer.accept(BlockEntityType.SIGN, block);
+                    });
+        });
     }
 
     @Override
-    public void onRegisterBlockInteractions(BlockInteractionsContext context) {
-        context.registerStrippable(ModBlocks.STRIPPED_MUSHROOM_STEM.value(), Blocks.MUSHROOM_STEM);
-        context.registerStrippable(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(), ModBlocks.BLUE_MUSHROOM_STEM.value());
-        context.registerStrippable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
-                ModBlocks.ORANGE_MUSHROOM_STEM.value());
-        context.registerStrippable(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
-                ModBlocks.PURPLE_MUSHROOM_STEM.value());
+    public void onCommonSetup() {
+        BlockSetType.register(ModRegistry.SHROOMWOOD_BLOCK_SET_TYPE);
+        BlockSetType.register(ModRegistry.BLUE_SHROOMWOOD_BLOCK_SET_TYPE);
+        BlockSetType.register(ModRegistry.ORANGE_SHROOMWOOD_BLOCK_SET_TYPE);
+        BlockSetType.register(ModRegistry.PURPLE_SHROOMWOOD_BLOCK_SET_TYPE);
+        WoodType.register(ModRegistry.SHROOMWOOD_WOOD_TYPE);
+        WoodType.register(ModRegistry.BLUE_SHROOMWOOD_WOOD_TYPE);
+        WoodType.register(ModRegistry.ORANGE_SHROOMWOOD_WOOD_TYPE);
+        WoodType.register(ModRegistry.PURPLE_SHROOMWOOD_WOOD_TYPE);
     }
 
     public static ResourceLocation id(String path) {

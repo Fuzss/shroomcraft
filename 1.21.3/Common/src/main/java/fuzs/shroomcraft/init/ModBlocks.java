@@ -1,10 +1,10 @@
 package fuzs.shroomcraft.init;
 
+import fuzs.shroomcraft.world.level.block.TinyMushroomCropBlock;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
@@ -105,22 +105,45 @@ public class ModBlocks {
     public static final Holder.Reference<Block> PURPLE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlock(
             "purple_shroomwood_planks",
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.TERRACOTTA_PURPLE));
-    public static final BlockFamilyRegistrar SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
-            SHROOMWOOD_PLANKS,
-            "shroomwood",
-            WoodType.OAK).getFamily();
-    public static final BlockFamilyRegistrar BLUE_SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
-            BLUE_SHROOMWOOD_PLANKS,
-            "blue_shroomwood",
-            WoodType.OAK).getFamily();
-    public static final BlockFamilyRegistrar ORANGE_SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
-            ORANGE_SHROOMWOOD_PLANKS,
-            "orange_shroomwood",
-            WoodType.OAK).getFamily();
-    public static final BlockFamilyRegistrar PURPLE_SHROOMWOOD_FAMILY = BlockFamilyRegistrar.wooden(ModRegistry.REGISTRIES,
-            PURPLE_SHROOMWOOD_PLANKS,
-            "purple_shroomwood",
-            WoodType.OAK).getFamily();
+    public static final Holder.Reference<Block> MYCELIAL_GROWTH = ModRegistry.REGISTRIES.registerBlock("mycelial_growth",
+            GlowLichenBlock::new,
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.GLOW_LICHEN));
+    public static final Holder.Reference<Block> MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "mushroom_sprouts",
+            RootsBlock::new,
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_BROWN));
+    public static final Holder.Reference<Block> BLUE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "blue_mushroom_sprouts",
+            RootsBlock::new,
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_BLUE));
+    public static final Holder.Reference<Block> ORANGE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "orange_mushroom_sprouts",
+            RootsBlock::new,
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_ORANGE));
+    public static final Holder.Reference<Block> PURPLE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "purple_mushroom_sprouts",
+            RootsBlock::new,
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_PURPLE));
+    public static final Holder.Reference<Block> TINY_BROWN_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
+            "tiny_brown_mushroom",
+            properties -> new TinyMushroomCropBlock(properties, Blocks.BROWN_MUSHROOM.builtInRegistryHolder()),
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER_CROP).mapColor(MapColor.COLOR_BROWN));
+    public static final Holder.Reference<Block> TINY_RED_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
+            "tiny_red_mushroom",
+            properties -> new TinyMushroomCropBlock(properties, Blocks.RED_MUSHROOM.builtInRegistryHolder()),
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER_CROP).mapColor(MapColor.COLOR_RED));
+    public static final Holder.Reference<Block> TINY_BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
+            "tiny_blue_mushroom",
+            properties -> new TinyMushroomCropBlock(properties, BLUE_MUSHROOM),
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER_CROP).mapColor(MapColor.COLOR_BLUE));
+    public static final Holder.Reference<Block> TINY_ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
+            "tiny_orange_mushroom",
+            properties -> new TinyMushroomCropBlock(properties, ORANGE_MUSHROOM),
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER_CROP).mapColor(MapColor.COLOR_ORANGE));
+    public static final Holder.Reference<Block> TINY_PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
+            "tiny_purple_mushroom",
+            properties -> new TinyMushroomCropBlock(properties, PURPLE_MUSHROOM),
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.TORCHFLOWER_CROP).mapColor(MapColor.COLOR_PURPLE));
 
     public static void bootstrap() {
         // NO-OP

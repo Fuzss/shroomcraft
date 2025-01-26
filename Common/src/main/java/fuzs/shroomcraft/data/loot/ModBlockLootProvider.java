@@ -30,9 +30,12 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
         this.dropPottedContents(ModBlocks.POTTED_BLUE_MUSHROOM.value());
         this.dropPottedContents(ModBlocks.POTTED_ORANGE_MUSHROOM.value());
         this.dropPottedContents(ModBlocks.POTTED_PURPLE_MUSHROOM.value());
-        this.dropWhenSilkTouch(ModBlocks.BLUE_MUSHROOM_BLOCK.value());
-        this.dropWhenSilkTouch(ModBlocks.ORANGE_MUSHROOM_BLOCK.value());
-        this.dropWhenSilkTouch(ModBlocks.PURPLE_MUSHROOM_BLOCK.value());
+        this.add(ModBlocks.BLUE_MUSHROOM_BLOCK.value(),
+                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.BLUE_MUSHROOM_BLOCK.value()));
+        this.add(ModBlocks.ORANGE_MUSHROOM_BLOCK.value(),
+                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.ORANGE_MUSHROOM_BLOCK.value()));
+        this.add(ModBlocks.PURPLE_MUSHROOM_BLOCK.value(),
+                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.PURPLE_MUSHROOM_BLOCK.value()));
         this.dropWhenSilkTouch(ModBlocks.BLUE_MUSHROOM_STEM.value());
         this.dropWhenSilkTouch(ModBlocks.ORANGE_MUSHROOM_STEM.value());
         this.dropWhenSilkTouch(ModBlocks.PURPLE_MUSHROOM_STEM.value());
@@ -48,5 +51,16 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
         this.dropSelf(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
+        this.add(ModBlocks.MYCELIAL_GROWTH.value(),
+                (Block block) -> this.createMultifaceBlockDrops(block, this.hasShears()));
+        this.add(ModBlocks.MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
+        this.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
+        this.add(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
+        this.add(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
+        this.dropSelf(ModBlocks.TINY_BROWN_MUSHROOM.value());
+        this.dropSelf(ModBlocks.TINY_RED_MUSHROOM.value());
+        this.dropSelf(ModBlocks.TINY_BLUE_MUSHROOM.value());
+        this.dropSelf(ModBlocks.TINY_ORANGE_MUSHROOM.value());
+        this.dropSelf(ModBlocks.TINY_PURPLE_MUSHROOM.value());
     }
 }

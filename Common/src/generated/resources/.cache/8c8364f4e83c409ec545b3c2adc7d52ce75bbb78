@@ -1,4 +1,6 @@
-// 1.21.3	2025-01-25T18:25:22.496029	Tags for minecraft:item mod id vanilla
+// 1.21.3	2025-01-26T12:36:57.375436	Tags for minecraft:item mod id vanilla
+cf1dd974f05c67156ffb861dca638001d7105332 data/minecraft/tags/item/boats.json
+3e3846d9dcf795d7372ab2d2f98c6b2980602378 data/minecraft/tags/item/chest_boats.json
 683e1a56d3740ed0b9dc2537281a5ee7f30c58ed data/shroomcraft/tags/item/blue_shroomwood_logs.json
 c8e77b5e152a66b5edf11504dd9e90ee15c85dc4 data/shroomcraft/tags/item/orange_shroomwood_logs.json
 9d3ee68940ca72cff3204ff6c64ccbd3fcb97b7f data/shroomcraft/tags/item/purple_shroomwood_logs.json

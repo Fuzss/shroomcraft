@@ -3,8 +3,11 @@ package fuzs.shroomcraft.data.client;
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
+import fuzs.shroomcraft.init.ModItems;
+import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 
@@ -50,10 +53,15 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
 
     @Override
     public void addTranslations(TranslationBuilder builder) {
-        generateFor(builder.blockFamily("Shroomwood"), ModBlockFamilies.SHROOMWOOD_FAMILY);
-        generateFor(builder.blockFamily("Blue Shroomwood"), ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY);
-        generateFor(builder.blockFamily("Orange Shroomwood"), ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY);
-        generateFor(builder.blockFamily("Purple Shroomwood"), ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY);
+        builder.add(ModRegistry.CREATIVE_MODE_TAB.value(), Shroomcraft.MOD_NAME);
+        generateFor(builder.blockFamily("Shroomwood", "Shroomwood Planks"),
+                ModBlockFamilies.SHROOMWOOD_FAMILY.getWoodenFamily());
+        generateFor(builder.blockFamily("Blue Shroomwood", "Blue Shroomwood Planks"),
+                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getWoodenFamily());
+        generateFor(builder.blockFamily("Orange Shroomwood", "Orange Shroomwood Planks"),
+                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getWoodenFamily());
+        generateFor(builder.blockFamily("Purple Shroomwood", "Purple Shroomwood Planks"),
+                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getWoodenFamily());
         builder.add(ModBlocks.BLUE_MUSHROOM.value(), "Blue Mushroom");
         builder.add(ModBlocks.ORANGE_MUSHROOM.value(), "Orange Mushroom");
         builder.add(ModBlocks.PURPLE_MUSHROOM.value(), "Purple Mushroom");
@@ -74,5 +82,39 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE.value(), "Stripped Blue Mushroom Hyphae");
         builder.add(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value(), "Stripped Orange Mushroom Hyphae");
         builder.add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(), "Stripped Purple Mushroom Hyphae");
+        builder.add(ModBlocks.MYCELIAL_GROWTH.value(), "Mycelial Growth");
+        builder.add(ModBlocks.MUSHROOM_SPROUTS.value(), "Mushroom Sprouts");
+        builder.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), "Blue Mushroom Sprouts");
+        builder.add(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), "Orange Mushroom Sprouts");
+        builder.add(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), "Purple Mushroom Sprouts");
+        builder.add(ModBlocks.TINY_BROWN_MUSHROOM.value(), "Tiny Brown Mushroom");
+        builder.add(ModBlocks.TINY_RED_MUSHROOM.value(), "Tiny Red Mushroom");
+        builder.add(ModBlocks.TINY_BLUE_MUSHROOM.value(), "Tiny Blue Mushroom");
+        builder.add(ModBlocks.TINY_ORANGE_MUSHROOM.value(), "Tiny Orange Mushroom");
+        builder.add(ModBlocks.TINY_PURPLE_MUSHROOM.value(), "Tiny Purple Mushroom");
+        builder.add(ModItems.BROWN_SHROOMSPORES.value(), "Brown Shroomspores");
+        builder.add(ModItems.RED_SHROOMSPORES.value(), "Red Shroomspores");
+        builder.add(ModItems.BLUE_SHROOMSPORES.value(), "Blue Shroomspores");
+        builder.add(ModItems.ORANGE_SHROOMSPORES.value(), "Orange Shroomspores");
+        builder.add(ModItems.PURPLE_SHROOMSPORES.value(), "Purple Shroomspores");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.boatItem().value(), "Shroomwood Boat");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatItem().value(), "Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.boatEntityType().value(), "Shroomwood Boat");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatEntityType().value(), "Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatItem().value(), "Blue Shroomwood Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatItem().value(), "Blue Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Blue Shroomwood Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+                "Blue Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatItem().value(), "Orange Shroomwood Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatItem().value(), "Orange Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Orange Shroomwood Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+                "Orange Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatItem().value(), "Purple Shroomwood Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatItem().value(), "Purple Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Purple Shroomwood Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+                "Purple Shroomwood Chest Boat");
     }
 }

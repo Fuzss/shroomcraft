@@ -1,6 +1,7 @@
 package fuzs.shroomcraft.init;
 
 import net.minecraft.core.Holder;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 
 public class ModItems {
@@ -38,6 +39,33 @@ public class ModItems {
             ModBlocks.ORANGE_SHROOMWOOD_PLANKS);
     public static final Holder.Reference<Item> PURPLE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlockItem(
             ModBlocks.PURPLE_SHROOMWOOD_PLANKS);
+    public static final Holder.Reference<Item> MYCELIAL_GROWTH = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.MYCELIAL_GROWTH);
+    public static final Holder.Reference<Item> MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.MUSHROOM_SPROUTS);
+    public static final Holder.Reference<Item> BLUE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(
+            ModBlocks.BLUE_MUSHROOM_SPROUTS);
+    public static final Holder.Reference<Item> ORANGE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(
+            ModBlocks.ORANGE_MUSHROOM_SPROUTS);
+    public static final Holder.Reference<Item> PURPLE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(
+            ModBlocks.PURPLE_MUSHROOM_SPROUTS);
+    public static final Holder.Reference<Item> BROWN_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
+            "brown_shroomspores",
+            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_BROWN_MUSHROOM.value(), properties),
+            () -> new Item.Properties().useItemDescriptionPrefix());
+    public static final Holder.Reference<Item> RED_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem("red_shroomspores",
+            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_RED_MUSHROOM.value(), properties),
+            () -> new Item.Properties().useItemDescriptionPrefix());
+    public static final Holder.Reference<Item> BLUE_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
+            "blue_shroomspores",
+            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_BLUE_MUSHROOM.value(), properties),
+            () -> new Item.Properties().useItemDescriptionPrefix());
+    public static final Holder.Reference<Item> ORANGE_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
+            "orange_shroomspores",
+            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_ORANGE_MUSHROOM.value(), properties),
+            () -> new Item.Properties().useItemDescriptionPrefix());
+    public static final Holder.Reference<Item> PURPLE_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
+            "purple_shroomspores",
+            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_PURPLE_MUSHROOM.value(), properties),
+            () -> new Item.Properties().useItemDescriptionPrefix());
 
     public static void bootstrap() {
         // NO-OP

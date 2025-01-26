@@ -6,11 +6,26 @@ import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.models.BlockModelGenerators;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class ModModelProvider extends AbstractModelProvider {
+    public static final TextureSlot GLOW_LICHEN_TEXTURE_SLOT = TextureSlot.create("glow_lichen");
+    public static final ModelTemplate GLOW_LICHEN_MODEL_TEMPLATE = ModelTemplates.create("glow_lichen",
+            TextureSlot.PARTICLE,
+            GLOW_LICHEN_TEXTURE_SLOT);
+    public static final TexturedModel.Provider GLOW_LICHEN_PROVIDER = TexturedModel.createDefault(ModModelProvider::glowLichen,
+            GLOW_LICHEN_MODEL_TEMPLATE);
 
     public ModModelProvider(DataProviderContext context) {
         super(context);
+    }
+
+    public static TextureMapping glowLichen(Block block) {
+        return new TextureMapping().put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block))
+                .put(GLOW_LICHEN_TEXTURE_SLOT, TextureMapping.getBlockTexture(block));
     }
 
     @Override
@@ -45,5 +60,57 @@ public class ModModelProvider extends AbstractModelProvider {
         builder.woodProvider(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value())
                 .logWithHorizontal(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value())
                 .wood(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
+        builder.createMultiface(ModBlocks.MYCELIAL_GROWTH.value());
+        GLOW_LICHEN_PROVIDER.create(ModBlocks.MYCELIAL_GROWTH.value(), builder.modelOutput);
+        builder.createCrossBlock(ModBlocks.MUSHROOM_SPROUTS.value(), BlockModelGenerators.TintState.NOT_TINTED);
+        builder.createSimpleFlatItemModel(ModBlocks.MUSHROOM_SPROUTS.value());
+        builder.createCrossBlock(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), BlockModelGenerators.TintState.NOT_TINTED);
+        builder.createSimpleFlatItemModel(ModBlocks.BLUE_MUSHROOM_SPROUTS.value());
+        builder.createCrossBlock(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), BlockModelGenerators.TintState.NOT_TINTED);
+        builder.createSimpleFlatItemModel(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value());
+        builder.createCrossBlock(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), BlockModelGenerators.TintState.NOT_TINTED);
+        builder.createSimpleFlatItemModel(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value());
+        builder.createCrossBlock(ModBlocks.TINY_BROWN_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED,
+                BlockStateProperties.AGE_1,
+                0,
+                1);
+        builder.createCrossBlock(ModBlocks.TINY_RED_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED,
+                BlockStateProperties.AGE_1,
+                0,
+                1);
+        builder.createCrossBlock(ModBlocks.TINY_BLUE_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED,
+                BlockStateProperties.AGE_1,
+                0,
+                1);
+        builder.createCrossBlock(ModBlocks.TINY_ORANGE_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED,
+                BlockStateProperties.AGE_1,
+                0,
+                1);
+        builder.createCrossBlock(ModBlocks.TINY_PURPLE_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED,
+                BlockStateProperties.AGE_1,
+                0,
+                1);
+    }
+
+    @Override
+    public void addItemModels(ItemModelGenerators builder) {
+        builder.generateFlatItem(ModBlockFamilies.SHROOMWOOD_FAMILY.boatItem().value(), ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatItem().value(), ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatItem().value(), ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatItem().value(),
+                ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatItem().value(),
+                ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatItem().value(),
+                ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatItem().value(),
+                ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatItem().value(),
+                ModelTemplates.FLAT_ITEM);
     }
 }

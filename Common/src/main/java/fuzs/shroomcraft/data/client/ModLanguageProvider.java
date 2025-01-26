@@ -1,6 +1,5 @@
 package fuzs.shroomcraft.data.client;
 
-import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.Shroomcraft;
@@ -8,60 +7,24 @@ import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
-import net.minecraft.data.BlockFamily;
-import net.minecraft.world.level.block.Block;
-
-import java.util.Map;
-import java.util.function.BiFunction;
 
 public class ModLanguageProvider extends AbstractLanguageProvider {
-    @Deprecated(forRemoval = true)
-    static final Map<BlockFamily.Variant, BiFunction<BlockFamilyBuilder, Block, BlockFamilyBuilder>> VARIANT_FUNCTIONS = ImmutableMap.<BlockFamily.Variant, BiFunction<BlockFamilyBuilder, Block, BlockFamilyBuilder>>builder()
-            .put(BlockFamily.Variant.BUTTON, BlockFamilyBuilder::button)
-            .put(BlockFamily.Variant.CHISELED, BlockFamilyBuilder::chiseled)
-            .put(BlockFamily.Variant.CRACKED, BlockFamilyBuilder::cracked)
-            .put(BlockFamily.Variant.CUT, BlockFamilyBuilder::cut)
-            .put(BlockFamily.Variant.DOOR, BlockFamilyBuilder::door)
-            .put(BlockFamily.Variant.CUSTOM_FENCE, BlockFamilyBuilder::fence)
-            .put(BlockFamily.Variant.FENCE, BlockFamilyBuilder::fence)
-            .put(BlockFamily.Variant.CUSTOM_FENCE_GATE, BlockFamilyBuilder::fenceGate)
-            .put(BlockFamily.Variant.FENCE_GATE, BlockFamilyBuilder::fenceGate)
-            .put(BlockFamily.Variant.MOSAIC, BlockFamilyBuilder::mosaic)
-            .put(BlockFamily.Variant.SIGN, BlockFamilyBuilder::sign)
-            .put(BlockFamily.Variant.SLAB, BlockFamilyBuilder::slab)
-            .put(BlockFamily.Variant.STAIRS, BlockFamilyBuilder::stairs)
-            .put(BlockFamily.Variant.PRESSURE_PLATE, BlockFamilyBuilder::pressurePlate)
-            .put(BlockFamily.Variant.POLISHED, BlockFamilyBuilder::polished)
-            .put(BlockFamily.Variant.TRAPDOOR, BlockFamilyBuilder::trapdoor)
-            .put(BlockFamily.Variant.WALL, BlockFamilyBuilder::wall)
-            .build();
 
     public ModLanguageProvider(DataProviderContext context) {
         super(context);
     }
 
-    @Deprecated(forRemoval = true)
-    static void generateFor(BlockFamilyBuilder builder, BlockFamily blockFamily) {
-        builder.baseBlock(blockFamily.getBaseBlock());
-        blockFamily.getVariants().forEach((BlockFamily.Variant variant, Block block) -> {
-            BiFunction<BlockFamilyBuilder, Block, BlockFamilyBuilder> variantFunction = VARIANT_FUNCTIONS.get(variant);
-            if (variantFunction != null) {
-                variantFunction.apply(builder, block);
-            }
-        });
-    }
-
     @Override
     public void addTranslations(TranslationBuilder builder) {
         builder.add(ModRegistry.CREATIVE_MODE_TAB.value(), Shroomcraft.MOD_NAME);
-        generateFor(builder.blockFamily("Shroomwood", "Shroomwood Planks"),
-                ModBlockFamilies.SHROOMWOOD_FAMILY.getWoodenFamily());
-        generateFor(builder.blockFamily("Blue Shroomwood", "Blue Shroomwood Planks"),
-                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getWoodenFamily());
-        generateFor(builder.blockFamily("Orange Shroomwood", "Orange Shroomwood Planks"),
-                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getWoodenFamily());
-        generateFor(builder.blockFamily("Purple Shroomwood", "Purple Shroomwood Planks"),
-                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getWoodenFamily());
+        builder.blockFamily("Shroomwood", "Shroomwood Planks")
+                .generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY.getWoodenFamily());
+        builder.blockFamily("Blue Shroomwood", "Blue Shroomwood Planks")
+                .generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getWoodenFamily());
+        builder.blockFamily("Orange Shroomwood", "Orange Shroomwood Planks")
+                .generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getWoodenFamily());
+        builder.blockFamily("Purple Shroomwood", "Purple Shroomwood Planks")
+                .generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getWoodenFamily());
         builder.add(ModBlocks.BLUE_MUSHROOM.value(), "Blue Mushroom");
         builder.add(ModBlocks.ORANGE_MUSHROOM.value(), "Orange Mushroom");
         builder.add(ModBlocks.PURPLE_MUSHROOM.value(), "Purple Mushroom");

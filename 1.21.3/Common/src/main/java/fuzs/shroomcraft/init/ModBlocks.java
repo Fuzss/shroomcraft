@@ -107,7 +107,7 @@ public class ModBlocks {
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.TERRACOTTA_PURPLE));
     public static final Holder.Reference<Block> MYCELIAL_GROWTH = ModRegistry.REGISTRIES.registerBlock("mycelial_growth",
             GlowLichenBlock::new,
-            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.GLOW_LICHEN));
+            () -> BlockBehaviour.Properties.ofFullCopy(Blocks.GLOW_LICHEN).lightLevel((BlockState blockState) -> 15));
     public static final Holder.Reference<Block> MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "mushroom_sprouts",
             RootsBlock::new,

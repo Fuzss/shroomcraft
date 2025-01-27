@@ -1,5 +1,7 @@
 package fuzs.shroomcraft.world.entity.animal;
 
+import fuzs.puzzleslib.api.event.v1.core.EventResult;
+import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModRegistry;
@@ -7,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -22,9 +25,15 @@ import net.minecraft.util.ByIdMap;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.MushroomCow;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -34,17 +43,20 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.IntFunction;
 
 public class ModMushroomCow extends MushroomCow {
     private static final EntityDataAccessor<ColorVariant> DATA_TYPE = SynchedEntityData.defineId(ModMushroomCow.class,
             ModRegistry.MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
+    private static final Set<EntitySpawnReason> VALID_SPAWN_REASONS = Set.of(EntitySpawnReason.SPAWNER,
+            EntitySpawnReason.TRIAL_SPAWNER,
+            EntitySpawnReason.SPAWN_ITEM_USE,
+            EntitySpawnReason.DISPENSER);
 
     @Nullable
     private UUID lastLightningBoltUUID;
@@ -55,6 +67,93 @@ public class ModMushroomCow extends MushroomCow {
 
     public static boolean checkCustomMushroomSpawnRules(EntityType<? extends MushroomCow> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return checkMushroomSpawnRules((EntityType<MushroomCow>) entityType, level, spawnReason, pos, random);
+    }
+
+    public static EventResult onEntitySpawn(Entity entity, ServerLevel serverLevel, @Nullable EntitySpawnReason entitySpawnReason) {
+        if (entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM &&
+                VALID_SPAWN_REASONS.contains(entitySpawnReason) &&
+                getSpawnAsCustomEntityOdds(serverLevel, entity.blockPosition(), serverLevel.getRandom())) {
+            MushroomCow mushroomCow = (MushroomCow) entity;
+
+            mushroomCow.convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+                    ConversionParams.single(mushroomCow, true, true),
+                    mob -> {
+                        DifficultyInstance difficulty = new DifficultyInstance(serverLevel.getDifficulty(),
+                                serverLevel.getDayTime(),
+                                0L,
+                                serverLevel.getMoonBrightness());
+                        mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
+                    });
+
+            return EventResult.INTERRUPT;
+        }
+
+        return EventResult.PASS;
+    }
+
+    public static boolean getSpawnAsCustomEntityOdds(ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
+        if (serverLevel.getBiome(blockPos).is(BiomeTags.IS_NETHER)) {
+            return true;
+        } else {
+            return randomSource.nextInt(ColorVariant.getOverworldVariants().length + 1) != 0;
+        }
+    }
+
+    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity) {
+        ItemStack itemInHand = player.getItemInHand(interactionHand);
+        if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive() &&
+                entity.getType() == ModRegistry.MOOSHROOM_ENTITY_TYPE.value()) {
+            if (level instanceof ServerLevel serverLevel) {
+                Optional<Mob> optional = spawnOffspringFromSpawnEgg(player,
+                        (Mob) entity,
+                        serverLevel,
+                        entity.position(),
+                        itemInHand);
+                optional.ifPresent(mob -> ((ModMushroomCow) entity).onOffspringSpawnedFromEgg(player, mob));
+                if (optional.isEmpty()) {
+                    return EventResultHolder.interrupt(InteractionResult.PASS);
+                } else {
+                    return EventResultHolder.interrupt(InteractionResult.CONSUME);
+                }
+            } else {
+                return EventResultHolder.interrupt(InteractionResult.SUCCESS);
+            }
+        }
+
+        return EventResultHolder.pass();
+    }
+
+    private static Optional<Mob> spawnOffspringFromSpawnEgg(Player player, Mob mob, ServerLevel serverLevel, Vec3 pos, ItemStack stack) {
+        Mob mob2;
+        if (mob instanceof AgeableMob) {
+            mob2 = ((AgeableMob) mob).getBreedOffspring(serverLevel, (AgeableMob) mob);
+        } else {
+            mob2 = null;
+        }
+
+        if (mob2 == null) {
+            return Optional.empty();
+        } else {
+            mob2.setBaby(true);
+            if (!mob2.isBaby()) {
+                return Optional.empty();
+            } else {
+                mob2.moveTo(pos.x(), pos.y(), pos.z(), 0.0F, 0.0F);
+                serverLevel.addFreshEntityWithPassengers(mob2);
+                mob2.setCustomName(stack.get(DataComponents.CUSTOM_NAME));
+                stack.consume(1, player);
+                return Optional.of(mob2);
+            }
+        }
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        // allows for breeding with normal mooshrooms, but only one-sided,
+        // the vanilla mooshroom will not behave properly though due to the implementation of Mooshroom::canMate
+        this.goalSelector.removeAllGoals(BreedGoal.class::isInstance);
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0, MushroomCow.class));
     }
 
     @Override
@@ -156,6 +255,20 @@ public class ModMushroomCow extends MushroomCow {
         }
 
         return modMushroomCow;
+    }
+
+    @Override
+    public @Nullable ItemStack getPickResult() {
+        return new ItemStack(Items.MOOSHROOM_SPAWN_EGG);
+    }
+
+    @Override
+    public boolean canMate(Animal otherAnimal) {
+        if (otherAnimal == this) {
+            return false;
+        } else {
+            return otherAnimal instanceof MushroomCow && this.isInLove() && otherAnimal.isInLove();
+        }
     }
 
     static class MooshroomGroupData extends AgeableMob.AgeableMobGroupData {

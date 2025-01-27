@@ -14,6 +14,7 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
 
@@ -130,5 +131,6 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value());
+        this.add(BlockTags.MOOSHROOMS_SPAWNABLE_ON).add(Blocks.CRIMSON_NYLIUM, Blocks.WARPED_NYLIUM);
     }
 }

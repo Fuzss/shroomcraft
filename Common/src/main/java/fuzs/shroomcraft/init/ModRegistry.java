@@ -3,16 +3,53 @@ package fuzs.shroomcraft.init;
 import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
 import fuzs.puzzleslib.api.init.v3.tags.TagFactory;
 import fuzs.shroomcraft.Shroomcraft;
+import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
+import net.minecraft.advancements.critereon.EntitySubPredicates;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootTable;
+
+import java.util.Optional;
 
 public class ModRegistry {
     static final RegistryManager REGISTRIES = RegistryManager.from(Shroomcraft.MOD_ID);
+    public static final Holder.Reference<EntityType<ModMushroomCow>> MOOSHROOM_ENTITY_TYPE = REGISTRIES.registerEntityType(
+            "mooshroom",
+            () -> EntityType.Builder.of(ModMushroomCow::new, MobCategory.CREATURE)
+                    .sized(0.9F, 1.4F)
+                    .eyeHeight(1.3F)
+                    .passengerAttachments(1.36875F)
+                    .clientTrackingRange(10));
     public static final Holder.Reference<CreativeModeTab> CREATIVE_MODE_TAB = REGISTRIES.registerCreativeModeTab(
             ModItems.ORANGE_MUSHROOM);
+    public static final Holder.Reference<EntityDataSerializer<ModMushroomCow.ColorVariant>> MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
+            "mushroom_variant",
+            () -> EntityDataSerializer.forValueType(ModMushroomCow.ColorVariant.STREAM_CODEC));
+    public static final EntitySubPredicates.EntityVariantPredicateType<ModMushroomCow.ColorVariant> MOOSHROOM_ENTITY_SUB_PREDICATE = EntitySubPredicates.EntityVariantPredicateType.create(
+            ModMushroomCow.ColorVariant.CODEC,
+            entity -> entity instanceof ModMushroomCow modMushroomCow ? Optional.of(modMushroomCow.getColorVariant()) :
+                    Optional.empty());
+
+    public static final ResourceKey<LootTable> SHEAR_MOOSHROOM_LOOT_TABLE = REGISTRIES.registerLootTable(
+            "shearing/mooshroom");
+    public static final ResourceKey<LootTable> SHEAR_BLUE_MOOSHROOM_LOOT_TABLE = REGISTRIES.registerLootTable(
+            "shearing/mooshroom/blue");
+    public static final ResourceKey<LootTable> SHEAR_ORANGE_MOOSHROOM_LOOT_TABLE = REGISTRIES.registerLootTable(
+            "shearing/mooshroom/orange");
+    public static final ResourceKey<LootTable> SHEAR_PURPLE_MOOSHROOM_LOOT_TABLE = REGISTRIES.registerLootTable(
+            "shearing/mooshroom/purple");
+    public static final ResourceKey<LootTable> SHEAR_CRIMSON_MOOSHROOM_LOOT_TABLE = REGISTRIES.registerLootTable(
+            "shearing/mooshroom/crismon");
+    public static final ResourceKey<LootTable> SHEAR_WARPED_MOOSHROOM_LOOT_TABLE = REGISTRIES.registerLootTable(
+            "shearing/mooshroom/warped");
 
     static final TagFactory TAGS = TagFactory.make(Shroomcraft.MOD_ID);
     public static final TagKey<Block> SHROOMWOOD_LOGS_BLOCK_TAG = TAGS.registerBlockTag("shroomwood_logs");
@@ -29,5 +66,9 @@ public class ModRegistry {
         ModItems.bootstrap();
         ModBlockFamilies.bootstrap();
         ModFeatures.bootstrap();
+        // does not matter for which variant the predicated is created, we only want the codec
+        REGISTRIES.register(Registries.ENTITY_SUB_PREDICATE_TYPE,
+                "mooshroom",
+                () -> MOOSHROOM_ENTITY_SUB_PREDICATE.createPredicate(ModMushroomCow.ColorVariant.BLUE).codec());
     }
 }

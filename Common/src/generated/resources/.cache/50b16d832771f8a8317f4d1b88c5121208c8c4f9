@@ -1,4 +1,4 @@
-// 1.21.3	2025-01-26T19:37:00.015348	Tags for minecraft:block mod id vanilla
+// 1.21.3	2025-01-27T11:27:25.390148	Tags for minecraft:block mod id vanilla
 ba8c249d55e48773296c1145eca66465ec3da808 data/minecraft/tags/block/combination_step_sound_blocks.json
 260ecdbb26fbbdd044e68554ad3f4e70e5416559 data/minecraft/tags/block/crops.json
 3b08917cc083fe9b0738cb2f7f5eb519bb1f61a2 data/minecraft/tags/block/enderman_holdable.json
@@ -6,6 +6,7 @@ c3c4c303f038accf2b2fb4ed8c0520a90eb79779 data/minecraft/tags/block/fence_gates.j
 4d04104686a41b2fe64e701c5a26dd16267c0349 data/minecraft/tags/block/flower_pots.json
 fb73a0109b48e25b0d18143079a8cd9ff2a0617a data/minecraft/tags/block/logs_that_burn.json
 98a2cb3b6ccaa026eb7f446a34d27af7898dab81 data/minecraft/tags/block/mineable/axe.json
+2bfdd47c936c1bc7e9948da6d2ad59e4cb9a11cb data/minecraft/tags/block/mooshrooms_spawnable_on.json
 2a3a936975b042dcff570b1e17e46bd9c0cc4fdc data/minecraft/tags/block/planks.json
 ba8c249d55e48773296c1145eca66465ec3da808 data/minecraft/tags/block/replaceable_by_trees.json
 1fc3626fe99d6dfad07efbc24fe7954dd9b84c1e data/minecraft/tags/block/standing_signs.json

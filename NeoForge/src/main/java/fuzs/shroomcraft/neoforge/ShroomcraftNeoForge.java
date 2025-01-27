@@ -6,6 +6,8 @@ import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.data.ModDatapackRegistriesProvider;
 import fuzs.shroomcraft.data.ModRecipeProvider;
 import fuzs.shroomcraft.data.loot.ModBlockLootProvider;
+import fuzs.shroomcraft.data.loot.ModEntityLootProvider;
+import fuzs.shroomcraft.data.loot.ModShearingLootProvider;
 import fuzs.shroomcraft.data.tags.ModBlockTagProvider;
 import fuzs.shroomcraft.data.tags.ModItemTagProvider;
 import net.neoforged.fml.common.Mod;
@@ -18,6 +20,8 @@ public class ShroomcraftNeoForge {
         DataProviderHelper.registerDataProviders(Shroomcraft.MOD_ID,
                 ModDatapackRegistriesProvider::new,
                 ModBlockLootProvider::new,
+                ModEntityLootProvider::new,
+                ModShearingLootProvider::new,
                 ModBlockTagProvider::new,
                 ModItemTagProvider::new,
                 ModRecipeProvider::new);

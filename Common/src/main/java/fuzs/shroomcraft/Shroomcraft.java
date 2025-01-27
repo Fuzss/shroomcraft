@@ -8,6 +8,7 @@ import fuzs.puzzleslib.api.core.v1.context.EntityAttributesCreateContext;
 import fuzs.puzzleslib.api.core.v1.context.SpawnPlacementsContext;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
 import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
+import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
 import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.shroomcraft.handler.AxeStrippingHandler;
 import fuzs.shroomcraft.init.BlockFamilyRegistrar;
@@ -62,6 +63,8 @@ public class Shroomcraft implements ModConstructor {
                         consumer.accept(BlockEntityType.SIGN, block);
                     });
         });
+        ServerEntityLevelEvents.SPAWN.register(ModMushroomCow::onEntitySpawn);
+        PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);
     }
 
     @Override
@@ -120,6 +123,12 @@ public class Shroomcraft implements ModConstructor {
         context.register(BiomeLoadingPhase.ADDITIONS,
                 biomeLoadingContext -> biomeLoadingContext.is(Biomes.MUSHROOM_FIELDS),
                 biomeModificationContext -> {
+                    biomeModificationContext.mobSpawnSettings()
+                            .addSpawn(MobCategory.CREATURE,
+                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+                                            8,
+                                            4,
+                                            8));
                     biomeModificationContext.generationSettings()
                             .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                                     ModFeatures.MYCELIAL_GROWTH_PLACED_FEATURE);
@@ -141,6 +150,18 @@ public class Shroomcraft implements ModConstructor {
                     biomeModificationContext.generationSettings()
                             .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                                     ModFeatures.PURPLE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE);
+                    biomeModificationContext.generationSettings()
+                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                                    ModFeatures.PATCH_MUSHROOM_SPROUTS_PLACED_FEATURE);
+                    biomeModificationContext.generationSettings()
+                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                                    ModFeatures.PATCH_BLUE_MUSHROOM_SPROUTS_PLACED_FEATURE);
+                    biomeModificationContext.generationSettings()
+                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                                    ModFeatures.PATCH_ORANGE_MUSHROOM_SPROUTS_PLACED_FEATURE);
+                    biomeModificationContext.generationSettings()
+                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                                    ModFeatures.PATCH_PURPLE_MUSHROOM_SPROUTS_PLACED_FEATURE);
                 });
     }
 

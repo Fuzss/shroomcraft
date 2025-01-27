@@ -12,7 +12,6 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -98,7 +97,6 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
                 Feature.RANDOM_PATCH,
                 FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM.value()))));
-        // same as sculk
         FeatureUtils.register(context,
                 ModFeatures.MYCELIAL_GROWTH_CONFIGURED_FEATURE,
                 Feature.MULTIFACE_GROWTH,
@@ -120,19 +118,23 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
         FeatureUtils.register(context,
                 ModFeatures.PATCH_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
                 Feature.RANDOM_PATCH,
-                grassPatch(BlockStateProvider.simple(ModBlocks.MUSHROOM_SPROUTS.value()), 8));
+                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.MUSHROOM_SPROUTS.value()))));
         FeatureUtils.register(context,
                 ModFeatures.PATCH_BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
                 Feature.RANDOM_PATCH,
-                grassPatch(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM_SPROUTS.value()), 12));
+                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM_SPROUTS.value()))));
         FeatureUtils.register(context,
                 ModFeatures.PATCH_ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
                 Feature.RANDOM_PATCH,
-                grassPatch(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value()), 10));
+                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value()))));
         FeatureUtils.register(context,
                 ModFeatures.PATCH_PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
                 Feature.RANDOM_PATCH,
-                grassPatch(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value()), 14));
+                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value()))));
     }
 
     /**
@@ -185,19 +187,19 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
         PlacementUtils.register(context,
                 ModFeatures.PATCH_MUSHROOM_SPROUTS_PLACED_FEATURE,
                 configuredFeatureLookup.getOrThrow(ModFeatures.PATCH_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
-                VegetationPlacements.worldSurfaceSquaredWithCount(5));
+                getMushroomPlacement(16, null));
         PlacementUtils.register(context,
                 ModFeatures.PATCH_BLUE_MUSHROOM_SPROUTS_PLACED_FEATURE,
                 configuredFeatureLookup.getOrThrow(ModFeatures.PATCH_BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
-                VegetationPlacements.worldSurfaceSquaredWithCount(5));
+                getMushroomPlacement(16, null));
         PlacementUtils.register(context,
                 ModFeatures.PATCH_ORANGE_MUSHROOM_SPROUTS_PLACED_FEATURE,
                 configuredFeatureLookup.getOrThrow(ModFeatures.PATCH_ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
-                VegetationPlacements.worldSurfaceSquaredWithCount(5));
+                getMushroomPlacement(16, null));
         PlacementUtils.register(context,
                 ModFeatures.PATCH_PURPLE_MUSHROOM_SPROUTS_PLACED_FEATURE,
                 configuredFeatureLookup.getOrThrow(ModFeatures.PATCH_PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
-                VegetationPlacements.worldSurfaceSquaredWithCount(5));
+                getMushroomPlacement(16, null));
     }
 
     /**

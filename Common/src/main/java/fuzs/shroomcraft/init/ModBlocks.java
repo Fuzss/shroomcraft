@@ -1,5 +1,6 @@
 package fuzs.shroomcraft.init;
 
+import fuzs.shroomcraft.world.level.block.SproutsBlock;
 import fuzs.shroomcraft.world.level.block.TinyMushroomCropBlock;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.*;
@@ -110,19 +111,19 @@ public class ModBlocks {
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.GLOW_LICHEN).lightLevel((BlockState blockState) -> 15));
     public static final Holder.Reference<Block> MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "mushroom_sprouts",
-            RootsBlock::new,
+            SproutsBlock::new,
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_BROWN));
     public static final Holder.Reference<Block> BLUE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "blue_mushroom_sprouts",
-            RootsBlock::new,
+            SproutsBlock::new,
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_BLUE));
     public static final Holder.Reference<Block> ORANGE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "orange_mushroom_sprouts",
-            RootsBlock::new,
+            SproutsBlock::new,
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_ORANGE));
     public static final Holder.Reference<Block> PURPLE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "purple_mushroom_sprouts",
-            RootsBlock::new,
+            SproutsBlock::new,
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_PURPLE));
     public static final Holder.Reference<Block> TINY_BROWN_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
             "tiny_brown_mushroom",

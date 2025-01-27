@@ -19,6 +19,8 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
             blockFamily.getVariants().forEach((BlockFamily.Variant variant, Block block) -> {
                 if (variant == BlockFamily.Variant.SLAB) {
                     this.add(block, this::createSlabItemTable);
+                } else if (variant == BlockFamily.Variant.DOOR) {
+                    this.add(block, this::createDoorTable);
                 } else if (variant != BlockFamily.Variant.WALL_SIGN) {
                     this.dropSelf(block);
                 }

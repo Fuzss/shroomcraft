@@ -1,9 +1,9 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "shroomcraft:crafting_shapeless_distinct",
   "category": "misc",
   "ingredients": [
-    "minecraft:brown_mushroom",
-    "minecraft:red_mushroom",
+    "#shroomcraft:mushrooms",
+    "#shroomcraft:mushrooms",
     "minecraft:bowl"
   ],
   "result": {

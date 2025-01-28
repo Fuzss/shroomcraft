@@ -11,16 +11,6 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_brown_mushroom": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:brown_mushroom"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_mushroom_stew": {
       "conditions": {
         "items": [
@@ -31,11 +21,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_red_mushroom": {
+    "has_mushrooms": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:red_mushroom"
+            "items": "#shroomcraft:mushrooms"
           }
         ]
       },
@@ -53,8 +43,7 @@
       "has_the_recipe",
       "has_mushroom_stew",
       "has_bowl",
-      "has_brown_mushroom",
-      "has_red_mushroom"
+      "has_mushrooms"
     ]
   ],
   "rewards": {

@@ -37,9 +37,15 @@ public class ShroomcraftNeoForge {
 
     private static void registerLoadingHandlers(IEventBus eventBus) {
         eventBus.addListener((final DataPackRegistryEvent.NewRegistry evt) -> {
-            evt.dataPackRegistry(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
-            evt.dataPackRegistry(ModRegistry.CLUCKBLOOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
-            evt.dataPackRegistry(ModRegistry.MOOBLOOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
+            evt.dataPackRegistry(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY,
+                    MobBlockVariant.DIRECT_CODEC,
+                    MobBlockVariant.DIRECT_CODEC);
+            evt.dataPackRegistry(ModRegistry.CLUCKBLOOM_VARIANT_REGISTRY_KEY,
+                    MobBlockVariant.DIRECT_CODEC,
+                    MobBlockVariant.DIRECT_CODEC);
+            evt.dataPackRegistry(ModRegistry.MOOBLOOM_VARIANT_REGISTRY_KEY,
+                    MobBlockVariant.DIRECT_CODEC,
+                    MobBlockVariant.DIRECT_CODEC);
         });
     }
 }

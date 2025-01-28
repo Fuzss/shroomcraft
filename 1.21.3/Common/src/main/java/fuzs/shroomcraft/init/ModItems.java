@@ -106,21 +106,21 @@ public class ModItems {
             () -> new Item.Properties().stacksTo(16)
                     .useCooldown(0.5F)
                     .component(DataComponents.POTION_CONTENTS,
-                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.BLINDNESS, 100))));
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.BLINDNESS, 400))));
     public static final Holder.Reference<Item> ORANGE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem(
             "orange_shroombomb",
             ShroombombItem::new,
             () -> new Item.Properties().stacksTo(16)
                     .useCooldown(0.5F)
                     .component(DataComponents.POTION_CONTENTS,
-                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.POISON, 100))));
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.POISON, 400))));
     public static final Holder.Reference<Item> PURPLE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem(
             "purple_shroombomb",
             ShroombombItem::new,
             () -> new Item.Properties().stacksTo(16)
                     .useCooldown(0.5F)
                     .component(DataComponents.POTION_CONTENTS,
-                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.CONFUSION, 100))));
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.CONFUSION, 400))));
 
     public static void bootstrap() {
         // NO-OP

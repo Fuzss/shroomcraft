@@ -16,10 +16,10 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockStateCarrierLayer<S extends LivingEntityRenderState & BlockStateCarrierRenderState, M extends EntityModel<? super S>> extends RenderLayer<S, M> {
+public class CluckshroomBlockStateLayer<S extends LivingEntityRenderState & BlockStateCarrierRenderState, M extends EntityModel<? super S>> extends RenderLayer<S, M> {
     private final BlockRenderDispatcher blockRenderer;
 
-    public BlockStateCarrierLayer(RenderLayerParent<S, M> renderer, BlockRenderDispatcher blockRenderer) {
+    public CluckshroomBlockStateLayer(RenderLayerParent<S, M> renderer, BlockRenderDispatcher blockRenderer) {
         super(renderer);
         this.blockRenderer = blockRenderer;
     }
@@ -31,23 +31,27 @@ public class BlockStateCarrierLayer<S extends LivingEntityRenderState & BlockSta
     @Override
     public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, S renderState, float yRot, float xRot) {
         if (!renderState.isBaby) {
-            boolean bl = renderState.appearsGlowing && renderState.isInvisible;
-            if (!renderState.isInvisible || bl) {
+            boolean outlineOnly = renderState.appearsGlowing && renderState.isInvisible;
+            if (!renderState.isInvisible || outlineOnly) {
                 BlockState blockState = renderState.getBlockState();
                 int overlayCoords = LivingEntityRenderer.getOverlayCoords(renderState, 0.0F);
                 BakedModel bakedModel = this.blockRenderer.getBlockModel(blockState);
 
                 poseStack.pushPose();
-                poseStack.translate(0.0, 0.36, 0.15);
+                poseStack.translate(-0.03F, 0.58F, 0.09F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-6.0F));
-                this.renderBlockState(poseStack, bufferSource, packedLight, bl, blockState, overlayCoords, bakedModel);
+                poseStack.scale(-0.5F, -0.5F, 0.5F);
+                poseStack.translate(-0.5F, -0.5F, -0.5F);
+                this.renderBlockState(poseStack, bufferSource, packedLight, outlineOnly, blockState, overlayCoords, bakedModel);
                 poseStack.popPose();
 
                 poseStack.pushPose();
                 this.getHead().translateAndRotate(poseStack);
-                poseStack.translate(0.02, -0.8, -0.03);
+                poseStack.translate(0.03F, -0.6F, -0.03F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-48.0F));
-                this.renderBlockState(poseStack, bufferSource, packedLight, bl, blockState, overlayCoords, bakedModel);
+                poseStack.scale(-0.5F, -0.5F, 0.5F);
+                poseStack.translate(-0.5F, -0.5F, -0.5F);
+                this.renderBlockState(poseStack, bufferSource, packedLight, outlineOnly, blockState, overlayCoords, bakedModel);
                 poseStack.popPose();
             }
         }

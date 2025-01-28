@@ -6,7 +6,9 @@ import fuzs.puzzleslib.api.client.core.v1.context.EntityRenderersContext;
 import fuzs.puzzleslib.api.client.core.v1.context.LayerDefinitionsContext;
 import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
 import fuzs.shroomcraft.client.init.ModModelLayers;
+import fuzs.shroomcraft.client.model.ShroomfinModel;
 import fuzs.shroomcraft.client.renderer.entity.ModMushroomCowRenderer;
+import fuzs.shroomcraft.client.renderer.entity.ShroomfinRenderer;
 import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
@@ -54,6 +56,7 @@ public class ShroomcraftClient implements ClientModConstructor {
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.PURPLE_SHROOMWOOD_CHEST_BOAT));
         context.registerEntityRenderer(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), ModMushroomCowRenderer::new);
+        context.registerEntityRenderer(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), ShroomfinRenderer::new);
     }
 
     @Override
@@ -69,6 +72,7 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM, CowModel::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM_BABY,
                 () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
+        context.registerLayerDefinition(ModModelLayers.SHROOMFIN, ShroomfinModel::createBodyLayer);
     }
 
     @Override

@@ -14,6 +14,7 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import java.util.Map;
 
@@ -77,5 +78,12 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
             this.add(ItemTags.BOATS).add(registrar.boatItem());
             this.add(ItemTags.CHEST_BOATS).add(registrar.chestBoatItem());
         });
+        this.add(ItemTags.FISHES).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
+        this.add(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
+        this.add(ModRegistry.MUSHROOMS_ITEM_TAG)
+                .add(Items.BROWN_MUSHROOM, Items.RED_MUSHROOM, Items.CRIMSON_FUNGUS, Items.WARPED_FUNGUS)
+                .add(ModItems.BLUE_MUSHROOM.value(),
+                        ModItems.ORANGE_MUSHROOM.value(),
+                        ModItems.PURPLE_MUSHROOM.value());
     }
 }

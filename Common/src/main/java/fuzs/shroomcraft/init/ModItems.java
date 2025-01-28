@@ -1,10 +1,23 @@
 package fuzs.shroomcraft.init;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.material.Fluids;
 
 public class ModItems {
+    public static final FoodProperties SHROOMFIN_FOOD_PROPERTIES = new FoodProperties.Builder().nutrition(2)
+            .saturationModifier(0.1F)
+            .build();
+    public static final FoodProperties COOKED_SHROOMFIN_FOOD_PROPERTIES = new FoodProperties.Builder().nutrition(5)
+            .saturationModifier(0.6F)
+            .build();
+
     public static final Holder.Reference<Item> BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.BLUE_MUSHROOM);
     public static final Holder.Reference<Item> ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.ORANGE_MUSHROOM);
     public static final Holder.Reference<Item> PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.PURPLE_MUSHROOM);
@@ -66,6 +79,20 @@ public class ModItems {
             "purple_shroomspores",
             (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_PURPLE_MUSHROOM.value(), properties),
             () -> new Item.Properties().useItemDescriptionPrefix());
+    public static final Holder.Reference<Item> SHROOMFIN = ModRegistry.REGISTRIES.registerItem("shroomfin",
+            () -> new Item.Properties().food(SHROOMFIN_FOOD_PROPERTIES));
+    public static final Holder.Reference<Item> COOKED_SHROOMFIN = ModRegistry.REGISTRIES.registerItem("cooked_shroomfin",
+            () -> new Item.Properties().food(COOKED_SHROOMFIN_FOOD_PROPERTIES));
+    public static final Holder.Reference<Item> SHROOMFIN_BUCKET = ModRegistry.REGISTRIES.registerItem("shroomfin_bucket",
+            (Item.Properties properties) -> new MobBucketItem(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
+                    Fluids.WATER,
+                    SoundEvents.BUCKET_EMPTY_FISH,
+                    properties),
+            () -> new Item.Properties().stacksTo(1).component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY));
+    public static final Holder.Reference<Item> SHROOMFIN_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
+            ModRegistry.SHROOMFIN_ENTITY_TYPE,
+            -8360594,
+            -3368584);
 
     public static void bootstrap() {
         // NO-OP

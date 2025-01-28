@@ -9,6 +9,7 @@ import fuzs.shroomcraft.data.loot.ModBlockLootProvider;
 import fuzs.shroomcraft.data.loot.ModEntityLootProvider;
 import fuzs.shroomcraft.data.loot.ModShearingLootProvider;
 import fuzs.shroomcraft.data.tags.ModBlockTagProvider;
+import fuzs.shroomcraft.data.tags.ModEntityTypeTagProvider;
 import fuzs.shroomcraft.data.tags.ModItemTagProvider;
 import net.neoforged.fml.common.Mod;
 
@@ -24,6 +25,7 @@ public class ShroomcraftNeoForge {
                 ModShearingLootProvider::new,
                 ModBlockTagProvider::new,
                 ModItemTagProvider::new,
+                ModEntityTypeTagProvider::new,
                 ModRecipeProvider::new);
     }
 }

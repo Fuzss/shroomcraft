@@ -4,6 +4,7 @@ import fuzs.puzzleslib.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.world.item.Items;
@@ -78,5 +79,47 @@ public class ModShearingLootProvider extends AbstractLootProvider.Simple {
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(5.0F))
                                 .add(LootItem.lootTableItem(Items.WARPED_FUNGUS))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.RED_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(Items.RED_MUSHROOM))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.BROWN_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(Items.BROWN_MUSHROOM))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.CRIMSON_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(Items.CRIMSON_FUNGUS))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.WARPED_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(Items.WARPED_FUNGUS))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.BLUE_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(ModItems.BLUE_MUSHROOM.value()))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.ORANGE_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(ModItems.ORANGE_MUSHROOM.value()))));
+        this.add(MobBlockVariant.getShearingLootTable(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.PURPLE_CLUCKSHROOM_VARIANT),
+                LootTable.lootTable()
+                        .withPool(LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(3.0F))
+                                .add(LootItem.lootTableItem(ModItems.PURPLE_MUSHROOM.value()))));
     }
 }

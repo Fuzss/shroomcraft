@@ -13,6 +13,7 @@ import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
 import fuzs.shroomcraft.handler.AxeStrippingHandler;
 import fuzs.shroomcraft.init.*;
+import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.core.BlockPos;
@@ -28,6 +29,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.DispensibleContainerItem;
@@ -141,6 +143,7 @@ public class Shroomcraft implements ModConstructor {
     public void onEntityAttributeCreation(EntityAttributesCreateContext context) {
         context.registerEntityAttributes(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
         context.registerEntityAttributes(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
+        context.registerEntityAttributes(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
     }
 
     @Override
@@ -153,6 +156,10 @@ public class Shroomcraft implements ModConstructor {
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
+        context.registerSpawnPlacement(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Cluckshroom::checkMushroomSpawnRules);
     }
 
     @Override

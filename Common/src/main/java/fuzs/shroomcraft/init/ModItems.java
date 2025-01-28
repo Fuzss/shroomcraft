@@ -97,6 +97,10 @@ public class ModItems {
             ModRegistry.SHROOMFIN_ENTITY_TYPE,
             -8360594,
             -3368584);
+    public static final Holder.Reference<Item> CLUCKSHROOM_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
+            ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+            -1,
+            -1);
     public static final Holder.Reference<Item> BLUE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem("blue_shroombomb",
             ShroombombItem::new,
             () -> new Item.Properties().stacksTo(16)

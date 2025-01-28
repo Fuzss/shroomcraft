@@ -80,9 +80,9 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM_BABY,
                 () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
         context.registerLayerDefinition(ModModelLayers.SHROOMFIN, ShroomfinModel::createBodyLayer);
-        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, ChickenModel::createBodyLayer);
+        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, CluckshroomRenderer::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM_BABY,
-                () -> ChickenModel.createBodyLayer().apply(ChickenModel.BABY_TRANSFORMER));
+                () -> CluckshroomRenderer.createBodyLayer().apply(ChickenModel.BABY_TRANSFORMER));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ShroomcraftClient implements ClientModConstructor {
                 })
                 .map(Holder.Reference::value)
                 .forEach((Block block) -> {
-                    context.registerRenderType(RenderType.cutout());
+                    context.registerRenderType(RenderType.cutout(), block);
                 });
     }
 }

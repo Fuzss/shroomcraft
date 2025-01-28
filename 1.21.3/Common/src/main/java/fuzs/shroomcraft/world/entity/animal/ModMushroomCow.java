@@ -2,7 +2,6 @@ package fuzs.shroomcraft.world.entity.animal;
 
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
-import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModRegistry;
 import io.netty.buffer.ByteBuf;
@@ -223,9 +222,7 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        ColorVariant.CODEC.parse(NbtOps.INSTANCE, tag.get("color_variant"))
-                .resultOrPartial(Util.prefix(this.getDisplayName().getString(), Shroomcraft.LOGGER::error))
-                .ifPresent(this::setColorVariant);
+        ColorVariant.CODEC.parse(NbtOps.INSTANCE, tag.get("color_variant")).ifSuccess(this::setColorVariant);
     }
 
     @Override

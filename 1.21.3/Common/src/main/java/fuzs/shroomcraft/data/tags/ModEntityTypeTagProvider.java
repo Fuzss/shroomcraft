@@ -20,5 +20,6 @@ public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>>
         this.add(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
         this.add(EntityTypeTags.AQUATIC).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
         this.add(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
+        this.add(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value());
     }
 }

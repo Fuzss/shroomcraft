@@ -1,4 +1,11 @@
-// 1.21.3	2025-01-27T16:51:08.231608	Registries
+// 1.21.3	2025-01-28T16:50:42.333276	Registries
+9b4ed18f0f190074fe66c2eefd03dddd0e20a603 data/shroomcraft/shroomcraft/cluckshroom_variant/blue.json
+4b3bce86aafe98e19bfe66175bba34d9b573cadb data/shroomcraft/shroomcraft/cluckshroom_variant/brown.json
+6140b104984e81342431878e87555098bf13708b data/shroomcraft/shroomcraft/cluckshroom_variant/crimson.json
+92b6e234fd3ec174e8207365f6294cbe5b340086 data/shroomcraft/shroomcraft/cluckshroom_variant/orange.json
+f82ab7f302a12a3b7c4265a5654503668737bc9c data/shroomcraft/shroomcraft/cluckshroom_variant/purple.json
+7b9de59fd433417f8e1b46c25a475521f9512145 data/shroomcraft/shroomcraft/cluckshroom_variant/red.json
+77a9ce9d4de0a59eb38bad3720fd30a4ba36330c data/shroomcraft/shroomcraft/cluckshroom_variant/warped.json
 fef9e5bd2de97a6f60675b010018230b9f9e4ece data/shroomcraft/worldgen/configured_feature/huge_blue_mushroom.json
 144680dbdb9a52201cb86a49a0ada1482b3905d1 data/shroomcraft/worldgen/configured_feature/huge_orange_mushroom.json
 faa956e002a76cf15ff7757ec5f0b21926a7c20b data/shroomcraft/worldgen/configured_feature/huge_purple_mushroom.json

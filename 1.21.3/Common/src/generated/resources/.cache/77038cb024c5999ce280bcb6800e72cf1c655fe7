@@ -1,4 +1,4 @@
-// 1.21.3	2025-01-28T14:17:48.261857	Model Definitions
+// 1.21.3	2025-01-28T16:48:58.030445	Model Definitions
 3a7ff58f1e131557f9956e85304fb7a935949449 assets/shroomcraft/blockstates/blue_mushroom.json
 ef491bec91d1d29f03beb4b4642fd8b1619567cb assets/shroomcraft/blockstates/blue_mushroom_block.json
 7c6c73bca88671de7f1bdca4f9f4b5f4ffca9ae0 assets/shroomcraft/blockstates/blue_mushroom_sprouts.json
@@ -270,6 +270,7 @@ e3c497fd1df3194dd168dc62a190402c61e59e0a assets/shroomcraft/models/item/blue_shr
 3d6f942498f5ad2a77c516979a897f65e6cb9972 assets/shroomcraft/models/item/blue_shroomwood_stairs.json
 fde0933e96b7ef0a8606a82e37b003bdb6711e29 assets/shroomcraft/models/item/blue_shroomwood_trapdoor.json
 ba7b3d4881ea21bc9f8406626cf5530dc10e0095 assets/shroomcraft/models/item/brown_shroomspores.json
+a6533bbe8fedcb0f134881d45f5de99b6163bf1f assets/shroomcraft/models/item/cluckshroom_spawn_egg.json
 c5dd8553647915af9df0e5422b4a669b1c736697 assets/shroomcraft/models/item/cooked_shroomfin.json
 d2f55cd5a557fe7e826cb0ac853daa376d9a0ce6 assets/shroomcraft/models/item/mushroom_sprouts.json
 09a2de210621fcb47f420cfc62e32ef35a65a94d assets/shroomcraft/models/item/mycelial_growth.json

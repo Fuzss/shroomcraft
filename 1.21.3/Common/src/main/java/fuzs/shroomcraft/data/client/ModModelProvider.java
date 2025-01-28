@@ -137,6 +137,7 @@ public class ModModelProvider extends AbstractModelProvider {
         builder.generateFlatItem(ModItems.COOKED_SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         builder.generateFlatItem(ModItems.SHROOMFIN_BUCKET.value(), ModelTemplates.FLAT_ITEM);
         ModelTemplateHelper.generateFlatItem(ModItems.SHROOMFIN_SPAWN_EGG.value(), SPAWN_EGG, builder.output);
+        builder.generateFlatItem(ModItems.CLUCKSHROOM_SPAWN_EGG.value(), ModelTemplates.FLAT_ITEM);
         builder.generateFlatItem(ModItems.BLUE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);
         builder.generateFlatItem(ModItems.ORANGE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);
         builder.generateFlatItem(ModItems.PURPLE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);

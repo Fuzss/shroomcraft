@@ -7,6 +7,7 @@ import fuzs.puzzleslib.api.client.core.v1.context.LayerDefinitionsContext;
 import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
 import fuzs.shroomcraft.client.init.ModModelLayers;
 import fuzs.shroomcraft.client.model.ShroomfinModel;
+import fuzs.shroomcraft.client.renderer.entity.CluckshroomRenderer;
 import fuzs.shroomcraft.client.renderer.entity.ModMushroomCowRenderer;
 import fuzs.shroomcraft.client.renderer.entity.ShroomfinRenderer;
 import fuzs.shroomcraft.init.BlockFamilyRegistrar;
@@ -14,6 +15,7 @@ import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.model.CowModel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.BoatRenderer;
@@ -61,6 +63,7 @@ public class ShroomcraftClient implements ClientModConstructor {
                         ModModelLayers.PURPLE_SHROOMWOOD_CHEST_BOAT));
         context.registerEntityRenderer(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), ModMushroomCowRenderer::new);
         context.registerEntityRenderer(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), ShroomfinRenderer::new);
+        context.registerEntityRenderer(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), CluckshroomRenderer::new);
     }
 
     @Override
@@ -77,6 +80,9 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM_BABY,
                 () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
         context.registerLayerDefinition(ModModelLayers.SHROOMFIN, ShroomfinModel::createBodyLayer);
+        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, ChickenModel::createBodyLayer);
+        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM_BABY,
+                () -> ChickenModel.createBodyLayer().apply(ChickenModel.BABY_TRANSFORMER));
     }
 
     @Override

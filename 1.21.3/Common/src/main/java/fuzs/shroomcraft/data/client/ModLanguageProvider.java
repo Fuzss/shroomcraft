@@ -85,10 +85,14 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Purple Shroomwood Boat");
         builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
                 "Purple Shroomwood Chest Boat");
+        builder.add(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), "Mooshroom");
+        builder.add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), "Shroomfin");
+        builder.add(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), "Cluckshroom");
         builder.add(ModItems.SHROOMFIN.value(), "Shroomfin");
         builder.add(ModItems.COOKED_SHROOMFIN.value(), "Cooked Shroomfin");
         builder.add(ModItems.SHROOMFIN_BUCKET.value(), "Bucket of Shroomfin");
         builder.addSpawnEgg(ModItems.SHROOMFIN_SPAWN_EGG.value(), "Shroomfin");
+        builder.addSpawnEgg(ModItems.CLUCKSHROOM_SPAWN_EGG.value(), "Cluckshroom");
         builder.add(ModItems.BLUE_SHROOMBOMB.value(), "Blue Shroombomb");
         builder.add(ModItems.ORANGE_SHROOMBOMB.value(), "Orange Shroombomb");
         builder.add(ModItems.PURPLE_SHROOMBOMB.value(), "Purple Shroombomb");

@@ -20,4 +20,6 @@ public class ModModelLayers {
     public static final ModelLayerLocation MOOSHROOM = MODEL_LAYERS.register("mooshroom");
     public static final ModelLayerLocation MOOSHROOM_BABY = MODEL_LAYERS.register("mooshroom_baby");
     public static final ModelLayerLocation SHROOMFIN = MODEL_LAYERS.register("shroomfin");
+    public static final ModelLayerLocation CLUCKSHROOM = MODEL_LAYERS.register("cluckshroom");
+    public static final ModelLayerLocation CLUCKSHROOM_BABY = MODEL_LAYERS.register("cluckshroom_baby");
 }

@@ -5,6 +5,8 @@ import fuzs.puzzleslib.api.data.v2.AbstractDatapackRegistriesProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModFeatures;
+import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -34,8 +36,41 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
 
     @Override
     public void addBootstrap(RegistryBoostrapConsumer consumer) {
+        consumer.add(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY,
+                ModDatapackRegistriesProvider::bootstrapCluckshroomVariants);
         consumer.add(Registries.CONFIGURED_FEATURE, ModDatapackRegistriesProvider::bootstrapConfiguredFeatures);
         consumer.add(Registries.PLACED_FEATURE, ModDatapackRegistriesProvider::bootstrapPlacedFeatures);
+    }
+
+    static void bootstrapCluckshroomVariants(BootstrapContext<MobBlockVariant> context) {
+        context.register(ModRegistry.RED_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.RED_CLUCKSHROOM_VARIANT,
+                        Blocks.RED_MUSHROOM));
+        context.register(ModRegistry.BROWN_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.BROWN_CLUCKSHROOM_VARIANT,
+                        Blocks.BROWN_MUSHROOM));
+        context.register(ModRegistry.CRIMSON_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.CRIMSON_CLUCKSHROOM_VARIANT,
+                        Blocks.CRIMSON_FUNGUS));
+        context.register(ModRegistry.WARPED_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.WARPED_CLUCKSHROOM_VARIANT,
+                        Blocks.WARPED_FUNGUS));
+        context.register(ModRegistry.BLUE_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.BLUE_CLUCKSHROOM_VARIANT,
+                        ModBlocks.BLUE_MUSHROOM.value()));
+        context.register(ModRegistry.ORANGE_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.ORANGE_CLUCKSHROOM_VARIANT,
+                        ModBlocks.ORANGE_MUSHROOM.value()));
+        context.register(ModRegistry.PURPLE_CLUCKSHROOM_VARIANT,
+                new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
+                        ModRegistry.PURPLE_CLUCKSHROOM_VARIANT,
+                        ModBlocks.PURPLE_MUSHROOM.value()));
     }
 
     static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {

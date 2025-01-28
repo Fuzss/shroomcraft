@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_purple_shroomspores": {
+      "conditions": {
+        "items": [
+          {
+            "items": "shroomcraft:purple_shroomspores"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "shroomcraft:purple_shroombomb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_purple_shroomspores"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "shroomcraft:purple_shroombomb"
+    ]
+  }
+}

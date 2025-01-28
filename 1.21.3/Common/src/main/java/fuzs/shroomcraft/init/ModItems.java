@@ -1,12 +1,16 @@
 package fuzs.shroomcraft.init;
 
+import fuzs.shroomcraft.world.item.crafting.ShroombombItem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.material.Fluids;
 
@@ -93,6 +97,26 @@ public class ModItems {
             ModRegistry.SHROOMFIN_ENTITY_TYPE,
             -8360594,
             -3368584);
+    public static final Holder.Reference<Item> BLUE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem("blue_shroombomb",
+            ShroombombItem::new,
+            () -> new Item.Properties().stacksTo(16)
+                    .useCooldown(0.5F)
+                    .component(DataComponents.POTION_CONTENTS,
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.BLINDNESS, 100))));
+    public static final Holder.Reference<Item> ORANGE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem(
+            "orange_shroombomb",
+            ShroombombItem::new,
+            () -> new Item.Properties().stacksTo(16)
+                    .useCooldown(0.5F)
+                    .component(DataComponents.POTION_CONTENTS,
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.POISON, 100))));
+    public static final Holder.Reference<Item> PURPLE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem(
+            "purple_shroombomb",
+            ShroombombItem::new,
+            () -> new Item.Properties().stacksTo(16)
+                    .useCooldown(0.5F)
+                    .component(DataComponents.POTION_CONTENTS,
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.CONFUSION, 100))));
 
     public static void bootstrap() {
         // NO-OP

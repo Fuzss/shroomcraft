@@ -3,6 +3,7 @@ package fuzs.shroomcraft.data.client;
 import fuzs.puzzleslib.api.client.data.v2.AbstractModelProvider;
 import fuzs.puzzleslib.api.client.data.v2.models.ModelTemplateHelper;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
@@ -35,6 +36,16 @@ public class ModModelProvider extends AbstractModelProvider {
         ModBlockFamilies.getAllFamilies()
                 .filter(BlockFamily::shouldGenerateModel)
                 .forEach(blockFamily -> builder.family(blockFamily.getBaseBlock()).generateFor(blockFamily));
+        this.createHangingSign(builder, ModBlocks.STRIPPED_MUSHROOM_STEM.value(), ModBlockFamilies.SHROOMWOOD_FAMILY);
+        this.createHangingSign(builder,
+                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(),
+                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY);
+        this.createHangingSign(builder,
+                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
+                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY);
+        this.createHangingSign(builder,
+                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
+                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY);
         builder.createPlant(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.TintState.NOT_TINTED);
@@ -99,6 +110,14 @@ public class ModModelProvider extends AbstractModelProvider {
                 1);
     }
 
+    public void createHangingSign(BlockModelGenerators builder, Block particleBlock, BlockFamilyRegistrar registrar) {
+        if (registrar.hangingSignBlock() != null && registrar.wallHangingSignBlock() != null) {
+            builder.createHangingSign(particleBlock,
+                    registrar.hangingSignBlock().value(),
+                    registrar.wallHangingSignBlock().value());
+        }
+    }
+
     @Override
     public void addItemModels(ItemModelGenerators builder) {
         builder.generateFlatItem(ModBlockFamilies.SHROOMWOOD_FAMILY.boatItem().value(), ModelTemplates.FLAT_ITEM);
@@ -118,5 +137,8 @@ public class ModModelProvider extends AbstractModelProvider {
         builder.generateFlatItem(ModItems.COOKED_SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         builder.generateFlatItem(ModItems.SHROOMFIN_BUCKET.value(), ModelTemplates.FLAT_ITEM);
         ModelTemplateHelper.generateFlatItem(ModItems.SHROOMFIN_SPAWN_EGG.value(), SPAWN_EGG, builder.output);
+        builder.generateFlatItem(ModItems.BLUE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModItems.ORANGE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);
+        builder.generateFlatItem(ModItems.PURPLE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);
     }
 }

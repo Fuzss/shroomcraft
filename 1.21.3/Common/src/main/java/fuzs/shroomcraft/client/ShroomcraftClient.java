@@ -18,7 +18,11 @@ import net.minecraft.client.model.CowModel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.Holder;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
+
+import java.util.function.Consumer;
 
 public class ShroomcraftClient implements ClientModConstructor {
 
@@ -97,5 +101,14 @@ public class ShroomcraftClient implements ClientModConstructor {
                 ModBlocks.TINY_BLUE_MUSHROOM.value(),
                 ModBlocks.TINY_ORANGE_MUSHROOM.value(),
                 ModBlocks.TINY_PURPLE_MUSHROOM.value());
+        ModBlockFamilies.getAllFamilyRegistrars()
+                .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> consumer) -> {
+                    consumer.accept(registrar.getBlock(BlockFamily.Variant.DOOR));
+                    consumer.accept(registrar.getBlock(BlockFamily.Variant.TRAPDOOR));
+                })
+                .map(Holder.Reference::value)
+                .forEach((Block block) -> {
+                    context.registerRenderType(RenderType.cutout());
+                });
     }
 }

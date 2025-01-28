@@ -1,1 +1,2 @@
 accessWidener   v2  named
+extendable  method  net/minecraft/world/entity/projectile/ThrownPotion  isLingering ()Z

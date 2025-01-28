@@ -82,6 +82,16 @@ public class Shroomcraft implements ModConstructor {
                     .forEach((Block block) -> {
                         consumer.accept(BlockEntityType.SIGN, block);
                     });
+            ModBlockFamilies.getAllFamilyRegistrars()
+                    .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> blockConsumer) -> {
+                        blockConsumer.accept(registrar.hangingSignBlock());
+                        blockConsumer.accept(registrar.wallHangingSignBlock());
+                    })
+                    .filter(Objects::nonNull)
+                    .map(Holder::value)
+                    .forEach((Block block) -> {
+                        consumer.accept(BlockEntityType.HANGING_SIGN, block);
+                    });
         });
         ServerEntityLevelEvents.SPAWN.register(ModMushroomCow::onEntitySpawn);
         PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);

@@ -8,14 +8,12 @@ import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
 import fuzs.shroomcraft.world.item.crafting.DistinctShapelessRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.level.ItemLike;
 
 public class ModRecipeProvider extends AbstractRecipeProvider {
 
@@ -37,16 +35,17 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
         ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            this.woodenBoat(registrar.boatItem().value(), registrar.getBaseBlock().value());
-            this.chestBoat(registrar.chestBoatItem().value(), registrar.boatItem().value());
+            if (registrar.hangingSignItem() != null) {
+                this.hangingSign(registrar.hangingSignItem().value(), registrar.getBaseBlock().value());
+            }
+            if (registrar.boatItem() != null) {
+                this.woodenBoat(registrar.boatItem().value(), registrar.getBaseBlock().value());
+                if (registrar.chestBoatItem() != null) {
+                    this.chestBoat(registrar.chestBoatItem().value(), registrar.boatItem().value());
+                }
+            }
         });
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.SHROOMFIN.value()),
-                        RecipeCategory.FOOD,
-                        ModItems.COOKED_SHROOMFIN.value(),
-                        0.35F,
-                        200)
-                .unlockedBy(getHasName(ModItems.SHROOMFIN.value()), this.has(ModItems.SHROOMFIN.value()))
-                .save(this.output);
+        this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
         ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(ModRegistry.MUSHROOMS_ITEM_TAG)
                 .requires(ModRegistry.MUSHROOMS_ITEM_TAG)
@@ -56,5 +55,43 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .unlockedBy(getHasName(ModRegistry.MUSHROOMS_ITEM_TAG), this.has(ModRegistry.MUSHROOMS_ITEM_TAG))
                 .save(new TransformingRecipeOutput(this.output,
                         (Recipe<?> recipe) -> new DistinctShapelessRecipe((ShapelessRecipe) recipe)));
+        this.shroombomb(ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());
+        this.shroombomb(ModItems.ORANGE_SHROOMBOMB.value(), ModItems.ORANGE_SHROOMSPORES.value());
+        this.shroombomb(ModItems.PURPLE_SHROOMBOMB.value(), ModItems.PURPLE_SHROOMSPORES.value());
+        this.shapeless(RecipeCategory.FOOD, ModItems.RED_SHROOMSPORES.value());
+        this.oneToOneConversionRecipe(Items.BROWN_DYE, ModItems.MUSHROOM_SPROUTS.value(), getItemName(Items.BROWN_DYE));
+        this.oneToOneConversionRecipe(Items.BLUE_DYE,
+                ModItems.BLUE_MUSHROOM_SPROUTS.value(),
+                getItemName(Items.BLUE_DYE));
+        this.oneToOneConversionRecipe(Items.ORANGE_DYE,
+                ModItems.ORANGE_MUSHROOM_SPROUTS.value(),
+                getItemName(Items.ORANGE_DYE));
+        this.oneToOneConversionRecipe(Items.PURPLE_DYE,
+                ModItems.PURPLE_MUSHROOM_SPROUTS.value(),
+                getItemName(Items.PURPLE_DYE));
+        this.oneToOneConversionRecipe(ModItems.BROWN_SHROOMSPORES.value(), Items.BROWN_MUSHROOM, null, 2);
+        this.oneToOneConversionRecipe(ModItems.RED_SHROOMSPORES.value(), Items.RED_MUSHROOM, null, 2);
+        this.oneToOneConversionRecipe(ModItems.BLUE_SHROOMSPORES.value(), ModItems.BLUE_MUSHROOM.value(), null, 2);
+        this.oneToOneConversionRecipe(ModItems.ORANGE_SHROOMSPORES.value(), ModItems.ORANGE_MUSHROOM.value(), null, 2);
+        this.oneToOneConversionRecipe(ModItems.PURPLE_SHROOMSPORES.value(), ModItems.PURPLE_MUSHROOM.value(), null, 2);
+    }
+
+    @Deprecated(forRemoval = true)
+    public void foodCooking(ItemLike result, ItemLike ingredient) {
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ingredient), RecipeCategory.FOOD, result, 0.35F, 200)
+                .unlockedBy(getHasName(ingredient), this.has(ingredient))
+                .save(this.output);
+    }
+
+    public void shroombomb(ItemLike result, ItemLike ingredient) {
+        ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.MISC, result)
+                .define('#', Items.PAPER)
+                .define('X', Items.GUNPOWDER)
+                .define('@', ingredient)
+                .pattern(" X ")
+                .pattern("#@#")
+                .pattern(" # ")
+                .unlockedBy(getHasName(ingredient), this.has(ingredient))
+                .save(this.output);
     }
 }

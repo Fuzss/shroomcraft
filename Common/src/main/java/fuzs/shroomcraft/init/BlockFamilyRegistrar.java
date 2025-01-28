@@ -8,10 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
-import net.minecraft.world.item.BoatItem;
-import net.minecraft.world.item.DoubleHighBlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -43,6 +40,9 @@ public class BlockFamilyRegistrar {
     final Holder.Reference<Block> baseBlock;
     final BlockSetType blockSetType;
     final WoodType woodType;
+    Holder.Reference<Block> hangingSignBlock;
+    Holder.Reference<Block> wallHangingSignBlock;
+    Holder.Reference<Item> hangingSignItem;
     Holder.Reference<Item> boatItem;
     Holder.Reference<Item> chestBoatItem;
     Holder.Reference<EntityType<Boat>> boatEntityType;
@@ -84,6 +84,7 @@ public class BlockFamilyRegistrar {
                 .pressurePlate(builder.familyRegistrar.blockSetType)
                 .button(builder.familyRegistrar.blockSetType)
                 .sign(builder.familyRegistrar.woodType)
+                .hangingSign(builder.familyRegistrar.woodType)
                 .boat();
     }
 
@@ -113,6 +114,18 @@ public class BlockFamilyRegistrar {
 
     public WoodType getWoodType() {
         return this.woodType;
+    }
+
+    public Holder.Reference<Block> hangingSignBlock() {
+        return this.hangingSignBlock;
+    }
+
+    public Holder.Reference<Block> wallHangingSignBlock() {
+        return this.wallHangingSignBlock;
+    }
+
+    public Holder.Reference<Item> hangingSignItem() {
+        return this.hangingSignItem;
     }
 
     public Holder.Reference<Item> boatItem() {
@@ -290,7 +303,7 @@ public class BlockFamilyRegistrar {
         public Builder sign(WoodType woodType) {
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.SIGN,
                     this.registries.registerBlock(this.basePath() + "_sign",
-                            (BlockBehaviour.Properties properties1) -> new StandingSignBlock(woodType, properties1),
+                            (BlockBehaviour.Properties properties) -> new StandingSignBlock(woodType, properties),
                             () -> {
                                 return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .forceSolidOn()
@@ -312,6 +325,33 @@ public class BlockFamilyRegistrar {
                     this.registries.registerBlockItem(signHolder,
                             (Block block, Item.Properties properties) -> new SignItem(block,
                                     wallSignHolder.value(),
+                                    properties),
+                            () -> new Item.Properties().stacksTo(16)));
+            return this;
+        }
+
+        public Builder hangingSign(WoodType woodType) {
+            this.familyRegistrar.hangingSignBlock = this.registries.registerBlock(this.basePath() + "_hanging_sign",
+                    (BlockBehaviour.Properties properties) -> new CeilingHangingSignBlock(woodType, properties),
+                    () -> {
+                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock()).forceSolidOn().noCollission();
+                    });
+            Holder<Block> hangingSignHolder = this.familyRegistrar.hangingSignBlock;
+            this.familyRegistrar.wallHangingSignBlock = this.registries.registerBlock(
+                    this.basePath() + "_wall_hanging_sign",
+                    (BlockBehaviour.Properties properties) -> new WallHangingSignBlock(woodType, properties),
+                    () -> {
+                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
+                                .overrideLootTable(hangingSignHolder.value().getLootTable())
+                                .overrideDescription(hangingSignHolder.value().getDescriptionId())
+                                .forceSolidOn()
+                                .noCollission();
+                    });
+            Holder<Block> wallHangingSignHolder = this.familyRegistrar.wallHangingSignBlock;
+            this.familyRegistrar.itemVariants.put(BlockFamily.Variant.SIGN,
+                    this.registries.registerBlockItem(hangingSignHolder,
+                            (Block block, Item.Properties properties) -> new HangingSignItem(block,
+                                    wallHangingSignHolder.value(),
                                     properties),
                             () -> new Item.Properties().stacksTo(16)));
             return this;

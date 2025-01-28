@@ -1,4 +1,5 @@
-// 1.21.3	2025-01-27T19:09:48.235511	Tags for minecraft:item mod id vanilla
+// 1.21.3	2025-01-28T14:17:48.26116	Tags for minecraft:item mod id vanilla
+79c0f9ca27ac03e80158b4a106853ccac90b6801 data/c/tags/item/buckets/entity_water.json
 cf1dd974f05c67156ffb861dca638001d7105332 data/minecraft/tags/item/boats.json
 3e3846d9dcf795d7372ab2d2f98c6b2980602378 data/minecraft/tags/item/chest_boats.json
 c3c4c303f038accf2b2fb4ed8c0520a90eb79779 data/minecraft/tags/item/fence_gates.json

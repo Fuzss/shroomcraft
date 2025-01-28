@@ -2,10 +2,14 @@ package fuzs.shroomcraft.data.loot;
 
 import fuzs.puzzleslib.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
+import net.minecraft.core.Holder;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
+
+import java.util.Objects;
 
 public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
 
@@ -26,6 +30,11 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
                 }
             });
         });
+        ModBlockFamilies.getAllFamilyRegistrars()
+                .map(BlockFamilyRegistrar::hangingSignBlock)
+                .filter(Objects::nonNull)
+                .map(Holder.Reference::value)
+                .forEach(this::dropSelf);
         this.dropSelf(ModBlocks.BLUE_MUSHROOM.value());
         this.dropSelf(ModBlocks.ORANGE_MUSHROOM.value());
         this.dropSelf(ModBlocks.PURPLE_MUSHROOM.value());

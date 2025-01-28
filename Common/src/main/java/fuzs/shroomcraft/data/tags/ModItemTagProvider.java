@@ -85,5 +85,6 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
                 .add(ModItems.BLUE_MUSHROOM.value(),
                         ModItems.ORANGE_MUSHROOM.value(),
                         ModItems.PURPLE_MUSHROOM.value());
+        this.add("c:buckets/entity_water").add(ModItems.SHROOMFIN_BUCKET.value());
     }
 }

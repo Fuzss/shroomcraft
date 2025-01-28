@@ -70,6 +70,14 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                 }
             }
         });
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
+            if (registrar.hangingSignBlock() != null) {
+                this.add(BlockTags.CEILING_HANGING_SIGNS).add(registrar.hangingSignBlock());
+            }
+            if (registrar.wallHangingSignBlock() != null) {
+                this.add(BlockTags.WALL_HANGING_SIGNS).add(registrar.wallHangingSignBlock());
+            }
+        });
         this.add(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),

@@ -25,6 +25,12 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
                 .generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getWoodenFamily());
         builder.blockFamily("Purple Shroomwood", "Purple Shroomwood Planks")
                 .generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getWoodenFamily());
+        builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.hangingSignBlock(), "Shroomwood Hanging Sign");
+        builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.hangingSignBlock(), "Blue Shroomwood Hanging Sign");
+        builder.addBlock(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.hangingSignBlock(),
+                "Orange Shroomwood Hanging Sign");
+        builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.hangingSignBlock(),
+                "Purple Shroomwood Hanging Sign");
         builder.add(ModBlocks.BLUE_MUSHROOM.value(), "Blue Mushroom");
         builder.add(ModBlocks.ORANGE_MUSHROOM.value(), "Orange Mushroom");
         builder.add(ModBlocks.PURPLE_MUSHROOM.value(), "Purple Mushroom");
@@ -79,5 +85,12 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Purple Shroomwood Boat");
         builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
                 "Purple Shroomwood Chest Boat");
+        builder.add(ModItems.SHROOMFIN.value(), "Shroomfin");
+        builder.add(ModItems.COOKED_SHROOMFIN.value(), "Cooked Shroomfin");
+        builder.add(ModItems.SHROOMFIN_BUCKET.value(), "Bucket of Shroomfin");
+        builder.addSpawnEgg(ModItems.SHROOMFIN_SPAWN_EGG.value(), "Shroomfin");
+        builder.add(ModItems.BLUE_SHROOMBOMB.value(), "Blue Shroombomb");
+        builder.add(ModItems.ORANGE_SHROOMBOMB.value(), "Orange Shroombomb");
+        builder.add(ModItems.PURPLE_SHROOMBOMB.value(), "Purple Shroombomb");
     }
 }

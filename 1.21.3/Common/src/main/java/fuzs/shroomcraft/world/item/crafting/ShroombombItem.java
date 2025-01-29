@@ -44,15 +44,13 @@ public class ShroombombItem extends LingeringPotionItem {
                 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (level instanceof ServerLevel serverLevel) {
-            Projectile.spawnProjectileFromRotation((ServerLevel serverLevelX, LivingEntity owner, ItemStack itemStack) -> new ThrownPotion(
-                    serverLevelX,
-                    owner,
-                    itemStack) {
-                @Override
-                protected boolean isLingering() {
-                    return true;
-                }
-            }, serverLevel, itemInHand, player, -20.0F, 0.5F, 1.0F);
+            Projectile.spawnProjectileFromRotation(LingeringThrownPotion::new,
+                    serverLevel,
+                    itemInHand,
+                    player,
+                    -10.0F,
+                    0.5F,
+                    1.0F);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
@@ -61,13 +59,24 @@ public class ShroombombItem extends LingeringPotionItem {
     }
 
     @Override
-    public Projectile asProjectile(Level level, Position pos, ItemStack stack, Direction direction) {
-        // we can override this without introducing a new entity type, as the relevant method is only called on the server
-        return new ThrownPotion(level, pos.x(), pos.y(), pos.z(), stack) {
-            @Override
-            protected boolean isLingering() {
-                return true;
-            }
-        };
+    public Projectile asProjectile(Level level, Position pos, ItemStack itemStack, Direction direction) {
+        return new LingeringThrownPotion(level, pos.x(), pos.y(), pos.z(), itemStack);
+    }
+
+    private static class LingeringThrownPotion extends ThrownPotion {
+
+        public LingeringThrownPotion(Level level, LivingEntity owner, ItemStack item) {
+            super(level, owner, item);
+        }
+
+        public LingeringThrownPotion(Level level, double x, double y, double z, ItemStack item) {
+            super(level, x, y, z, item);
+        }
+
+        @Override
+        protected boolean isLingering() {
+            // we can override this without introducing a new entity type, as the relevant method is only called on the server
+            return true;
+        }
     }
 }

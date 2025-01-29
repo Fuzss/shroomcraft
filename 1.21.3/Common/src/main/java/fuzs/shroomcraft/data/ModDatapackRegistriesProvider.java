@@ -15,6 +15,8 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HugeMushroomBlock;
@@ -43,6 +45,7 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
     }
 
     static void bootstrapCluckshroomVariants(BootstrapContext<MobBlockVariant> context) {
+        HolderGetter<Biome> biomeLookup = context.lookup(Registries.BIOME);
         context.register(ModRegistry.RED_CLUCKSHROOM_VARIANT,
                 new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
                         ModRegistry.RED_CLUCKSHROOM_VARIANT,
@@ -54,11 +57,13 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
         context.register(ModRegistry.CRIMSON_CLUCKSHROOM_VARIANT,
                 new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
                         ModRegistry.CRIMSON_CLUCKSHROOM_VARIANT,
-                        Blocks.CRIMSON_FUNGUS));
+                        Blocks.CRIMSON_FUNGUS,
+                        biomeLookup.getOrThrow(Biomes.CRIMSON_FOREST)));
         context.register(ModRegistry.WARPED_CLUCKSHROOM_VARIANT,
                 new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
                         ModRegistry.WARPED_CLUCKSHROOM_VARIANT,
-                        Blocks.WARPED_FUNGUS));
+                        Blocks.WARPED_FUNGUS,
+                        biomeLookup.getOrThrow(Biomes.WARPED_FOREST)));
         context.register(ModRegistry.BLUE_CLUCKSHROOM_VARIANT,
                 new MobBlockVariant(ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
                         ModRegistry.BLUE_CLUCKSHROOM_VARIANT,

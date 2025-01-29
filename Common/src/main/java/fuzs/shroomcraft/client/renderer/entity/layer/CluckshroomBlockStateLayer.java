@@ -2,34 +2,28 @@ package fuzs.shroomcraft.client.renderer.entity.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import fuzs.shroomcraft.client.renderer.entity.state.BlockStateCarrierRenderState;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
+import fuzs.shroomcraft.client.renderer.entity.state.CluckshroomRenderState;
+import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CluckshroomBlockStateLayer<S extends LivingEntityRenderState & BlockStateCarrierRenderState, M extends EntityModel<? super S>> extends RenderLayer<S, M> {
+public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderState, ChickenModel> {
     private final BlockRenderDispatcher blockRenderer;
 
-    public CluckshroomBlockStateLayer(RenderLayerParent<S, M> renderer, BlockRenderDispatcher blockRenderer) {
+    public CluckshroomBlockStateLayer(RenderLayerParent<CluckshroomRenderState, ChickenModel> renderer, BlockRenderDispatcher blockRenderer) {
         super(renderer);
         this.blockRenderer = blockRenderer;
     }
 
-    protected ModelPart getHead() {
-        return this.getParentModel().root().getChild("head");
-    }
-
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, S renderState, float yRot, float xRot) {
+    public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CluckshroomRenderState renderState, float yRot, float xRot) {
         if (!renderState.isBaby) {
             boolean outlineOnly = renderState.appearsGlowing && renderState.isInvisible;
             if (!renderState.isInvisible || outlineOnly) {
@@ -42,16 +36,28 @@ public class CluckshroomBlockStateLayer<S extends LivingEntityRenderState & Bloc
                 poseStack.mulPose(Axis.YP.rotationDegrees(-6.0F));
                 poseStack.scale(-0.5F, -0.5F, 0.5F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderBlockState(poseStack, bufferSource, packedLight, outlineOnly, blockState, overlayCoords, bakedModel);
+                this.renderBlockState(poseStack,
+                        bufferSource,
+                        packedLight,
+                        outlineOnly,
+                        blockState,
+                        overlayCoords,
+                        bakedModel);
                 poseStack.popPose();
 
                 poseStack.pushPose();
-                this.getHead().translateAndRotate(poseStack);
+                this.getParentModel().head.translateAndRotate(poseStack);
                 poseStack.translate(0.03F, -0.6F, -0.03F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-48.0F));
                 poseStack.scale(-0.5F, -0.5F, 0.5F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderBlockState(poseStack, bufferSource, packedLight, outlineOnly, blockState, overlayCoords, bakedModel);
+                this.renderBlockState(poseStack,
+                        bufferSource,
+                        packedLight,
+                        outlineOnly,
+                        blockState,
+                        overlayCoords,
+                        bakedModel);
                 poseStack.popPose();
             }
         }

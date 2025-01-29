@@ -122,6 +122,12 @@ public class ModRegistry {
     public static final TagKey<Item> ORANGE_SHROOMWOOD_LOGS_ITEM_TAG = TAGS.registerItemTag("orange_shroomwood_logs");
     public static final TagKey<Item> PURPLE_SHROOMWOOD_LOGS_ITEM_TAG = TAGS.registerItemTag("purple_shroomwood_logs");
     public static final TagKey<Item> MUSHROOMS_ITEM_TAG = TAGS.registerItemTag("mushrooms");
+    public static final TagKey<MobBlockVariant> DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG = TAGS.registerTagKey(
+            CLUCKSHROOM_VARIANT_REGISTRY_KEY,
+            "default_spawns");
+    public static final TagKey<MobBlockVariant> NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG = TAGS.registerTagKey(
+            CLUCKSHROOM_VARIANT_REGISTRY_KEY,
+            "nether_spawns");
 
     public static void bootstrap() {
         ModBlocks.bootstrap();

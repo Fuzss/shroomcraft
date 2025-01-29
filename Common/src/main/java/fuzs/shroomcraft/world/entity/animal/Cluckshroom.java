@@ -1,9 +1,11 @@
 package fuzs.shroomcraft.world.entity.animal;
 
+import fuzs.puzzleslib.api.core.v1.CommonAbstractions;
 import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -11,10 +13,11 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -29,11 +32,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Holder<MobBlockVariant>> {
     private static final EntityDataAccessor<Holder<MobBlockVariant>> DATA_TYPE = SynchedEntityData.defineId(Cluckshroom.class,
@@ -63,15 +69,13 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.is(Items.BOWL) && !this.isBaby()) {
-
             ItemStack newItemInHand = ItemUtils.createFilledResult(itemInHand,
                     player,
                     new ItemStack(Items.MUSHROOM_STEW),
                     false);
             player.setItemInHand(hand, newItemInHand);
-            SoundEvent soundEvent = SoundEvents.MOOSHROOM_MILK;
+            this.playSound(SoundEvents.MOOSHROOM_MILK, 1.0F, 1.0F);
 
-            this.playSound(soundEvent, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         } else if (itemInHand.is(Items.SHEARS) && this.readyForShearing()) {
             if (this.level() instanceof ServerLevel serverLevel) {
@@ -91,6 +95,20 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         // prevent chicken from laying an egg
         this.eggTime = 6000;
         super.aiStep();
+        if (this.level() instanceof ServerLevel serverLevel &&
+                CommonAbstractions.INSTANCE.getMobGriefingRule(serverLevel, this)) {
+            if (!this.getNavigation().isDone() && !this.hasControllingPassenger()) {
+                if (this.getDeltaMovement().lengthSqr() > 1.0E-5F && this.random.nextInt(100) == 0) {
+                    BlockPos blockPos = this.blockPosition();
+                    BlockState blockState = this.getVariant().value().blockState();
+                    if (serverLevel.getBlockState(blockPos).isAir() && blockState.canSurvive(this.level(), blockPos)) {
+                        serverLevel.setBlockAndUpdate(blockPos, blockState);
+                        serverLevel.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this, blockState));
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
@@ -99,14 +117,35 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         if (spawnGroupData instanceof CluckshroomGroupData cluckshroomGroupData) {
             variant = cluckshroomGroupData.variant;
         } else {
-            Registry<MobBlockVariant> registry = this.registryAccess()
-                    .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
-            variant = registry.getRandom(level.getRandom()).orElseThrow(NoSuchElementException::new);
+            Holder<Biome> biome = level.getBiome(this.blockPosition());
+            variant = getSpawnVariant(this.registryAccess(), biome);
             spawnGroupData = new CluckshroomGroupData(variant);
         }
 
         this.setVariant(variant);
         return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
+    }
+
+    public static Holder<MobBlockVariant> getSpawnVariant(RegistryAccess registryAccess, Holder<Biome> biome) {
+        Registry<MobBlockVariant> registry = registryAccess.lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+        return getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
+            return holder.value().biomes().contains(biome);
+        }).or(() -> getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
+            TagKey<MobBlockVariant> tagKey =
+                    biome.is(BiomeTags.IS_NETHER) ? ModRegistry.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
+                            ModRegistry.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
+            return holder.is(tagKey);
+        })).or(() -> registry.get(ModRegistry.RED_CLUCKSHROOM_VARIANT)).or(registry::getAny).orElseThrow();
+    }
+
+    static Optional<Holder<MobBlockVariant>> getRandomSpawnVariant(Registry<MobBlockVariant> registry, Predicate<Holder<MobBlockVariant>> filter) {
+        return Optional.ofNullable(registry.listElements()
+                .filter(filter)
+                .collect(Collectors.collectingAndThen(Collectors.toCollection(ArrayList::new),
+                        (List<Holder.Reference<MobBlockVariant>> list) -> {
+                            Collections.shuffle(list);
+                            return !list.isEmpty() ? list.getFirst() : null;
+                        })));
     }
 
     @Override

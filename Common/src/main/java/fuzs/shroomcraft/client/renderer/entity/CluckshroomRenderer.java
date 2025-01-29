@@ -22,7 +22,7 @@ public class CluckshroomRenderer extends AgeableMobRenderer<Cluckshroom, Clucksh
                 new ChickenModel(context.bakeLayer(ModModelLayers.CLUCKSHROOM)),
                 new ChickenModel(context.bakeLayer(ModModelLayers.CLUCKSHROOM_BABY)),
                 0.3F);
-        this.addLayer(new CluckshroomBlockStateLayer<>(this, context.getBlockRenderDispatcher()));
+        this.addLayer(new CluckshroomBlockStateLayer(this, context.getBlockRenderDispatcher()));
     }
 
     public static LayerDefinition createBodyLayer() {

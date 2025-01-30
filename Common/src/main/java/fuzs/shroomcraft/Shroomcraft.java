@@ -3,9 +3,7 @@ package fuzs.shroomcraft;
 import fuzs.puzzleslib.api.biome.v1.BiomeLoadingPhase;
 import fuzs.puzzleslib.api.core.v1.ContentRegistrationFlags;
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.api.core.v1.context.BiomeModificationsContext;
-import fuzs.puzzleslib.api.core.v1.context.EntityAttributesCreateContext;
-import fuzs.puzzleslib.api.core.v1.context.SpawnPlacementsContext;
+import fuzs.puzzleslib.api.core.v1.context.*;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
 import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
 import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
@@ -14,6 +12,7 @@ import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
 import fuzs.shroomcraft.handler.AxeStrippingHandler;
 import fuzs.shroomcraft.init.*;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
+import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.core.BlockPos;
@@ -137,6 +136,9 @@ public class Shroomcraft implements ModConstructor {
                 }
             }
         });
+        DispenserBlock.registerProjectileBehavior(ModItems.BLUE_SHROOMBOMB.value());
+        DispenserBlock.registerProjectileBehavior(ModItems.ORANGE_SHROOMBOMB.value());
+        DispenserBlock.registerProjectileBehavior(ModItems.PURPLE_SHROOMBOMB.value());
     }
 
     @Override
@@ -160,6 +162,38 @@ public class Shroomcraft implements ModConstructor {
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Cluckshroom::checkMushroomSpawnRules);
+    }
+
+    @Override
+    public void onDataPackRegistriesContext(DataPackRegistriesContext context) {
+        context.registerSynced(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
+    }
+
+    @Override
+    public void onRegisterCompostableBlocks(CompostableBlocksContext context) {
+        context.registerCompostable(0.3F,
+                ModItems.BROWN_SHROOMSPORES,
+                ModItems.RED_SHROOMSPORES,
+                ModItems.BLUE_SHROOMSPORES,
+                ModItems.ORANGE_SHROOMSPORES,
+                ModItems.PURPLE_SHROOMSPORES);
+        context.registerCompostable(0.5F,
+                ModItems.MYCELIAL_GROWTH,
+                ModItems.MUSHROOM_SPROUTS,
+                ModItems.BLUE_MUSHROOM_SPROUTS,
+                ModItems.ORANGE_MUSHROOM_SPROUTS,
+                ModItems.PURPLE_MUSHROOM_SPROUTS);
+        context.registerCompostable(0.65F,
+                ModItems.BLUE_MUSHROOM,
+                ModItems.ORANGE_MUSHROOM,
+                ModItems.PURPLE_MUSHROOM,
+                ModItems.BLUE_MUSHROOM_STEM,
+                ModItems.ORANGE_MUSHROOM_STEM,
+                ModItems.PURPLE_MUSHROOM_STEM);
+        context.registerCompostable(0.85F,
+                ModItems.BLUE_MUSHROOM_BLOCK,
+                ModItems.ORANGE_MUSHROOM_BLOCK,
+                ModItems.PURPLE_MUSHROOM_BLOCK);
     }
 
     @Override

@@ -23,6 +23,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +45,7 @@ import java.util.stream.Collectors;
 
 public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Holder<MobBlockVariant>> {
     private static final EntityDataAccessor<Holder<MobBlockVariant>> DATA_TYPE = SynchedEntityData.defineId(Cluckshroom.class,
-            ModRegistry.CLUCKSHROOM_VARIANT_VARIANT_ENTITY_DATA_SERIALIZER.value());
+            ModRegistry.CLUCKSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
 
     @Nullable
     private UUID lastLightningBoltUUID;
@@ -52,13 +54,20 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         super(entityType, level);
     }
 
-    public static boolean checkMushroomSpawnRules(EntityType<?> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean checkMushroomSpawnRules(EntityType<? extends Mob> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return level.getBlockState(pos.below()).is(BlockTags.MOOSHROOMS_SPAWNABLE_ON) &&
                 isBrightEnoughToSpawn(level, pos);
     }
 
     @Override
-    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.removeAllGoals(WaterAvoidingRandomStrollGoal.class::isInstance);
+        this.goalSelector.addGoal(5, new CluckshroomRandomStrollGoal(this, 1.0));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         Registry<MobBlockVariant> registry = this.registryAccess()
                 .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
@@ -95,31 +104,17 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         // prevent chicken from laying an egg
         this.eggTime = 6000;
         super.aiStep();
-        if (this.level() instanceof ServerLevel serverLevel &&
-                CommonAbstractions.INSTANCE.getMobGriefingRule(serverLevel, this)) {
-            if (!this.getNavigation().isDone() && !this.hasControllingPassenger()) {
-                if (this.getDeltaMovement().lengthSqr() > 1.0E-5F && this.random.nextInt(100) == 0) {
-                    BlockPos blockPos = this.blockPosition();
-                    BlockState blockState = this.getVariant().value().blockState();
-                    if (serverLevel.getBlockState(blockPos).isAir() && blockState.canSurvive(this.level(), blockPos)) {
-                        serverLevel.setBlockAndUpdate(blockPos, blockState);
-                        serverLevel.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this, blockState));
-                    }
-                }
-            }
-        }
-
     }
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
         Holder<MobBlockVariant> variant;
-        if (spawnGroupData instanceof CluckshroomGroupData cluckshroomGroupData) {
-            variant = cluckshroomGroupData.variant;
+        if (spawnGroupData instanceof MobBlockVariantGroupData mobBlockVariantGroupData) {
+            variant = mobBlockVariantGroupData.variant;
         } else {
             Holder<Biome> biome = level.getBiome(this.blockPosition());
             variant = getSpawnVariant(this.registryAccess(), biome);
-            spawnGroupData = new CluckshroomGroupData(variant);
+            spawnGroupData = new MobBlockVariantGroupData(variant);
         }
 
         this.setVariant(variant);
@@ -231,12 +226,51 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         return cluckshroom;
     }
 
-    public static class CluckshroomGroupData extends AgeableMob.AgeableMobGroupData {
+    public static class MobBlockVariantGroupData extends AgeableMob.AgeableMobGroupData {
         public final Holder<MobBlockVariant> variant;
 
-        public CluckshroomGroupData(Holder<MobBlockVariant> variant) {
-            super(true);
+        public MobBlockVariantGroupData(Holder<MobBlockVariant> variant) {
+            this(variant, true);
+        }
+
+        public MobBlockVariantGroupData(Holder<MobBlockVariant> variant, boolean shouldSpawnBaby) {
+            super(shouldSpawnBaby);
             this.variant = variant;
+        }
+    }
+
+    public static class CluckshroomRandomStrollGoal extends WaterAvoidingRandomStrollGoal {
+
+        public <T extends PathfinderMob & VariantHolder<Holder<MobBlockVariant>>> CluckshroomRandomStrollGoal(T mob, double speedModifier) {
+            super(mob, speedModifier);
+        }
+
+        @Override
+        public void tick() {
+            ServerLevel serverLevel = getServerLevel(this.mob);
+            if (CommonAbstractions.INSTANCE.getMobGriefingRule(serverLevel, this.mob)) {
+                if (!this.mob.isBaby() && serverLevel.random.nextInt(1000) == 0 &&
+                        this.mob.getDeltaMovement().lengthSqr() > 1.0E-5F) {
+                    BlockPos blockPos = this.mob.blockPosition();
+                    BlockState blockState = ((VariantHolder<Holder<MobBlockVariant>>) this.mob).getVariant()
+                            .value()
+                            .blockState();
+                    if (serverLevel.getBlockState(blockPos).isAir() && blockState.canSurvive(serverLevel, blockPos)) {
+                        serverLevel.setBlockAndUpdate(blockPos, blockState);
+                        SoundType soundType = blockState.getSoundType();
+                        // copied from placing block item
+                        serverLevel.playSound(null,
+                                blockPos,
+                                soundType.getPlaceSound(),
+                                SoundSource.BLOCKS,
+                                (soundType.getVolume() + 1.0F) / 2.0F,
+                                soundType.getPitch() * 0.8F);
+                        serverLevel.gameEvent(GameEvent.BLOCK_PLACE,
+                                blockPos,
+                                GameEvent.Context.of(this.mob, blockState));
+                    }
+                }
+            }
         }
     }
 }

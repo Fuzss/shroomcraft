@@ -27,7 +27,7 @@ public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderSta
         if (!renderState.isBaby) {
             boolean outlineOnly = renderState.appearsGlowing && renderState.isInvisible;
             if (!renderState.isInvisible || outlineOnly) {
-                BlockState blockState = renderState.getBlockState();
+                BlockState blockState = renderState.blockState;
                 int overlayCoords = LivingEntityRenderer.getOverlayCoords(renderState, 0.0F);
                 BakedModel bakedModel = this.blockRenderer.getBlockModel(blockState);
 

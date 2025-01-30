@@ -7,14 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CluckshroomRenderState extends ChickenRenderState implements BlockStateCarrierRenderState {
+public class CluckshroomRenderState extends ChickenRenderState {
     public ResourceLocation textureLocation = MobBlockVariant.transformTextureLocation(MobBlockVariant.getTextureLocation(
             ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
             ModRegistry.RED_CLUCKSHROOM_VARIANT));
     public BlockState blockState = Blocks.RED_MUSHROOM.defaultBlockState();
-
-    @Override
-    public BlockState getBlockState() {
-        return this.blockState;
-    }
 }

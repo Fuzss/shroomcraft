@@ -16,9 +16,10 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.PushReaction;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class BlockFamilyRegistrar {
     static final Map<BlockFamily.Variant, BiFunction<BlockFamily.Builder, Block, BlockFamily.Builder>> VARIANT_BUILDERS = ImmutableMap.<BlockFamily.Variant, BiFunction<BlockFamily.Builder, Block, BlockFamily.Builder>>builder()
@@ -35,8 +36,8 @@ public class BlockFamilyRegistrar {
             .put(BlockFamily.Variant.PRESSURE_PLATE, BlockFamily.Builder::pressurePlate)
             .build();
 
-    final Map<BlockFamily.Variant, Holder.Reference<Block>> blockVariants = new HashMap<>();
-    final Map<BlockFamily.Variant, Holder.Reference<Item>> itemVariants = new HashMap<>();
+    final Map<BlockFamily.Variant, Holder.Reference<Block>> blockVariants = new LinkedHashMap<>();
+    final Map<BlockFamily.Variant, Holder.Reference<Item>> itemVariants = new LinkedHashMap<>();
     final Holder.Reference<Block> baseBlock;
     final BlockSetType blockSetType;
     final WoodType woodType;
@@ -92,8 +93,26 @@ public class BlockFamilyRegistrar {
         return this.blockVariants;
     }
 
+    public void forEachBlockVariant(Consumer<Holder.Reference<Block>> consumer) {
+        this.blockVariants.values().forEach(consumer);
+        consumer.accept(this.hangingSignBlock);
+        consumer.accept(this.wallHangingSignBlock);
+    }
+
     public Map<BlockFamily.Variant, Holder.Reference<Item>> getItemVariants() {
         return this.itemVariants;
+    }
+
+    public void forEachItemVariant(Consumer<Holder.Reference<Item>> consumer) {
+        this.itemVariants.values().forEach(consumer);
+        consumer.accept(this.hangingSignItem);
+        consumer.accept(this.boatItem);
+        consumer.accept(this.chestBoatItem);
+    }
+
+    public void forEachEntityType(Consumer<Holder.Reference<? extends EntityType<?>>> consumer) {
+        consumer.accept(this.boatEntityType);
+        consumer.accept(this.chestBoatEntityType);
     }
 
     public Holder.Reference<Block> getBlock(BlockFamily.Variant variant) {
@@ -348,12 +367,11 @@ public class BlockFamilyRegistrar {
                                 .noCollission();
                     });
             Holder<Block> wallHangingSignHolder = this.familyRegistrar.wallHangingSignBlock;
-            this.familyRegistrar.itemVariants.put(BlockFamily.Variant.SIGN,
-                    this.registries.registerBlockItem(hangingSignHolder,
-                            (Block block, Item.Properties properties) -> new HangingSignItem(block,
-                                    wallHangingSignHolder.value(),
-                                    properties),
-                            () -> new Item.Properties().stacksTo(16)));
+            this.familyRegistrar.hangingSignItem = this.registries.registerBlockItem(hangingSignHolder,
+                    (Block block, Item.Properties properties) -> new HangingSignItem(block,
+                            wallHangingSignHolder.value(),
+                            properties),
+                    () -> new Item.Properties().stacksTo(16));
             return this;
         }
 

@@ -19,6 +19,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -29,10 +31,6 @@ import java.util.Optional;
 public class ModRegistry {
     public static final ResourceKey<Registry<MobBlockVariant>> CLUCKSHROOM_VARIANT_REGISTRY_KEY = ResourceKey.createRegistryKey(
             Shroomcraft.id("cluckshroom_variant"));
-    public static final ResourceKey<Registry<MobBlockVariant>> CLUCKBLOOM_VARIANT_REGISTRY_KEY = ResourceKey.createRegistryKey(
-            Shroomcraft.id("cluckbloom_variant"));
-    public static final ResourceKey<Registry<MobBlockVariant>> MOOBLOOM_VARIANT_REGISTRY_KEY = ResourceKey.createRegistryKey(
-            Shroomcraft.id("moobloom_variant"));
 
     static final RegistryManager REGISTRIES = RegistryManager.from(Shroomcraft.MOD_ID);
     public static final Holder.Reference<EntityType<ModMushroomCow>> MOOSHROOM_ENTITY_TYPE = REGISTRIES.registerEntityType(
@@ -55,20 +53,79 @@ public class ModRegistry {
                     .eyeHeight(0.644F)
                     .passengerAttachments(new Vec3(0.0, 0.7, -0.1))
                     .clientTrackingRange(10));
-    public static final Holder.Reference<CreativeModeTab> CREATIVE_MODE_TAB = REGISTRIES.registerCreativeModeTab(
-            ModItems.ORANGE_MUSHROOM);
+    public static final Holder.Reference<CreativeModeTab> CREATIVE_MODE_TAB = REGISTRIES.registerCreativeModeTab("main",
+            () -> new ItemStack(ModItems.ORANGE_MUSHROOM.value()),
+            (CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) -> {
+                // set this up manually to get a proper order for all the block families
+                output.accept(Items.BROWN_MUSHROOM);
+                output.accept(Items.RED_MUSHROOM);
+                output.accept(ModItems.MUSHROOM_SPROUTS.value());
+                output.accept(Items.BROWN_MUSHROOM_BLOCK);
+                output.accept(Items.RED_MUSHROOM_BLOCK);
+                output.accept(Items.MUSHROOM_STEM);
+                output.accept(ModItems.STRIPPED_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_MUSHROOM_HYPHAE.value());
+                output.accept(ModItems.SHROOMWOOD_PLANKS.value());
+                ModBlockFamilies.SHROOMWOOD_FAMILY.forEachItemVariant((Holder.Reference<Item> holder) -> {
+                    output.accept(holder.value());
+                });
+
+                output.accept(ModItems.BLUE_MUSHROOM.value());
+                output.accept(ModItems.BLUE_MUSHROOM_SPROUTS.value());
+                output.accept(ModItems.BLUE_MUSHROOM_BLOCK.value());
+                output.accept(ModItems.BLUE_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
+                output.accept(ModItems.BLUE_SHROOMWOOD_PLANKS.value());
+                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.forEachItemVariant((Holder.Reference<Item> holder) -> {
+                    output.accept(holder.value());
+                });
+
+                output.accept(ModItems.ORANGE_MUSHROOM.value());
+                output.accept(ModItems.ORANGE_MUSHROOM_SPROUTS.value());
+                output.accept(ModItems.ORANGE_MUSHROOM_BLOCK.value());
+                output.accept(ModItems.ORANGE_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
+                output.accept(ModItems.ORANGE_SHROOMWOOD_PLANKS.value());
+                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.forEachItemVariant((Holder.Reference<Item> holder) -> {
+                    output.accept(holder.value());
+                });
+
+                output.accept(ModItems.PURPLE_MUSHROOM.value());
+                output.accept(ModItems.PURPLE_MUSHROOM_SPROUTS.value());
+                output.accept(ModItems.PURPLE_MUSHROOM_BLOCK.value());
+                output.accept(ModItems.PURPLE_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
+                output.accept(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
+                output.accept(ModItems.PURPLE_SHROOMWOOD_PLANKS.value());
+                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.forEachItemVariant((Holder.Reference<Item> holder) -> {
+                    output.accept(holder.value());
+                });
+
+                output.accept(ModItems.MYCELIAL_GROWTH.value());
+                output.accept(ModItems.BROWN_SHROOMSPORES.value());
+                output.accept(ModItems.RED_SHROOMSPORES.value());
+                output.accept(ModItems.BLUE_SHROOMSPORES.value());
+                output.accept(ModItems.ORANGE_SHROOMSPORES.value());
+                output.accept(ModItems.PURPLE_SHROOMSPORES.value());
+                output.accept(ModItems.BLUE_SHROOMBOMB.value());
+                output.accept(ModItems.ORANGE_SHROOMBOMB.value());
+                output.accept(ModItems.PURPLE_SHROOMBOMB.value());
+                output.accept(ModItems.SHROOMFIN.value());
+                output.accept(ModItems.COOKED_SHROOMFIN.value());
+                output.accept(ModItems.SHROOMFIN_BUCKET.value());
+                output.accept(Items.MOOSHROOM_SPAWN_EGG);
+                output.accept(ModItems.SHROOMFIN_SPAWN_EGG.value());
+                output.accept(ModItems.CLUCKSHROOM_SPAWN_EGG.value());
+            },
+            false);
     public static final Holder.Reference<EntityDataSerializer<ModMushroomCow.ColorVariant>> MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
             "mushroom_variant",
             () -> EntityDataSerializer.forValueType(ModMushroomCow.ColorVariant.STREAM_CODEC));
-    public static final Holder.Reference<EntityDataSerializer<Holder<MobBlockVariant>>> CLUCKSHROOM_VARIANT_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
+    public static final Holder.Reference<EntityDataSerializer<Holder<MobBlockVariant>>> CLUCKSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
             "cluckshroom_variant",
             () -> EntityDataSerializer.forValueType(MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)));
-    public static final Holder.Reference<EntityDataSerializer<Holder<MobBlockVariant>>> CLUCKBLOOM_VARIANT_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
-            "cluckbloom_variant",
-            () -> EntityDataSerializer.forValueType(MobBlockVariant.streamCodec(CLUCKBLOOM_VARIANT_REGISTRY_KEY)));
-    public static final Holder.Reference<EntityDataSerializer<Holder<MobBlockVariant>>> MOOBLOOM_VARIANT_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
-            "moobloom_variant",
-            () -> EntityDataSerializer.forValueType(MobBlockVariant.streamCodec(MOOBLOOM_VARIANT_REGISTRY_KEY)));
     public static final Holder.Reference<RecipeSerializer<DistinctShapelessRecipe>> DISTINCT_SHAPELESS_RECIPE_SERIALIZER = REGISTRIES.register(
             Registries.RECIPE_SERIALIZER,
             "crafting_shapeless_distinct",

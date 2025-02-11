@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_inventory",
+  "textures": {
+    "texture": "shroomcraft:block/purple_shroomwood_planks"
+  }
+}

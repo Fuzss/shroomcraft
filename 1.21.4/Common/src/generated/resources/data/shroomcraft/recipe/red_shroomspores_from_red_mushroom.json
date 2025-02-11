@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:red_mushroom"
+  ],
+  "result": {
+    "count": 2,
+    "id": "shroomcraft:red_shroomspores"
+  }
+}

@@ -14,7 +14,6 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
 
@@ -57,7 +56,7 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
-        this.add(BlockTags.PLANKS)
+        this.tag(BlockTags.PLANKS)
                 .add(ModBlocks.SHROOMWOOD_PLANKS.value(),
                         ModBlocks.BLUE_SHROOMWOOD_PLANKS.value(),
                         ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value(),
@@ -66,19 +65,19 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
             for (Map.Entry<BlockFamily.Variant, TagKey<Block>> entry : VARIANT_WOODEN_TAGS.entrySet()) {
                 Holder.Reference<Block> block = registrar.getBlock(entry.getKey());
                 if (block != null) {
-                    this.add(entry.getValue()).add(block);
+                    this.tag(entry.getValue()).add(block);
                 }
             }
         });
         ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
             if (registrar.hangingSignBlock() != null) {
-                this.add(BlockTags.CEILING_HANGING_SIGNS).add(registrar.hangingSignBlock());
+                this.tag(BlockTags.CEILING_HANGING_SIGNS).add(registrar.hangingSignBlock());
             }
             if (registrar.wallHangingSignBlock() != null) {
-                this.add(BlockTags.WALL_HANGING_SIGNS).add(registrar.wallHangingSignBlock());
+                this.tag(BlockTags.WALL_HANGING_SIGNS).add(registrar.wallHangingSignBlock());
             }
         });
-        this.add(BlockTags.MINEABLE_WITH_AXE)
+        this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value())
@@ -88,32 +87,36 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                         ModBlocks.BLUE_MUSHROOM_STEM.value(),
                         ModBlocks.ORANGE_MUSHROOM_STEM.value(),
                         ModBlocks.PURPLE_MUSHROOM_STEM.value());
-        this.add(BlockTags.LOGS_THAT_BURN)
+        this.tag(BlockTags.LOGS_THAT_BURN)
                 .addTag(ModRegistry.SHROOMWOOD_LOGS_BLOCK_TAG,
                         ModRegistry.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG,
                         ModRegistry.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG,
                         ModRegistry.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG);
-        this.add(ModRegistry.SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModRegistry.SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_MUSHROOM_STEM.value(), ModBlocks.STRIPPED_MUSHROOM_HYPHAE.value());
-        this.add(ModRegistry.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModRegistry.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(), ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
-        this.add(ModRegistry.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModRegistry.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
                         ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
-        this.add(ModRegistry.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModRegistry.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
                         ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
-        this.add(BlockTags.CROPS)
+        this.tag(BlockTags.CROPS)
                 .add(ModBlocks.TINY_BROWN_MUSHROOM.value(),
                         ModBlocks.TINY_RED_MUSHROOM.value(),
                         ModBlocks.TINY_BLUE_MUSHROOM.value(),
                         ModBlocks.TINY_ORANGE_MUSHROOM.value(),
                         ModBlocks.TINY_PURPLE_MUSHROOM.value());
-        this.add(BlockTags.FLOWER_POTS)
+        this.tag(BlockTags.FLOWER_POTS)
                 .add(ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                         ModBlocks.POTTED_ORANGE_MUSHROOM.value(),
-                        ModBlocks.POTTED_PURPLE_MUSHROOM.value());
-        this.add(BlockTags.ENDERMAN_HOLDABLE)
+                        ModBlocks.POTTED_PURPLE_MUSHROOM.value())
+                .add(ModBlocks.POTTED_MUSHROOM_SPROUTS.value(),
+                        ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value(),
+                        ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value(),
+                        ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value());
+        this.tag(BlockTags.ENDERMAN_HOLDABLE)
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value())
@@ -121,17 +124,17 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                         ModBlocks.BLUE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.PURPLE_MUSHROOM_SPROUTS.value());
-        this.add(BlockTags.REPLACEABLE_BY_TREES)
+        this.tag(BlockTags.REPLACEABLE_BY_TREES)
                 .add(ModBlocks.MUSHROOM_SPROUTS.value(),
                         ModBlocks.BLUE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.PURPLE_MUSHROOM_SPROUTS.value());
-        this.add(BlockTags.COMBINATION_STEP_SOUND_BLOCKS)
+        this.tag(BlockTags.COMBINATION_STEP_SOUND_BLOCKS)
                 .add(ModBlocks.MUSHROOM_SPROUTS.value(),
                         ModBlocks.BLUE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.PURPLE_MUSHROOM_SPROUTS.value());
-        this.add(BlockTags.SWORD_EFFICIENT)
+        this.tag(BlockTags.SWORD_EFFICIENT)
                 .add(ModBlocks.MUSHROOM_SPROUTS.value(),
                         ModBlocks.BLUE_MUSHROOM_SPROUTS.value(),
                         ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(),
@@ -139,6 +142,5 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value());
-        this.add(BlockTags.MOOSHROOMS_SPAWNABLE_ON).add(Blocks.CRIMSON_NYLIUM, Blocks.WARPED_NYLIUM);
     }
 }

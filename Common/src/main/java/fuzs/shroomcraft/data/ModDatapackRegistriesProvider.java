@@ -20,7 +20,7 @@ import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HugeMushroomBlock;
-import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.MultifaceSpreadeableBlock;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
@@ -140,7 +140,7 @@ public class ModDatapackRegistriesProvider extends AbstractDatapackRegistriesPro
         FeatureUtils.register(context,
                 ModFeatures.MYCELIAL_GROWTH_CONFIGURED_FEATURE,
                 Feature.MULTIFACE_GROWTH,
-                new MultifaceGrowthConfiguration((MultifaceBlock) ModBlocks.MYCELIAL_GROWTH.value(),
+                new MultifaceGrowthConfiguration((MultifaceSpreadeableBlock) ModBlocks.MYCELIAL_GROWTH.value(),
                         20,
                         true,
                         true,

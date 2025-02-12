@@ -16,10 +16,10 @@ public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>>
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
-        this.add(EntityTypeTags.AXOLOTL_HUNT_TARGETS).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
-        this.add(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
-        this.add(EntityTypeTags.AQUATIC).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
-        this.add(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
-        this.add(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value());
+        this.tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
+        this.tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
+        this.tag(EntityTypeTags.AQUATIC).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
+        this.tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
+        this.tag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value());
     }
 }

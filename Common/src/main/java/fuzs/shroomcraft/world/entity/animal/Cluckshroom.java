@@ -54,7 +54,7 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         super(entityType, level);
     }
 
-    public static boolean checkMushroomSpawnRules(EntityType<? extends Mob> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean checkCluckshroomSpawnRules(EntityType<? extends Mob> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return level.getBlockState(pos.below()).is(BlockTags.MOOSHROOMS_SPAWNABLE_ON) &&
                 isBrightEnoughToSpawn(level, pos);
     }

@@ -128,6 +128,22 @@ public class ModBlocks {
             "purple_mushroom_sprouts",
             SproutsBlock::new,
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_ROOTS).mapColor(MapColor.TERRACOTTA_PURPLE));
+    public static final Holder.Reference<Block> POTTED_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "potted_mushroom_sprouts",
+            (BlockBehaviour.Properties properties) -> new FlowerPotBlock(MUSHROOM_SPROUTS.value(), properties),
+            Blocks::flowerPotProperties);
+    public static final Holder.Reference<Block> POTTED_BLUE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "potted_blue_mushroom_sprouts",
+            (BlockBehaviour.Properties properties) -> new FlowerPotBlock(BLUE_MUSHROOM_SPROUTS.value(), properties),
+            Blocks::flowerPotProperties);
+    public static final Holder.Reference<Block> POTTED_ORANGE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "potted_orange_mushroom_sprouts",
+            (BlockBehaviour.Properties properties) -> new FlowerPotBlock(ORANGE_MUSHROOM_SPROUTS.value(), properties),
+            Blocks::flowerPotProperties);
+    public static final Holder.Reference<Block> POTTED_PURPLE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
+            "potted_purple_mushroom_sprouts",
+            (BlockBehaviour.Properties properties) -> new FlowerPotBlock(PURPLE_MUSHROOM_SPROUTS.value(), properties),
+            Blocks::flowerPotProperties);
     public static final Holder.Reference<Block> TINY_BROWN_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
             "tiny_brown_mushroom",
             (BlockBehaviour.Properties properties) -> new TinyMushroomCropBlock(properties,

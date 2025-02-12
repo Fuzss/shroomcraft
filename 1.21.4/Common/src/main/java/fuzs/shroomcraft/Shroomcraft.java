@@ -1,7 +1,5 @@
 package fuzs.shroomcraft;
 
-import fuzs.puzzleslib.api.biome.v1.BiomeLoadingPhase;
-import fuzs.puzzleslib.api.core.v1.ContentRegistrationFlags;
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.api.core.v1.context.*;
 import fuzs.puzzleslib.api.core.v1.utility.ResourceLocationHelper;
@@ -10,7 +8,11 @@ import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
 import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
 import fuzs.shroomcraft.handler.AxeStrippingHandler;
-import fuzs.shroomcraft.init.*;
+import fuzs.shroomcraft.handler.BiomeModificationsHandler;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
+import fuzs.shroomcraft.init.ModBlockFamilies;
+import fuzs.shroomcraft.init.ModItems;
+import fuzs.shroomcraft.init.ModRegistry;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
@@ -23,9 +25,7 @@ import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.BlockFamily;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Chicken;
@@ -36,13 +36,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -153,7 +151,7 @@ public class Shroomcraft implements ModConstructor {
         context.registerSpawnPlacement(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                ModMushroomCow::checkCustomMushroomSpawnRules);
+                ModMushroomCow::checkMooshroomSpawnRules);
         context.registerSpawnPlacement(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
@@ -161,12 +159,12 @@ public class Shroomcraft implements ModConstructor {
         context.registerSpawnPlacement(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Cluckshroom::checkMushroomSpawnRules);
+                Cluckshroom::checkCluckshroomSpawnRules);
     }
 
     @Override
     public void onDataPackRegistriesContext(DataPackRegistriesContext context) {
-        context.registerSynced(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
+        context.registerSyncedRegistry(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
     }
 
     @Override
@@ -198,90 +196,7 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterBiomeModifications(BiomeModificationsContext context) {
-        context.register(BiomeLoadingPhase.ADDITIONS,
-                biomeLoadingContext -> biomeLoadingContext.is(Biomes.CRIMSON_FOREST),
-                biomeModificationContext -> {
-                    biomeModificationContext.mobSpawnSettings()
-                            .addSpawn(MobCategory.CREATURE,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                                            8,
-                                            4,
-                                            8));
-                });
-        context.register(BiomeLoadingPhase.ADDITIONS,
-                biomeLoadingContext -> biomeLoadingContext.is(Biomes.WARPED_FOREST),
-                biomeModificationContext -> {
-                    biomeModificationContext.mobSpawnSettings()
-                            .addSpawn(MobCategory.CREATURE,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                                            8,
-                                            4,
-                                            8));
-                });
-        context.register(BiomeLoadingPhase.MODIFICATIONS,
-                biomeLoadingContext -> biomeLoadingContext.is(Biomes.MUSHROOM_FIELDS),
-                biomeModificationContext -> {
-                    biomeModificationContext.generationSettings()
-                            .removeFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    VegetationPlacements.MUSHROOM_ISLAND_VEGETATION);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.MUSHROOM_ISLAND_VEGETATION_PLACED_FEATURE);
-                });
-        context.register(BiomeLoadingPhase.ADDITIONS,
-                biomeLoadingContext -> biomeLoadingContext.is(Biomes.MUSHROOM_FIELDS),
-                biomeModificationContext -> {
-                    biomeModificationContext.mobSpawnSettings()
-                            .addSpawn(MobCategory.CREATURE,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                                            8,
-                                            4,
-                                            8));
-                    biomeModificationContext.mobSpawnSettings()
-                            .addSpawn(MobCategory.WATER_AMBIENT,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
-                                            5,
-                                            1,
-                                            5));
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.MYCELIAL_GROWTH_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.BLUE_MUSHROOM_NORMAL_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.ORANGE_MUSHROOM_NORMAL_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.PURPLE_MUSHROOM_NORMAL_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.BLUE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.ORANGE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.PURPLE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.PATCH_MUSHROOM_SPROUTS_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.PATCH_BLUE_MUSHROOM_SPROUTS_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.PATCH_ORANGE_MUSHROOM_SPROUTS_PLACED_FEATURE);
-                    biomeModificationContext.generationSettings()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    ModFeatures.PATCH_PURPLE_MUSHROOM_SPROUTS_PLACED_FEATURE);
-                });
-    }
-
-    @Override
-    public ContentRegistrationFlags[] getContentRegistrationFlags() {
-        return new ContentRegistrationFlags[]{ContentRegistrationFlags.BIOME_MODIFICATIONS};
+        BiomeModificationsHandler.onRegisterBiomeModifications(context);
     }
 
     public static ResourceLocation id(String path) {

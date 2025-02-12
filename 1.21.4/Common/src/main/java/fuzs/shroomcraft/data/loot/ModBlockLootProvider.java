@@ -68,6 +68,10 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
         this.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
         this.add(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
         this.add(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
+        this.dropPottedContents(ModBlocks.POTTED_MUSHROOM_SPROUTS.value());
+        this.dropPottedContents(ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value());
+        this.dropPottedContents(ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value());
+        this.dropPottedContents(ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value());
         this.dropSelf(ModBlocks.TINY_BROWN_MUSHROOM.value());
         this.dropSelf(ModBlocks.TINY_RED_MUSHROOM.value());
         this.dropSelf(ModBlocks.TINY_BLUE_MUSHROOM.value());

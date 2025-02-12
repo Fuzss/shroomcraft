@@ -1,4 +1,4 @@
-// 1.21.3	2025-01-28T14:17:48.258477	Block Loot Tables
+// 1.21.4	2025-02-12T12:13:25.021199	Block Loot Tables
 1bc038ef2be6b1f1171f63f3e0ab6779e6154240 data/shroomcraft/loot_table/blocks/blue_mushroom.json
 5250b890f45ebbff198dbcbc69dc9d991c8fb6fe data/shroomcraft/loot_table/blocks/blue_mushroom_block.json
 e1c065639edae653a0e3211f2d033fbcebdc4f9a data/shroomcraft/loot_table/blocks/blue_mushroom_sprouts.json
@@ -32,8 +32,12 @@ fdd068ff1bd9392b19e5d30f0717286b4f6bd241 data/shroomcraft/loot_table/blocks/oran
 55875968e4747d95ff969818763e4b0cf85efee4 data/shroomcraft/loot_table/blocks/orange_shroomwood_stairs.json
 8c821e85629191a5f948186fbf4416040a0797f8 data/shroomcraft/loot_table/blocks/orange_shroomwood_trapdoor.json
 fb4867df05e1f961163aa0e8708bf97e56d454a8 data/shroomcraft/loot_table/blocks/potted_blue_mushroom.json
+725c3d77d8d693148d24c61cfb8190d0d3bebfe9 data/shroomcraft/loot_table/blocks/potted_blue_mushroom_sprouts.json
+fa18b767efc559e8fd636424253b68d1606b0cf8 data/shroomcraft/loot_table/blocks/potted_mushroom_sprouts.json
 e1ed8f877f929201f4522a5b4246ed9fbd234f9c data/shroomcraft/loot_table/blocks/potted_orange_mushroom.json
+5fe361e2f683bbd582b0821b3bf451c331008de9 data/shroomcraft/loot_table/blocks/potted_orange_mushroom_sprouts.json
 67886993c58655b8492bb23624965856fab71daf data/shroomcraft/loot_table/blocks/potted_purple_mushroom.json
+3d1be14eb1498b7b391d56c114cb4636bf0cc5a0 data/shroomcraft/loot_table/blocks/potted_purple_mushroom_sprouts.json
 38efa7039f89c94363c2b63a38b1c25b08fb54c2 data/shroomcraft/loot_table/blocks/purple_mushroom.json
 c363dd42246c31d153485431066978c5fcb14fda data/shroomcraft/loot_table/blocks/purple_mushroom_block.json
 97612ff6839de4c63e679399f81839a150169e06 data/shroomcraft/loot_table/blocks/purple_mushroom_sprouts.json

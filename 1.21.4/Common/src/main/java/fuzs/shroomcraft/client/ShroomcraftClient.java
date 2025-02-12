@@ -102,6 +102,11 @@ public class ShroomcraftClient implements ClientModConstructor {
                 ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(),
                 ModBlocks.PURPLE_MUSHROOM_SPROUTS.value());
         context.registerRenderType(RenderType.cutout(),
+                ModBlocks.POTTED_MUSHROOM_SPROUTS.value(),
+                ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value(),
+                ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value(),
+                ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value());
+        context.registerRenderType(RenderType.cutout(),
                 ModBlocks.TINY_BROWN_MUSHROOM.value(),
                 ModBlocks.TINY_RED_MUSHROOM.value(),
                 ModBlocks.TINY_BLUE_MUSHROOM.value(),

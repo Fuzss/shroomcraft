@@ -14,13 +14,13 @@ public class ModCluckshroomVariantTagProvider extends AbstractTagProvider<MobBlo
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
-        this.add(ModRegistry.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
+        this.tag(ModRegistry.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
                 .add(ModRegistry.RED_CLUCKSHROOM_VARIANT,
                         ModRegistry.BROWN_CLUCKSHROOM_VARIANT,
                         ModRegistry.BLUE_CLUCKSHROOM_VARIANT,
                         ModRegistry.ORANGE_CLUCKSHROOM_VARIANT,
                         ModRegistry.PURPLE_CLUCKSHROOM_VARIANT);
-        this.add(ModRegistry.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
+        this.tag(ModRegistry.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
                 .add(ModRegistry.CRIMSON_CLUCKSHROOM_VARIANT, ModRegistry.WARPED_CLUCKSHROOM_VARIANT);
     }
 }

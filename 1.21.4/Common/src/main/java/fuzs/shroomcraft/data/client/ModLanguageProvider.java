@@ -56,6 +56,10 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), "Blue Mushroom Sprouts");
         builder.add(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), "Orange Mushroom Sprouts");
         builder.add(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), "Purple Mushroom Sprouts");
+        builder.add(ModBlocks.POTTED_MUSHROOM_SPROUTS.value(), "Potted Mushroom Sprouts");
+        builder.add(ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value(), "Potted Blue Mushroom Sprouts");
+        builder.add(ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value(), "Potted Orange Mushroom Sprouts");
+        builder.add(ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value(), "Potted Purple Mushroom Sprouts");
         builder.add(ModBlocks.TINY_BROWN_MUSHROOM.value(), "Tiny Brown Mushroom");
         builder.add(ModBlocks.TINY_RED_MUSHROOM.value(), "Tiny Red Mushroom");
         builder.add(ModBlocks.TINY_BLUE_MUSHROOM.value(), "Tiny Blue Mushroom");

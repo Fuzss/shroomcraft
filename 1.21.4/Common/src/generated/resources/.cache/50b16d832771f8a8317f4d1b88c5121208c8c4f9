@@ -1,10 +1,10 @@
-// 1.21.3	2025-01-28T14:17:48.260357	Tags for minecraft:block mod id vanilla
+// 1.21.4	2025-02-12T12:13:25.022516	Tags for minecraft:block mod id vanilla
 f30da5631efe9b0502797a0c96721cc65a66052a data/minecraft/tags/block/ceiling_hanging_signs.json
 ba8c249d55e48773296c1145eca66465ec3da808 data/minecraft/tags/block/combination_step_sound_blocks.json
 260ecdbb26fbbdd044e68554ad3f4e70e5416559 data/minecraft/tags/block/crops.json
 3b08917cc083fe9b0738cb2f7f5eb519bb1f61a2 data/minecraft/tags/block/enderman_holdable.json
 c3c4c303f038accf2b2fb4ed8c0520a90eb79779 data/minecraft/tags/block/fence_gates.json
-4d04104686a41b2fe64e701c5a26dd16267c0349 data/minecraft/tags/block/flower_pots.json
+ded263e9fbdc47cefd86e47e6924de7adf6e187a data/minecraft/tags/block/flower_pots.json
 fb73a0109b48e25b0d18143079a8cd9ff2a0617a data/minecraft/tags/block/logs_that_burn.json
 98a2cb3b6ccaa026eb7f446a34d27af7898dab81 data/minecraft/tags/block/mineable/axe.json
 2bfdd47c936c1bc7e9948da6d2ad59e4cb9a11cb data/minecraft/tags/block/mooshrooms_spawnable_on.json

@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
@@ -64,8 +65,9 @@ public class ModMushroomCow extends MushroomCow {
         super(entityType, level);
     }
 
-    public static boolean checkCustomMushroomSpawnRules(EntityType<? extends MushroomCow> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
-        return checkMushroomSpawnRules((EntityType<MushroomCow>) entityType, level, spawnReason, pos, random);
+    public static boolean checkMooshroomSpawnRules(EntityType<? extends MushroomCow> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+        return checkMushroomSpawnRules((EntityType<MushroomCow>) entityType, level, spawnReason, pos, random) ||
+                level.getBlockState(pos.below()).is(BlockTags.NYLIUM);
     }
 
     public static EventResult onEntitySpawn(Entity entity, ServerLevel serverLevel, @Nullable EntitySpawnReason entitySpawnReason) {

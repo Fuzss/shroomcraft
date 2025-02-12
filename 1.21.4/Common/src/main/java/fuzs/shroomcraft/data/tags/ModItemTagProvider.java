@@ -53,7 +53,7 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
-        this.add(ItemTags.PLANKS)
+        this.tag(ItemTags.PLANKS)
                 .add(ModItems.SHROOMWOOD_PLANKS.value(),
                         ModItems.BLUE_SHROOMWOOD_PLANKS.value(),
                         ModItems.ORANGE_SHROOMWOOD_PLANKS.value(),
@@ -62,29 +62,29 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
             for (Map.Entry<BlockFamily.Variant, TagKey<Item>> entry : VARIANT_WOODEN_TAGS.entrySet()) {
                 Holder.Reference<Item> item = registrar.getItem(entry.getKey());
                 if (item != null) {
-                    this.add(entry.getValue()).add(item);
+                    this.tag(entry.getValue()).add(item);
                 }
             }
         });
-        this.add(ModRegistry.SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModRegistry.SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_MUSHROOM_STEM.value(), ModItems.STRIPPED_MUSHROOM_HYPHAE.value());
-        this.add(ModRegistry.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModRegistry.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value(), ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
-        this.add(ModRegistry.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModRegistry.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value(), ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
-        this.add(ModRegistry.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModRegistry.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value(), ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
         ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            this.add(ItemTags.BOATS).add(registrar.boatItem());
-            this.add(ItemTags.CHEST_BOATS).add(registrar.chestBoatItem());
+            this.tag(ItemTags.BOATS).add(registrar.boatItem());
+            this.tag(ItemTags.CHEST_BOATS).add(registrar.chestBoatItem());
         });
-        this.add(ItemTags.FISHES).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
-        this.add(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
-        this.add(ModRegistry.MUSHROOMS_ITEM_TAG)
+        this.tag(ItemTags.FISHES).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
+        this.tag(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
+        this.tag(ModRegistry.MUSHROOMS_ITEM_TAG)
                 .add(Items.BROWN_MUSHROOM, Items.RED_MUSHROOM, Items.CRIMSON_FUNGUS, Items.WARPED_FUNGUS)
                 .add(ModItems.BLUE_MUSHROOM.value(),
                         ModItems.ORANGE_MUSHROOM.value(),
                         ModItems.PURPLE_MUSHROOM.value());
-        this.add("c:buckets/entity_water").add(ModItems.SHROOMFIN_BUCKET.value());
+        this.tag("c:buckets/entity_water").add(ModItems.SHROOMFIN_BUCKET.value());
     }
 }

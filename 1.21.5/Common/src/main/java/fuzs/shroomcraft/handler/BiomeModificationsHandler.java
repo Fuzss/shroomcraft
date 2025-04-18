@@ -24,20 +24,16 @@ public final class BiomeModificationsHandler {
                 (BiomeModificationContext biomeModificationContext) -> {
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                                            8,
-                                            4,
-                                            8));
+                                    8,
+                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), 4, 8));
                 });
         context.registerBiomeModification(BiomeLoadingPhase.ADDITIONS,
                 (BiomeLoadingContext biomeLoadingContext) -> biomeLoadingContext.is(Biomes.WARPED_FOREST),
                 (BiomeModificationContext biomeModificationContext) -> {
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                                            8,
-                                            4,
-                                            8));
+                                    8,
+                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), 4, 8));
                 });
         context.registerBiomeModification(BiomeLoadingPhase.MODIFICATIONS,
                 (BiomeLoadingContext biomeLoadingContext) -> biomeLoadingContext.is(Biomes.MUSHROOM_FIELDS),
@@ -54,20 +50,16 @@ public final class BiomeModificationsHandler {
                 (BiomeModificationContext biomeModificationContext) -> {
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                                            8,
-                                            4,
-                                            8));
+                                    8,
+                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), 4, 8));
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.WATER_AMBIENT,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
-                                            5,
-                                            1,
-                                            5));
+                                    5,
+                                    new MobSpawnSettings.SpawnerData(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), 1, 5));
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
+                                    8,
                                     new MobSpawnSettings.SpawnerData(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
-                                            8,
                                             4,
                                             8));
                     biomeModificationContext.generationSettings()

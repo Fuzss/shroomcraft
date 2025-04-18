@@ -7,11 +7,12 @@ import net.minecraft.client.model.CowModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -33,13 +34,13 @@ public class ModMushroomCowMushroomLayer extends RenderLayer<ModMushroomCowRende
             if (!renderState.isInvisible || bl) {
                 BlockState blockState = renderState.variant.block.value().defaultBlockState();
                 int i = LivingEntityRenderer.getOverlayCoords(renderState, 0.0F);
-                BakedModel bakedModel = this.blockRenderer.getBlockModel(blockState);
+                BlockStateModel blockStateModel = this.blockRenderer.getBlockModel(blockState);
                 poseStack.pushPose();
                 poseStack.translate(0.2F, -0.35F, 0.5F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-48.0F));
                 poseStack.scale(-1.0F, -1.0F, 1.0F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderMushroomBlock(poseStack, bufferSource, packedLight, bl, blockState, i, bakedModel);
+                this.renderMushroomBlock(poseStack, bufferSource, packedLight, bl, blockState, i, blockStateModel);
                 poseStack.popPose();
                 poseStack.pushPose();
                 poseStack.translate(0.2F, -0.35F, 0.5F);
@@ -48,7 +49,7 @@ public class ModMushroomCowMushroomLayer extends RenderLayer<ModMushroomCowRende
                 poseStack.mulPose(Axis.YP.rotationDegrees(-48.0F));
                 poseStack.scale(-1.0F, -1.0F, 1.0F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderMushroomBlock(poseStack, bufferSource, packedLight, bl, blockState, i, bakedModel);
+                this.renderMushroomBlock(poseStack, bufferSource, packedLight, bl, blockState, i, blockStateModel);
                 poseStack.popPose();
                 poseStack.pushPose();
                 this.getParentModel().getHead().translateAndRotate(poseStack);
@@ -56,26 +57,24 @@ public class ModMushroomCowMushroomLayer extends RenderLayer<ModMushroomCowRende
                 poseStack.mulPose(Axis.YP.rotationDegrees(-78.0F));
                 poseStack.scale(-1.0F, -1.0F, 1.0F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderMushroomBlock(poseStack, bufferSource, packedLight, bl, blockState, i, bakedModel);
+                this.renderMushroomBlock(poseStack, bufferSource, packedLight, bl, blockState, i, blockStateModel);
                 poseStack.popPose();
             }
         }
     }
 
-    private void renderMushroomBlock(PoseStack poseStack, MultiBufferSource buffer, int packedLight, boolean outlineOnly, BlockState state, int packedOverlay, BakedModel model) {
+    private void renderMushroomBlock(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, boolean outlineOnly, BlockState blockState, int packedOverlay, BlockStateModel blockStateModel) {
         if (outlineOnly) {
-            this.blockRenderer.getModelRenderer()
-                    .renderModel(poseStack.last(),
-                            buffer.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)),
-                            state,
-                            model,
-                            0.0F,
-                            0.0F,
-                            0.0F,
-                            packedLight,
-                            packedOverlay);
+            ModelBlockRenderer.renderModel(poseStack.last(),
+                    multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)),
+                    blockStateModel,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    packedLight,
+                    packedOverlay);
         } else {
-            this.blockRenderer.renderSingleBlock(state, poseStack, buffer, packedLight, packedOverlay);
+            this.blockRenderer.renderSingleBlock(blockState, poseStack, multiBufferSource, packedLight, packedOverlay);
         }
     }
 }

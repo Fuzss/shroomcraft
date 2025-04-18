@@ -54,9 +54,9 @@ public class CluckshroomRenderer extends AgeableMobRenderer<Cluckshroom, Clucksh
         super.extractRenderState(cluckshroom, cluckshroomRenderState, partialTick);
         cluckshroomRenderState.flap = Mth.lerp(partialTick, cluckshroom.oFlap, cluckshroom.flap);
         cluckshroomRenderState.flapSpeed = Mth.lerp(partialTick, cluckshroom.oFlapSpeed, cluckshroom.flapSpeed);
-        cluckshroomRenderState.textureLocation = MobBlockVariant.transformTextureLocation(cluckshroom.getVariant()
+        cluckshroomRenderState.textureLocation = MobBlockVariant.transformTextureLocation(cluckshroom.getBlockVariant()
                 .value()
                 .textureLocation());
-        cluckshroomRenderState.blockState = cluckshroom.getVariant().value().blockState();
+        cluckshroomRenderState.blockState = cluckshroom.getBlockVariant().value().blockState();
     }
 }

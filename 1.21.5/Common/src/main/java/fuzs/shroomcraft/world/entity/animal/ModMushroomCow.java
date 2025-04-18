@@ -2,17 +2,19 @@ package fuzs.shroomcraft.world.entity.animal;
 
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
+import fuzs.puzzleslib.api.network.v4.codec.ExtraStreamCodecs;
+import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,7 +23,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ByIdMap;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
@@ -48,10 +49,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.IntFunction;
 
 public class ModMushroomCow extends MushroomCow {
-    private static final EntityDataAccessor<ColorVariant> DATA_TYPE = SynchedEntityData.defineId(ModMushroomCow.class,
+    private static final EntityDataAccessor<ColorVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(ModMushroomCow.class,
             ModRegistry.MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
     private static final Set<EntitySpawnReason> VALID_SPAWN_REASONS = Set.of(EntitySpawnReason.SPAWNER,
             EntitySpawnReason.TRIAL_SPAWNER,
@@ -139,7 +139,7 @@ public class ModMushroomCow extends MushroomCow {
             if (!mob2.isBaby()) {
                 return Optional.empty();
             } else {
-                mob2.moveTo(pos.x(), pos.y(), pos.z(), 0.0F, 0.0F);
+                mob2.snapTo(pos.x(), pos.y(), pos.z(), 0.0F, 0.0F);
                 serverLevel.addFreshEntityWithPassengers(mob2);
                 mob2.setCustomName(stack.get(DataComponents.CUSTOM_NAME));
                 stack.consume(1, player);
@@ -160,7 +160,7 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_TYPE, ColorVariant.BLUE);
+        builder.define(DATA_VARIANT_ID, ColorVariant.BLUE);
     }
 
     @Override
@@ -217,19 +217,18 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        ColorVariant.CODEC.encodeStart(NbtOps.INSTANCE, this.getColorVariant())
-                .ifSuccess((Tag tagX) -> tag.put("color_variant", tagX));
+        tag.store(Shroomcraft.id("variant").toString(),
+                ColorVariant.CODEC,
+                this.registryAccess().createSerializationContext(NbtOps.INSTANCE),
+                this.getColorVariant());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        ColorVariant.CODEC.parse(NbtOps.INSTANCE, tag.get("color_variant")).ifSuccess(this::setColorVariant);
-    }
-
-    @Override
-    public void setVariant(MushroomCow.Variant variant) {
-        // NO-OP
+        tag.read(Shroomcraft.id("variant").toString(),
+                ColorVariant.CODEC,
+                this.registryAccess().createSerializationContext(NbtOps.INSTANCE)).ifPresent(this::setColorVariant);
     }
 
     @Override
@@ -238,11 +237,36 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     public void setColorVariant(ColorVariant colorVariant) {
-        this.entityData.set(DATA_TYPE, colorVariant);
+        this.entityData.set(DATA_VARIANT_ID, colorVariant);
     }
 
     public ColorVariant getColorVariant() {
-        return this.entityData.get(DATA_TYPE);
+        return this.entityData.get(DATA_VARIANT_ID);
+    }
+
+    @Nullable
+    @Override
+    public <T> T get(DataComponentType<? extends T> dataComponentType) {
+        return dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value() ?
+                castComponentValue((DataComponentType<T>) dataComponentType, this.getColorVariant()) :
+                super.get(dataComponentType);
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
+        this.applyImplicitComponentIfPresent(dataComponentGetter,
+                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value());
+        super.applyImplicitComponents(dataComponentGetter);
+    }
+
+    @Override
+    protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
+        if (dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value()) {
+            this.setColorVariant(castComponentValue(ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(), object));
+            return true;
+        } else {
+            return super.applyImplicitComponent(dataComponentType, object);
+        }
     }
 
     @Nullable
@@ -288,11 +312,7 @@ public class ModMushroomCow extends MushroomCow {
 
         public static final StringRepresentable.StringRepresentableCodec<ColorVariant> CODEC = StringRepresentable.fromEnum(
                 ColorVariant::values);
-        public static final IntFunction<ColorVariant> BY_ID = ByIdMap.continuous(ColorVariant::ordinal,
-                values(),
-                ByIdMap.OutOfBoundsStrategy.WRAP);
-        public static final StreamCodec<ByteBuf, ColorVariant> STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID,
-                ColorVariant::ordinal);
+        public static final StreamCodec<ByteBuf, ColorVariant> STREAM_CODEC = ExtraStreamCodecs.fromEnum(ColorVariant.class);
 
         private final int typeIndex;
         public final Holder<Block> block;

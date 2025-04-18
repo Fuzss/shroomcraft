@@ -100,5 +100,8 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModItems.BLUE_SHROOMBOMB.value(), "Blue Shroombomb");
         builder.add(ModItems.ORANGE_SHROOMBOMB.value(), "Orange Shroombomb");
         builder.add(ModItems.PURPLE_SHROOMBOMB.value(), "Purple Shroombomb");
+        builder.add(ModItems.BLUE_SHROOMBOMB.value(), "effect.empty", "Blue Shroombomb");
+        builder.add(ModItems.ORANGE_SHROOMBOMB.value(), "effect.empty", "Orange Shroombomb");
+        builder.add(ModItems.PURPLE_SHROOMBOMB.value(), "effect.empty", "Purple Shroombomb");
     }
 }

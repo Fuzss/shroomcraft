@@ -1,10 +1,10 @@
 package fuzs.shroomcraft.client;
 
-import fuzs.puzzleslib.api.client.core.v1.ClientAbstractions;
 import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.api.client.core.v1.context.EntityRenderersContext;
 import fuzs.puzzleslib.api.client.core.v1.context.LayerDefinitionsContext;
 import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
+import fuzs.puzzleslib.api.client.init.v1.ClientWoodTypeRegistry;
 import fuzs.shroomcraft.client.init.ModModelLayers;
 import fuzs.shroomcraft.client.model.ShroomfinModel;
 import fuzs.shroomcraft.client.renderer.entity.CluckshroomRenderer;
@@ -32,7 +32,7 @@ public class ShroomcraftClient implements ClientModConstructor {
     public void onClientSetup() {
         ModBlockFamilies.getAllFamilyRegistrars()
                 .map(BlockFamilyRegistrar::getWoodType)
-                .forEach(ClientAbstractions.INSTANCE::registerWoodType);
+                .forEach(ClientWoodTypeRegistry::registerWoodType);
     }
 
     @Override

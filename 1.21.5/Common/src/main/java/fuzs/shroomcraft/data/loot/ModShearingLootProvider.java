@@ -6,7 +6,9 @@ import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
+import net.minecraft.advancements.critereon.DataComponentMatchers;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.core.component.DataComponentExactPredicate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -32,28 +34,42 @@ public class ModShearingLootProvider extends AbstractLootProvider.Simple {
                                 .add(AlternativesEntry.alternatives(NestedLootTable.lootTableReference(ModRegistry.SHEAR_BLUE_MOOSHROOM_LOOT_TABLE)
                                                 .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
                                                         EntityPredicate.Builder.entity()
-                                                                .subPredicate(ModRegistry.MOOSHROOM_ENTITY_SUB_PREDICATE.createPredicate(
-                                                                        ModMushroomCow.ColorVariant.BLUE)))),
+                                                                .components(DataComponentMatchers.Builder.components()
+                                                                        .exact(DataComponentExactPredicate.expect(ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+                                                                                ModMushroomCow.ColorVariant.BLUE))
+                                                                        .build()))),
                                         NestedLootTable.lootTableReference(ModRegistry.SHEAR_ORANGE_MOOSHROOM_LOOT_TABLE)
                                                 .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
                                                         EntityPredicate.Builder.entity()
-                                                                .subPredicate(ModRegistry.MOOSHROOM_ENTITY_SUB_PREDICATE.createPredicate(
-                                                                        ModMushroomCow.ColorVariant.ORANGE)))),
+                                                                .components(DataComponentMatchers.Builder.components()
+                                                                        .exact(DataComponentExactPredicate.expect(
+                                                                                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+                                                                                ModMushroomCow.ColorVariant.ORANGE))
+                                                                        .build()))),
                                         NestedLootTable.lootTableReference(ModRegistry.SHEAR_PURPLE_MOOSHROOM_LOOT_TABLE)
                                                 .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
                                                         EntityPredicate.Builder.entity()
-                                                                .subPredicate(ModRegistry.MOOSHROOM_ENTITY_SUB_PREDICATE.createPredicate(
-                                                                        ModMushroomCow.ColorVariant.PURPLE)))),
+                                                                .components(DataComponentMatchers.Builder.components()
+                                                                        .exact(DataComponentExactPredicate.expect(
+                                                                                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+                                                                                ModMushroomCow.ColorVariant.PURPLE))
+                                                                        .build()))),
                                         NestedLootTable.lootTableReference(ModRegistry.SHEAR_CRIMSON_MOOSHROOM_LOOT_TABLE)
                                                 .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
                                                         EntityPredicate.Builder.entity()
-                                                                .subPredicate(ModRegistry.MOOSHROOM_ENTITY_SUB_PREDICATE.createPredicate(
-                                                                        ModMushroomCow.ColorVariant.CRIMSON)))),
+                                                                .components(DataComponentMatchers.Builder.components()
+                                                                        .exact(DataComponentExactPredicate.expect(
+                                                                                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+                                                                                ModMushroomCow.ColorVariant.CRIMSON))
+                                                                        .build()))),
                                         NestedLootTable.lootTableReference(ModRegistry.SHEAR_WARPED_MOOSHROOM_LOOT_TABLE)
                                                 .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
                                                         EntityPredicate.Builder.entity()
-                                                                .subPredicate(ModRegistry.MOOSHROOM_ENTITY_SUB_PREDICATE.createPredicate(
-                                                                        ModMushroomCow.ColorVariant.WARPED))))))));
+                                                                .components(DataComponentMatchers.Builder.components()
+                                                                        .exact(DataComponentExactPredicate.expect(
+                                                                                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+                                                                                ModMushroomCow.ColorVariant.WARPED))
+                                                                        .build())))))));
         this.add(ModRegistry.SHEAR_BLUE_MOOSHROOM_LOOT_TABLE,
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()

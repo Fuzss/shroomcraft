@@ -3,10 +3,7 @@ package fuzs.shroomcraft.data;
 import fuzs.puzzleslib.api.data.v2.AbstractRecipeProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
-import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModItems;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.*;
 import fuzs.shroomcraft.world.item.crafting.DistinctShapelessRecipe;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
@@ -24,10 +21,10 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
     @Override
     public void addRecipes(RecipeOutput recipeOutput) {
         this.generateForBlockFamilies(ModBlockFamilies.getAllFamilies());
-        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModRegistry.SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModRegistry.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModRegistry.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModRegistry.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.woodFromLogs(ModItems.STRIPPED_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_MUSHROOM_STEM.value());
         this.woodFromLogs(ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
         this.woodFromLogs(ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value(),
@@ -47,12 +44,12 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         });
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
         ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
-                .requires(ModRegistry.MUSHROOMS_ITEM_TAG)
-                .requires(ModRegistry.MUSHROOMS_ITEM_TAG)
+                .requires(ModTags.MUSHROOMS_ITEM_TAG)
+                .requires(ModTags.MUSHROOMS_ITEM_TAG)
                 .requires(Items.BOWL)
                 .unlockedBy(getHasName(Items.MUSHROOM_STEW), this.has(Items.MUSHROOM_STEW))
                 .unlockedBy(getHasName(Items.BOWL), this.has(Items.BOWL))
-                .unlockedBy(getHasName(ModRegistry.MUSHROOMS_ITEM_TAG), this.has(ModRegistry.MUSHROOMS_ITEM_TAG))
+                .unlockedBy(getHasName(ModTags.MUSHROOMS_ITEM_TAG), this.has(ModTags.MUSHROOMS_ITEM_TAG))
                 .save(new TransformingRecipeOutput(this.output,
                         (Recipe<?> recipe) -> new DistinctShapelessRecipe((ShapelessRecipe) recipe)));
         this.shroombomb(ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());

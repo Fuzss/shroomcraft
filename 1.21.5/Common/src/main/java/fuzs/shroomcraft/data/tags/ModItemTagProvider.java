@@ -3,10 +3,7 @@ package fuzs.shroomcraft.data.tags;
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
-import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModItems;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -66,13 +63,13 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
                 }
             }
         });
-        this.tag(ModRegistry.SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_MUSHROOM_STEM.value(), ModItems.STRIPPED_MUSHROOM_HYPHAE.value());
-        this.tag(ModRegistry.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value(), ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
-        this.tag(ModRegistry.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value(), ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
-        this.tag(ModRegistry.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value(), ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
         ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
             this.tag(ItemTags.BOATS).add(registrar.boatItem());
@@ -80,7 +77,7 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
         });
         this.tag(ItemTags.FISHES).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
         this.tag(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
-        this.tag(ModRegistry.MUSHROOMS_ITEM_TAG)
+        this.tag(ModTags.MUSHROOMS_ITEM_TAG)
                 .add(Items.BROWN_MUSHROOM, Items.RED_MUSHROOM, Items.CRIMSON_FUNGUS, Items.WARPED_FUNGUS)
                 .add(ModItems.BLUE_MUSHROOM.value(),
                         ModItems.ORANGE_MUSHROOM.value(),

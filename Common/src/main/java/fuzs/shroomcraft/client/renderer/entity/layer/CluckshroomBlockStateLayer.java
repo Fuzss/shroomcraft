@@ -7,11 +7,12 @@ import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderState, ChickenModel> {
@@ -29,54 +30,54 @@ public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderSta
             if (!renderState.isInvisible || outlineOnly) {
                 BlockState blockState = renderState.blockState;
                 int overlayCoords = LivingEntityRenderer.getOverlayCoords(renderState, 0.0F);
-                BakedModel bakedModel = this.blockRenderer.getBlockModel(blockState);
-
+                BlockStateModel blockStateModel = this.blockRenderer.getBlockModel(blockState);
                 poseStack.pushPose();
                 poseStack.translate(-0.03F, 0.58F, 0.09F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-6.0F));
                 poseStack.scale(-0.5F, -0.5F, 0.5F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderBlockState(poseStack,
+                this.renderMushroomBlock(poseStack,
                         bufferSource,
                         packedLight,
                         outlineOnly,
                         blockState,
                         overlayCoords,
-                        bakedModel);
+                        blockStateModel);
                 poseStack.popPose();
-
                 poseStack.pushPose();
                 this.getParentModel().head.translateAndRotate(poseStack);
                 poseStack.translate(0.03F, -0.6F, -0.03F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-48.0F));
                 poseStack.scale(-0.5F, -0.5F, 0.5F);
                 poseStack.translate(-0.5F, -0.5F, -0.5F);
-                this.renderBlockState(poseStack,
+                this.renderMushroomBlock(poseStack,
                         bufferSource,
                         packedLight,
                         outlineOnly,
                         blockState,
                         overlayCoords,
-                        bakedModel);
+                        blockStateModel);
                 poseStack.popPose();
             }
         }
     }
 
-    private void renderBlockState(PoseStack poseStack, MultiBufferSource buffer, int packedLight, boolean outlineOnly, BlockState blockState, int packedOverlay, BakedModel model) {
+    /**
+     * @see net.minecraft.client.renderer.entity.layers.MushroomCowMushroomLayer#renderMushroomBlock(PoseStack,
+     *         MultiBufferSource, int, boolean, BlockState, int, BlockStateModel)
+     */
+    private void renderMushroomBlock(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, boolean outlineOnly, BlockState blockState, int packedOverlay, BlockStateModel blockStateModel) {
         if (outlineOnly) {
-            this.blockRenderer.getModelRenderer()
-                    .renderModel(poseStack.last(),
-                            buffer.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)),
-                            blockState,
-                            model,
-                            0.0F,
-                            0.0F,
-                            0.0F,
-                            packedLight,
-                            packedOverlay);
+            ModelBlockRenderer.renderModel(poseStack.last(),
+                    multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)),
+                    blockStateModel,
+                    0.0F,
+                    0.0F,
+                    0.0F,
+                    packedLight,
+                    packedOverlay);
         } else {
-            this.blockRenderer.renderSingleBlock(blockState, poseStack, buffer, packedLight, packedOverlay);
+            this.blockRenderer.renderSingleBlock(blockState, poseStack, multiBufferSource, packedLight, packedOverlay);
         }
     }
 }

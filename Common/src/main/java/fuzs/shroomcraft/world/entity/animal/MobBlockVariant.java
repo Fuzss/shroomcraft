@@ -10,7 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.RegistryFileCodec;
+import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -59,11 +59,11 @@ public record MobBlockVariant(ResourceLocation textureLocation,
     }
 
     public static Codec<Holder<MobBlockVariant>> codec(ResourceKey<Registry<MobBlockVariant>> registryKey) {
-        return RegistryFileCodec.create(registryKey, DIRECT_CODEC);
+        return RegistryFixedCodec.create(registryKey);
     }
 
     public static StreamCodec<RegistryFriendlyByteBuf, Holder<MobBlockVariant>> streamCodec(ResourceKey<Registry<MobBlockVariant>> registryKey) {
-        return ByteBufCodecs.holder(registryKey, DIRECT_STREAM_CODEC);
+        return ByteBufCodecs.holderRegistry(registryKey);
     }
 
     public static ResourceLocation transformTextureLocation(ResourceLocation resourceLocation) {

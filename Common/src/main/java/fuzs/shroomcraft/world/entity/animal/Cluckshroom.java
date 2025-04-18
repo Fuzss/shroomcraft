@@ -1,15 +1,17 @@
 package fuzs.shroomcraft.world.entity.animal;
 
-import fuzs.puzzleslib.api.core.v1.CommonAbstractions;
+import fuzs.puzzleslib.api.entity.v1.EntityHelper;
+import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
@@ -43,8 +46,9 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Holder<MobBlockVariant>> {
-    private static final EntityDataAccessor<Holder<MobBlockVariant>> DATA_TYPE = SynchedEntityData.defineId(Cluckshroom.class,
+public class Cluckshroom extends Chicken implements Shearable {
+    private static final EntityDataAccessor<Holder<MobBlockVariant>> DATA_VARIANT_ID = SynchedEntityData.defineId(
+            Cluckshroom.class,
             ModRegistry.CLUCKSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
 
     @Nullable
@@ -71,7 +75,8 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         super.defineSynchedData(builder);
         Registry<MobBlockVariant> registry = this.registryAccess()
                 .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
-        builder.define(DATA_TYPE, registry.get(ModRegistry.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
+        builder.define(DATA_VARIANT_ID,
+                registry.get(ModRegistry.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
     }
 
     @Override
@@ -117,7 +122,7 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
             spawnGroupData = new MobBlockVariantGroupData(variant);
         }
 
-        this.setVariant(variant);
+        this.setBlockVariant(variant);
         return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
     }
 
@@ -149,8 +154,8 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         if (!uuid.equals(this.lastLightningBoltUUID)) {
             Registry<MobBlockVariant> registry = this.registryAccess()
                     .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
-            int newIndex = (registry.getIdOrThrow(this.getVariant().value()) + 1) % registry.size();
-            this.setVariant(registry.get(newIndex).orElseThrow(NoSuchElementException::new));
+            int newIndex = (registry.getIdOrThrow(this.getBlockVariant().value()) + 1) % registry.size();
+            this.setBlockVariant(registry.get(newIndex).orElseThrow(NoSuchElementException::new));
             this.lastLightningBoltUUID = uuid;
             this.playSound(SoundEvents.MOOSHROOM_CONVERT, 2.0F, 1.0F);
         }
@@ -170,7 +175,7 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
                     0.0,
                     0.0);
             this.dropFromShearingLootTable(level,
-                    this.getVariant().value().shearingLootTable(),
+                    this.getBlockVariant().value().shearingLootTable(),
                     shears,
                     (serverLevelx, itemStackx) -> {
                         for (int i = 0; i < itemStackx.getCount(); i++) {
@@ -189,30 +194,60 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
         return this.isAlive() && !this.isBaby();
     }
 
-    @Override
-    public void setVariant(Holder<MobBlockVariant> variant) {
-        this.entityData.set(DATA_TYPE, variant);
+    public void setBlockVariant(Holder<MobBlockVariant> variant) {
+        this.entityData.set(DATA_VARIANT_ID, variant);
     }
 
-    @Override
-    public Holder<MobBlockVariant> getVariant() {
-        return this.entityData.get(DATA_TYPE);
+    public Holder<MobBlockVariant> getBlockVariant() {
+        return this.entityData.get(DATA_VARIANT_ID);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY)
-                .encodeStart(NbtOps.INSTANCE, this.getVariant())
-                .ifSuccess((Tag tagX) -> tag.put("variant", tagX));
+        tag.store(Shroomcraft.id("variant").toString(),
+                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
+                this.registryAccess().createSerializationContext(NbtOps.INSTANCE),
+                this.getBlockVariant());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY)
-                .parse(NbtOps.INSTANCE, tag.get("variant"))
-                .ifSuccess(this::setVariant);
+        tag.read(Shroomcraft.id("variant").toString(),
+                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
+                this.registryAccess().createSerializationContext(NbtOps.INSTANCE)).ifPresent(this::setBlockVariant);
+    }
+
+    @Nullable
+    @Override
+    public <T> T get(DataComponentType<? extends T> dataComponentType) {
+        return dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value() ?
+                castComponentValue((DataComponentType<T>) dataComponentType,
+                        new EitherHolder<>(this.getBlockVariant())) : super.get(dataComponentType);
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
+        this.applyImplicitComponentIfPresent(dataComponentGetter,
+                ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value());
+        super.applyImplicitComponents(dataComponentGetter);
+    }
+
+    @Override
+    protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
+        if (dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value()) {
+            Optional<Holder<MobBlockVariant>> optional = castComponentValue(ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value(),
+                    object).unwrap(this.registryAccess());
+            if (optional.isPresent()) {
+                this.setBlockVariant(optional.get());
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return super.applyImplicitComponent(dataComponentType, object);
+        }
     }
 
     @Nullable
@@ -220,7 +255,7 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
     public Cluckshroom getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         Cluckshroom cluckshroom = (Cluckshroom) this.getType().create(level, EntitySpawnReason.BREEDING);
         if (cluckshroom != null) {
-            cluckshroom.setVariant(this.getVariant());
+            cluckshroom.setBlockVariant(this.getBlockVariant());
         }
 
         return cluckshroom;
@@ -241,20 +276,18 @@ public class Cluckshroom extends Chicken implements Shearable, VariantHolder<Hol
 
     public static class CluckshroomRandomStrollGoal extends WaterAvoidingRandomStrollGoal {
 
-        public <T extends PathfinderMob & VariantHolder<Holder<MobBlockVariant>>> CluckshroomRandomStrollGoal(T mob, double speedModifier) {
-            super(mob, speedModifier);
+        public CluckshroomRandomStrollGoal(Cluckshroom cluckshroom, double speedModifier) {
+            super(cluckshroom, speedModifier);
         }
 
         @Override
         public void tick() {
             ServerLevel serverLevel = getServerLevel(this.mob);
-            if (CommonAbstractions.INSTANCE.getMobGriefingRule(serverLevel, this.mob)) {
+            if (EntityHelper.isMobGriefingAllowed(serverLevel, this.mob)) {
                 if (!this.mob.isBaby() && serverLevel.random.nextInt(1000) == 0 &&
                         this.mob.getDeltaMovement().lengthSqr() > 1.0E-5F) {
                     BlockPos blockPos = this.mob.blockPosition();
-                    BlockState blockState = ((VariantHolder<Holder<MobBlockVariant>>) this.mob).getVariant()
-                            .value()
-                            .blockState();
+                    BlockState blockState = ((Cluckshroom) this.mob).getBlockVariant().value().blockState();
                     if (serverLevel.getBlockState(blockPos).isAir() && blockState.canSurvive(serverLevel, blockPos)) {
                         serverLevel.setBlockAndUpdate(blockPos, blockState);
                         SoundType soundType = blockState.getSoundType();

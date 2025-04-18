@@ -140,10 +140,10 @@ public class Shroomcraft implements ModConstructor {
     }
 
     @Override
-    public void onEntityAttributeCreation(EntityAttributesCreateContext context) {
-        context.registerEntityAttributes(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
-        context.registerEntityAttributes(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
-        context.registerEntityAttributes(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
+    public void onRegisterEntityAttributes(EntityAttributesContext context) {
+        context.registerAttributes(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
+        context.registerAttributes(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
+        context.registerAttributes(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
     }
 
     @Override
@@ -163,35 +163,31 @@ public class Shroomcraft implements ModConstructor {
     }
 
     @Override
-    public void onDataPackRegistriesContext(DataPackRegistriesContext context) {
-        context.registerSyncedRegistry(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
+    public void onRegisterGameplayContent(GameplayContentContext context) {
+        context.registerCompostable(ModItems.BROWN_SHROOMSPORES, 0.3F);
+        context.registerCompostable(ModItems.RED_SHROOMSPORES, 0.3F);
+        context.registerCompostable(ModItems.BLUE_SHROOMSPORES, 0.3F);
+        context.registerCompostable(ModItems.ORANGE_SHROOMSPORES, 0.3F);
+        context.registerCompostable(ModItems.PURPLE_SHROOMSPORES, 0.3F);
+        context.registerCompostable(ModItems.MYCELIAL_GROWTH, 0.5F);
+        context.registerCompostable(ModItems.MUSHROOM_SPROUTS, 0.5F);
+        context.registerCompostable(ModItems.BLUE_MUSHROOM_SPROUTS, 0.5F);
+        context.registerCompostable(ModItems.ORANGE_MUSHROOM_SPROUTS, 0.5F);
+        context.registerCompostable(ModItems.PURPLE_MUSHROOM_SPROUTS, 0.5F);
+        context.registerCompostable(ModItems.BLUE_MUSHROOM, 0.65F);
+        context.registerCompostable(ModItems.ORANGE_MUSHROOM, 0.65F);
+        context.registerCompostable(ModItems.PURPLE_MUSHROOM, 0.65F);
+        context.registerCompostable(ModItems.BLUE_MUSHROOM_STEM, 0.65F);
+        context.registerCompostable(ModItems.ORANGE_MUSHROOM_STEM, 0.65F);
+        context.registerCompostable(ModItems.PURPLE_MUSHROOM_STEM, 0.65F);
+        context.registerCompostable(ModItems.BLUE_MUSHROOM_BLOCK, 0.85F);
+        context.registerCompostable(ModItems.ORANGE_MUSHROOM_BLOCK, 0.85F);
+        context.registerCompostable(ModItems.PURPLE_MUSHROOM_BLOCK, 0.85F);
     }
 
     @Override
-    public void onRegisterCompostableBlocks(CompostableBlocksContext context) {
-        context.registerCompostable(0.3F,
-                ModItems.BROWN_SHROOMSPORES,
-                ModItems.RED_SHROOMSPORES,
-                ModItems.BLUE_SHROOMSPORES,
-                ModItems.ORANGE_SHROOMSPORES,
-                ModItems.PURPLE_SHROOMSPORES);
-        context.registerCompostable(0.5F,
-                ModItems.MYCELIAL_GROWTH,
-                ModItems.MUSHROOM_SPROUTS,
-                ModItems.BLUE_MUSHROOM_SPROUTS,
-                ModItems.ORANGE_MUSHROOM_SPROUTS,
-                ModItems.PURPLE_MUSHROOM_SPROUTS);
-        context.registerCompostable(0.65F,
-                ModItems.BLUE_MUSHROOM,
-                ModItems.ORANGE_MUSHROOM,
-                ModItems.PURPLE_MUSHROOM,
-                ModItems.BLUE_MUSHROOM_STEM,
-                ModItems.ORANGE_MUSHROOM_STEM,
-                ModItems.PURPLE_MUSHROOM_STEM);
-        context.registerCompostable(0.85F,
-                ModItems.BLUE_MUSHROOM_BLOCK,
-                ModItems.ORANGE_MUSHROOM_BLOCK,
-                ModItems.PURPLE_MUSHROOM_BLOCK);
+    public void onRegisterDataPackRegistriesContext(DataPackRegistriesContext context) {
+        context.registerSyncedRegistry(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
     }
 
     @Override

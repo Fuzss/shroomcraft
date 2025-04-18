@@ -14,9 +14,8 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type_specific": {
-                      "type": "shroomcraft:mooshroom",
-                      "variant": "blue"
+                    "components": {
+                      "shroomcraft:mooshroom/variant": "blue"
                     }
                   }
                 }
@@ -30,9 +29,8 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type_specific": {
-                      "type": "shroomcraft:mooshroom",
-                      "variant": "orange"
+                    "components": {
+                      "shroomcraft:mooshroom/variant": "orange"
                     }
                   }
                 }
@@ -46,9 +44,8 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type_specific": {
-                      "type": "shroomcraft:mooshroom",
-                      "variant": "purple"
+                    "components": {
+                      "shroomcraft:mooshroom/variant": "purple"
                     }
                   }
                 }
@@ -62,9 +59,8 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type_specific": {
-                      "type": "shroomcraft:mooshroom",
-                      "variant": "crimson"
+                    "components": {
+                      "shroomcraft:mooshroom/variant": "crimson"
                     }
                   }
                 }
@@ -78,9 +74,8 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type_specific": {
-                      "type": "shroomcraft:mooshroom",
-                      "variant": "warped"
+                    "components": {
+                      "shroomcraft:mooshroom/variant": "warped"
                     }
                   }
                 }

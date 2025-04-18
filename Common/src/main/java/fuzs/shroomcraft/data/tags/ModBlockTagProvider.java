@@ -3,10 +3,7 @@ package fuzs.shroomcraft.data.tags;
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
-import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModBlocks;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -88,18 +85,18 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                         ModBlocks.ORANGE_MUSHROOM_STEM.value(),
                         ModBlocks.PURPLE_MUSHROOM_STEM.value());
         this.tag(BlockTags.LOGS_THAT_BURN)
-                .addTag(ModRegistry.SHROOMWOOD_LOGS_BLOCK_TAG,
-                        ModRegistry.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG,
-                        ModRegistry.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG,
-                        ModRegistry.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG);
-        this.tag(ModRegistry.SHROOMWOOD_LOGS_BLOCK_TAG)
+                .addTag(ModTags.SHROOMWOOD_LOGS_BLOCK_TAG,
+                        ModTags.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG,
+                        ModTags.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG,
+                        ModTags.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG);
+        this.tag(ModTags.SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_MUSHROOM_STEM.value(), ModBlocks.STRIPPED_MUSHROOM_HYPHAE.value());
-        this.tag(ModRegistry.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModTags.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(), ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
-        this.tag(ModRegistry.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModTags.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
                         ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
-        this.tag(ModRegistry.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModTags.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
                         ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
         this.tag(BlockTags.CROPS)

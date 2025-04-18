@@ -5,6 +5,7 @@ import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.api.network.v4.codec.ExtraStreamCodecs;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
+import fuzs.shroomcraft.init.ModLootTables;
 import fuzs.shroomcraft.init.ModRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.Util;
@@ -209,7 +210,7 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> lootTable, ItemStack shears, BiConsumer<ServerLevel, ItemStack> dropConsumer) {
         super.dropFromShearingLootTable(level,
-                lootTable == BuiltInLootTables.SHEAR_MOOSHROOM ? ModRegistry.SHEAR_MOOSHROOM_LOOT_TABLE : lootTable,
+                lootTable == BuiltInLootTables.SHEAR_MOOSHROOM ? ModLootTables.SHEAR_MOOSHROOM_LOOT_TABLE : lootTable,
                 shears,
                 dropConsumer);
     }

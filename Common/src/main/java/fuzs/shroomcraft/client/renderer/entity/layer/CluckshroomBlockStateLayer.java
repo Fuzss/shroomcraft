@@ -31,6 +31,7 @@ public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderSta
                 BlockState blockState = renderState.blockState;
                 int overlayCoords = LivingEntityRenderer.getOverlayCoords(renderState, 0.0F);
                 BlockStateModel blockStateModel = this.blockRenderer.getBlockModel(blockState);
+
                 poseStack.pushPose();
                 poseStack.translate(-0.03F, 0.58F, 0.09F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(-6.0F));
@@ -44,6 +45,7 @@ public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderSta
                         overlayCoords,
                         blockStateModel);
                 poseStack.popPose();
+
                 poseStack.pushPose();
                 this.getParentModel().head.translateAndRotate(poseStack);
                 poseStack.translate(0.03F, -0.6F, -0.03F);

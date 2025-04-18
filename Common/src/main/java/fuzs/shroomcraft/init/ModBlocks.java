@@ -10,19 +10,19 @@ import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
     public static final Holder.Reference<Block> BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("blue_mushroom",
-            (BlockBehaviour.Properties properties) -> new MushroomBlock(ModFeatures.HUGE_BLUE_MUSHROOM_CONFIGURED_FEATURE,
+            (BlockBehaviour.Properties properties) -> new MushroomBlock(ModConfiguredFeatures.HUGE_BLUE_MUSHROOM_CONFIGURED_FEATURE,
                     properties),
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                     .mapColor(MapColor.COLOR_BLUE)
                     .lightLevel((BlockState blockState) -> 2));
     public static final Holder.Reference<Block> ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("orange_mushroom",
-            (BlockBehaviour.Properties properties) -> new MushroomBlock(ModFeatures.HUGE_ORANGE_MUSHROOM_CONFIGURED_FEATURE,
+            (BlockBehaviour.Properties properties) -> new MushroomBlock(ModConfiguredFeatures.HUGE_ORANGE_MUSHROOM_CONFIGURED_FEATURE,
                     properties),
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                     .mapColor(MapColor.COLOR_BLUE)
                     .lightLevel((BlockState blockState) -> 3));
     public static final Holder.Reference<Block> PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("purple_mushroom",
-            (BlockBehaviour.Properties properties) -> new MushroomBlock(ModFeatures.HUGE_PURPLE_MUSHROOM_CONFIGURED_FEATURE,
+            (BlockBehaviour.Properties properties) -> new MushroomBlock(ModConfiguredFeatures.HUGE_PURPLE_MUSHROOM_CONFIGURED_FEATURE,
                     properties),
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                     .mapColor(MapColor.COLOR_BLUE)

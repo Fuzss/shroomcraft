@@ -2,7 +2,9 @@ package fuzs.shroomcraft.world.entity.animal;
 
 import fuzs.puzzleslib.api.entity.v1.EntityHelper;
 import fuzs.shroomcraft.Shroomcraft;
+import fuzs.shroomcraft.init.CluckshroomVariants;
 import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -76,7 +78,7 @@ public class Cluckshroom extends Chicken implements Shearable {
         Registry<MobBlockVariant> registry = this.registryAccess()
                 .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
         builder.define(DATA_VARIANT_ID,
-                registry.get(ModRegistry.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
+                registry.get(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
     }
 
     @Override
@@ -132,10 +134,10 @@ public class Cluckshroom extends Chicken implements Shearable {
             return holder.value().biomes().contains(biome);
         }).or(() -> getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
             TagKey<MobBlockVariant> tagKey =
-                    biome.is(BiomeTags.IS_NETHER) ? ModRegistry.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
-                            ModRegistry.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
+                    biome.is(BiomeTags.IS_NETHER) ? ModTags.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
+                            ModTags.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
             return holder.is(tagKey);
-        })).or(() -> registry.get(ModRegistry.RED_CLUCKSHROOM_VARIANT)).or(registry::getAny).orElseThrow();
+        })).or(() -> registry.get(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT)).or(registry::getAny).orElseThrow();
     }
 
     static Optional<Holder<MobBlockVariant>> getRandomSpawnVariant(Registry<MobBlockVariant> registry, Predicate<Holder<MobBlockVariant>> filter) {

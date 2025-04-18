@@ -1,0 +1,97 @@
+{
+  "type": "minecraft:shearing",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:loot_table",
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "type_specific": {
+                      "type": "shroomcraft:mooshroom",
+                      "variant": "blue"
+                    }
+                  }
+                }
+              ],
+              "value": "shroomcraft:shearing/mooshroom/blue"
+            },
+            {
+              "type": "minecraft:loot_table",
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "type_specific": {
+                      "type": "shroomcraft:mooshroom",
+                      "variant": "orange"
+                    }
+                  }
+                }
+              ],
+              "value": "shroomcraft:shearing/mooshroom/orange"
+            },
+            {
+              "type": "minecraft:loot_table",
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "type_specific": {
+                      "type": "shroomcraft:mooshroom",
+                      "variant": "purple"
+                    }
+                  }
+                }
+              ],
+              "value": "shroomcraft:shearing/mooshroom/purple"
+            },
+            {
+              "type": "minecraft:loot_table",
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "type_specific": {
+                      "type": "shroomcraft:mooshroom",
+                      "variant": "crimson"
+                    }
+                  }
+                }
+              ],
+              "value": "shroomcraft:shearing/mooshroom/crismon"
+            },
+            {
+              "type": "minecraft:loot_table",
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "type_specific": {
+                      "type": "shroomcraft:mooshroom",
+                      "variant": "warped"
+                    }
+                  }
+                }
+              ],
+              "value": "shroomcraft:shearing/mooshroom/warped"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "shroomcraft:shearing/mooshroom"
+}

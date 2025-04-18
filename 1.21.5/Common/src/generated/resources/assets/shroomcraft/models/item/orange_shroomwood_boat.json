@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "shroomcraft:item/orange_shroomwood_boat"
+  }
+}

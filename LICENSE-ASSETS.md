@@ -1,3 +1,33 @@
+The following assets:
+
++ `/assets/minecraft/textures/entity/cow/red_mooshroom.png`
++ `/assets/shroomcraft/textures/entity/*`
++ `/assets/shroomcraft/textures/gui/hanging_signs/*`
++ `/assets/shroomcraft/textures/item/cluckshroom_spawn_egg.png`
++ `/assets/shroomcraft/textures/item/shroomfin_spawn_egg.png`
++ `/assets/shroomcraft/textures/item/shroomwood_boat.png`
++ `/assets/shroomcraft/textures/item/shroomwood_chest_boat.png`
++ `/assets/shroomcraft/textures/item/shroomwood_sign.png`
++ `/assets/shroomcraft/textures/item/shroomwood_hanging_sign.png`
++ `/assets/shroomcraft/textures/item/blue_shroomwood_boat.png`
++ `/assets/shroomcraft/textures/item/blue_shroomwood_chest_boat.png`
++ `/assets/shroomcraft/textures/item/blue_shroomwood_sign.png`
++ `/assets/shroomcraft/textures/item/blue_shroomwood_hanging_sign.png`
++ `/assets/shroomcraft/textures/item/orange_shroomwood_boat.png`
++ `/assets/shroomcraft/textures/item/orange_shroomwood_chest_boat.png`
++ `/assets/shroomcraft/textures/item/orange_shroomwood_sign.png`
++ `/assets/shroomcraft/textures/item/orange_shroomwood_hanging_sign.png`
++ `/assets/shroomcraft/textures/item/purple_shroomwood_boat.png`
++ `/assets/shroomcraft/textures/item/purple_shroomwood_chest_boat.png`
++ `/assets/shroomcraft/textures/item/purple_shroomwood_sign.png`
++ `/assets/shroomcraft/textures/item/purple_shroomwood_hanging_sign.png`
+
+are released as
+
+Copyright (c) 2025 @heyitsfuzs. All Rights Reserved.
+
+All other assets:
+
 MIT License
 
 Copyright (c) 2021 Deuel5

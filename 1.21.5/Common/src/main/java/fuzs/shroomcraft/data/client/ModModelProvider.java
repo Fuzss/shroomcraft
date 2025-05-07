@@ -1,7 +1,6 @@
 package fuzs.shroomcraft.data.client;
 
 import fuzs.puzzleslib.api.client.data.v2.AbstractModelProvider;
-import fuzs.puzzleslib.api.client.data.v2.models.ItemModelGenerationHelper;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
@@ -142,7 +141,7 @@ public class ModModelProvider extends AbstractModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.COOKED_SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN_BUCKET.value(), ModelTemplates.FLAT_ITEM);
-        ItemModelGenerationHelper.generateSpawnEgg(ModItems.SHROOMFIN_SPAWN_EGG.value(), itemModelGenerators);
+        itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN_SPAWN_EGG.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.CLUCKSHROOM_SPAWN_EGG.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BLUE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.ORANGE_SHROOMBOMB.value(), ModelTemplates.FLAT_ITEM);

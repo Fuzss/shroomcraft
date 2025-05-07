@@ -1,4 +1,4 @@
-// 1.21.5	2025-04-18T21:52:46.631076	Model Definitions
+// 1.21.5	2025-05-07T18:37:57.683175	Model Definitions
 3a7ff58f1e131557f9956e85304fb7a935949449 assets/shroomcraft/blockstates/blue_mushroom.json
 b958bc66401a12b1e80c95caaa47cff630a19b4f assets/shroomcraft/blockstates/blue_mushroom_block.json
 7c6c73bca88671de7f1bdca4f9f4b5f4ffca9ae0 assets/shroomcraft/blockstates/blue_mushroom_sprouts.json
@@ -150,7 +150,7 @@ bdba835bb70cfa14fb10cf98291cc261b5a82e64 assets/shroomcraft/items/purple_shroomw
 2bcef0aea53618581058d156a0e5eca41428c9e0 assets/shroomcraft/items/red_shroomspores.json
 04e5429acb5226480498846a0a4652298c08ab4c assets/shroomcraft/items/shroomfin.json
 d4d549ebe9bf6b1ca0e5bd983b4d3ff38be74295 assets/shroomcraft/items/shroomfin_bucket.json
-475e2e6111ecb10448b09ad9875db700fc46f078 assets/shroomcraft/items/shroomfin_spawn_egg.json
+892754d05e624b0f620ff40e285b65fbf956befb assets/shroomcraft/items/shroomfin_spawn_egg.json
 3d30e3978eb59fd8e9e76ab6ccfd0eb0d29d0ba1 assets/shroomcraft/items/shroomwood_boat.json
 de2adaab9d474fd186a1d97f853fe71fd084061b assets/shroomcraft/items/shroomwood_button.json
 72440552d75470b952c6155740cefd650cf7dd74 assets/shroomcraft/items/shroomwood_chest_boat.json
@@ -380,7 +380,7 @@ dd14fa537def4290d73ef43e6a3b6ee63e37b303 assets/shroomcraft/models/item/purple_s
 3a3714e328c5b3621f786a1472814a5032ea6065 assets/shroomcraft/models/item/red_shroomspores.json
 0ffec19bebc128984eff089be61b0519f4d669c3 assets/shroomcraft/models/item/shroomfin.json
 61a39d248338edd8dacfe6dd8ab66182d3d8bfe1 assets/shroomcraft/models/item/shroomfin_bucket.json
-32e44091f9d7c22e893f1fccabe5a461852652a1 assets/shroomcraft/models/item/shroomfin_spawn_egg.json
+a8997b8f597bcbc2e418236294afd7f421260d1f assets/shroomcraft/models/item/shroomfin_spawn_egg.json
 8e9351ea0badfd121670d09cc07b5c7c52e50162 assets/shroomcraft/models/item/shroomwood_boat.json
 3c0a3a85c23d06e085365c9ce318af7afa7e1cc6 assets/shroomcraft/models/item/shroomwood_chest_boat.json
 4f6061b6dd520d4aad2269d624934aad2025ead9 assets/shroomcraft/models/item/shroomwood_door.json

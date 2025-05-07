@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "shroomcraft:item/shroomfin_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": -8360594
-      },
-      {
-        "type": "minecraft:constant",
-        "value": -3368584
-      }
-    ]
+    "model": "shroomcraft:item/shroomfin_spawn_egg"
   }
 }

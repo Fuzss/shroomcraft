@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "shroomcraft:block/purple_shroomwood_planks"
+  }
+}

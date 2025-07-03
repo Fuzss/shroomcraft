@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right_open",
+  "textures": {
+    "bottom": "shroomcraft:block/shroomwood_door_bottom",
+    "top": "shroomcraft:block/shroomwood_door_top"
+  }
+}

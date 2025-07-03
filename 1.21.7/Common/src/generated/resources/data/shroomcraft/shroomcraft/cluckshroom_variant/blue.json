@@ -1,0 +1,7 @@
+{
+  "asset_id": "shroomcraft:entity/cluckshroom/blue_cluckshroom",
+  "carried_block": {
+    "Name": "shroomcraft:blue_mushroom"
+  },
+  "shearing_loot_table": "shroomcraft:shearing/cluckshroom/blue"
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_orange_mushroom_sprouts": {
+      "conditions": {
+        "items": [
+          {
+            "items": "shroomcraft:orange_mushroom_sprouts"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:orange_dye_from_orange_mushroom_sprouts"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_orange_mushroom_sprouts"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:orange_dye_from_orange_mushroom_sprouts"
+    ]
+  }
+}

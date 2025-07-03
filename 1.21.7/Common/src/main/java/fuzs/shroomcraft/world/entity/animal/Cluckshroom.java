@@ -1,6 +1,6 @@
 package fuzs.shroomcraft.world.entity.animal;
 
-import fuzs.puzzleslib.api.entity.v1.EntityHelper;
+import fuzs.puzzleslib.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.CluckshroomVariants;
 import fuzs.shroomcraft.init.ModRegistry;
@@ -12,8 +12,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -42,6 +40,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -61,8 +61,8 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     public static boolean checkCluckshroomSpawnRules(EntityType<? extends Mob> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
-        return level.getBlockState(pos.below()).is(BlockTags.MOOSHROOMS_SPAWNABLE_ON) &&
-                isBrightEnoughToSpawn(level, pos);
+        return level.getBlockState(pos.below()).is(BlockTags.MOOSHROOMS_SPAWNABLE_ON) && isBrightEnoughToSpawn(level,
+                pos);
     }
 
     @Override
@@ -205,20 +205,18 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.store(Shroomcraft.id("variant").toString(),
+    protected void addAdditionalSaveData(ValueOutput valueOutput) {
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.store(Shroomcraft.id("variant").toString(),
                 MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
-                this.registryAccess().createSerializationContext(NbtOps.INSTANCE),
                 this.getBlockVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        tag.read(Shroomcraft.id("variant").toString(),
-                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
-                this.registryAccess().createSerializationContext(NbtOps.INSTANCE)).ifPresent(this::setBlockVariant);
+    protected void readAdditionalSaveData(ValueInput valueInput) {
+        super.readAdditionalSaveData(valueInput);
+        valueInput.read(Shroomcraft.id("variant").toString(),
+                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY)).ifPresent(this::setBlockVariant);
     }
 
     @Nullable
@@ -286,8 +284,8 @@ public class Cluckshroom extends Chicken implements Shearable {
         public void tick() {
             ServerLevel serverLevel = getServerLevel(this.mob);
             if (EntityHelper.isMobGriefingAllowed(serverLevel, this.mob)) {
-                if (!this.mob.isBaby() && serverLevel.random.nextInt(1000) == 0 &&
-                        this.mob.getDeltaMovement().lengthSqr() > 1.0E-5F) {
+                if (!this.mob.isBaby() && serverLevel.random.nextInt(1000) == 0
+                        && this.mob.getDeltaMovement().lengthSqr() > 1.0E-5F) {
                     BlockPos blockPos = this.mob.blockPosition();
                     BlockState blockState = ((Cluckshroom) this.mob).getBlockVariant().value().blockState();
                     if (serverLevel.getBlockState(blockPos).isAir() && blockState.canSurvive(serverLevel, blockPos)) {

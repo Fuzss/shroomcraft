@@ -92,7 +92,7 @@ public class Shroomcraft implements ModConstructor {
                         consumer.accept(BlockEntityType.HANGING_SIGN, block);
                     });
         });
-        ServerEntityLevelEvents.SPAWN.register(ModMushroomCow::onEntitySpawn);
+        ServerEntityLevelEvents.LOAD.register(ModMushroomCow::onEntityLoad);
         PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);
         LootTableLoadCallback.EVENT.register((ResourceLocation resourceLocation, LootTable.Builder lootTable, @Nullable HolderLookup.Provider registries) -> {
             if (BuiltInLootTables.FISHING_FISH.location().equals(resourceLocation)) {

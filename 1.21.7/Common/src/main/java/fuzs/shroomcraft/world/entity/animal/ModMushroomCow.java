@@ -3,6 +3,7 @@ package fuzs.shroomcraft.world.entity.animal;
 import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.api.network.v4.codec.ExtraStreamCodecs;
+import fuzs.puzzleslib.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModLootTables;
@@ -14,8 +15,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -43,6 +42,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
@@ -67,14 +68,16 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     public static boolean checkMooshroomSpawnRules(EntityType<? extends MushroomCow> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
-        return checkMushroomSpawnRules((EntityType<MushroomCow>) entityType, level, spawnReason, pos, random) ||
-                level.getBlockState(pos.below()).is(BlockTags.NYLIUM);
+        return checkMushroomSpawnRules((EntityType<MushroomCow>) entityType, level, spawnReason, pos, random)
+                || level.getBlockState(pos.below()).is(BlockTags.NYLIUM);
     }
 
-    public static EventResult onEntitySpawn(Entity entity, ServerLevel serverLevel, @Nullable EntitySpawnReason entitySpawnReason) {
-        if (entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM &&
-                VALID_SPAWN_REASONS.contains(entitySpawnReason) &&
-                getSpawnAsCustomEntityOdds(serverLevel, entity.blockPosition(), serverLevel.getRandom())) {
+    public static EventResult onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isNewlySpawned) {
+        @Nullable EntitySpawnReason entitySpawnReason = EntityHelper.getMobSpawnReason(entity);
+        if (isNewlySpawned && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
+                && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
+                entity.blockPosition(),
+                serverLevel.getRandom())) {
             MushroomCow mushroomCow = (MushroomCow) entity;
 
             mushroomCow.convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
@@ -103,8 +106,8 @@ public class ModMushroomCow extends MushroomCow {
 
     public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
-        if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive() &&
-                entity.getType() == ModRegistry.MOOSHROOM_ENTITY_TYPE.value()) {
+        if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive()
+                && entity.getType() == ModRegistry.MOOSHROOM_ENTITY_TYPE.value()) {
             if (level instanceof ServerLevel serverLevel) {
                 Optional<Mob> optional = spawnOffspringFromSpawnEgg(player,
                         (Mob) entity,
@@ -216,20 +219,15 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.store(Shroomcraft.id("variant").toString(),
-                ColorVariant.CODEC,
-                this.registryAccess().createSerializationContext(NbtOps.INSTANCE),
-                this.getColorVariant());
+    protected void addAdditionalSaveData(ValueOutput valueOutput) {
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.store(Shroomcraft.id("variant").toString(), ColorVariant.CODEC, this.getColorVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        tag.read(Shroomcraft.id("variant").toString(),
-                ColorVariant.CODEC,
-                this.registryAccess().createSerializationContext(NbtOps.INSTANCE)).ifPresent(this::setColorVariant);
+    protected void readAdditionalSaveData(ValueInput valueInput) {
+        super.readAdditionalSaveData(valueInput);
+        valueInput.read(Shroomcraft.id("variant").toString(), ColorVariant.CODEC).ifPresent(this::setColorVariant);
     }
 
     @Override

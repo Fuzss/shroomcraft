@@ -17,7 +17,7 @@ import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.model.CowModel;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Holder;
@@ -87,31 +87,26 @@ public class ShroomcraftClient implements ClientModConstructor {
 
     @Override
     public void onRegisterBlockRenderTypes(RenderTypesContext<Block> context) {
-        context.registerRenderType(RenderType.cutout(),
-                ModBlocks.BLUE_MUSHROOM.value(),
-                ModBlocks.ORANGE_MUSHROOM.value(),
-                ModBlocks.PURPLE_MUSHROOM.value());
-        context.registerRenderType(RenderType.cutout(),
-                ModBlocks.POTTED_BLUE_MUSHROOM.value(),
-                ModBlocks.POTTED_ORANGE_MUSHROOM.value(),
-                ModBlocks.POTTED_PURPLE_MUSHROOM.value());
-        context.registerRenderType(RenderType.cutout(), ModBlocks.MYCELIAL_GROWTH.value());
-        context.registerRenderType(RenderType.cutout(),
-                ModBlocks.MUSHROOM_SPROUTS.value(),
-                ModBlocks.BLUE_MUSHROOM_SPROUTS.value(),
-                ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(),
-                ModBlocks.PURPLE_MUSHROOM_SPROUTS.value());
-        context.registerRenderType(RenderType.cutout(),
-                ModBlocks.POTTED_MUSHROOM_SPROUTS.value(),
-                ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value(),
-                ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value(),
-                ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value());
-        context.registerRenderType(RenderType.cutout(),
-                ModBlocks.TINY_BROWN_MUSHROOM.value(),
-                ModBlocks.TINY_RED_MUSHROOM.value(),
-                ModBlocks.TINY_BLUE_MUSHROOM.value(),
-                ModBlocks.TINY_ORANGE_MUSHROOM.value(),
-                ModBlocks.TINY_PURPLE_MUSHROOM.value());
+        context.registerChunkRenderType(ModBlocks.BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.MYCELIAL_GROWTH.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.TINY_BROWN_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.TINY_RED_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.TINY_BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.TINY_ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+        context.registerChunkRenderType(ModBlocks.TINY_PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
         ModBlockFamilies.getAllFamilyRegistrars()
                 .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> consumer) -> {
                     consumer.accept(registrar.getBlock(BlockFamily.Variant.DOOR));
@@ -119,7 +114,7 @@ public class ShroomcraftClient implements ClientModConstructor {
                 })
                 .map(Holder.Reference::value)
                 .forEach((Block block) -> {
-                    context.registerRenderType(RenderType.cutout(), block);
+                    context.registerChunkRenderType(block, ChunkSectionLayer.CUTOUT);
                 });
     }
 }

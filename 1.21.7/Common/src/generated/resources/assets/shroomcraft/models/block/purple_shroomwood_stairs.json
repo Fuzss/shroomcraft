@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "shroomcraft:block/purple_shroomwood_planks",
-    "side": "shroomcraft:block/purple_shroomwood_planks",
-    "top": "shroomcraft:block/purple_shroomwood_planks"
-  }
-}

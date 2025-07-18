@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_orientable_trapdoor_top",
-  "textures": {
-    "texture": "shroomcraft:block/blue_shroomwood_trapdoor"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_single_face",
-  "textures": {
-    "texture": "shroomcraft:block/blue_mushroom_stem"
-  }
-}

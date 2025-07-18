@@ -186,7 +186,7 @@ public class Shroomcraft implements ModConstructor {
     }
 
     @Override
-    public void onRegisterDataPackRegistriesContext(DataPackRegistriesContext context) {
+    public void onRegisterDataPackRegistries(DataPackRegistriesContext context) {
         context.registerSyncedRegistry(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
     }
 

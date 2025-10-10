@@ -1,8 +1,8 @@
 {
   "values": [
-    "shroomcraft:shroomwood_fence",
     "shroomcraft:blue_shroomwood_fence",
     "shroomcraft:orange_shroomwood_fence",
-    "shroomcraft:purple_shroomwood_fence"
+    "shroomcraft:purple_shroomwood_fence",
+    "shroomcraft:shroomwood_fence"
   ]
 }

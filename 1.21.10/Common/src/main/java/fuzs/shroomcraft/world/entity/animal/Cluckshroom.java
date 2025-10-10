@@ -82,27 +82,26 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemInHand = player.getItemInHand(hand);
+    public InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
+        ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.is(Items.BOWL) && !this.isBaby()) {
             ItemStack newItemInHand = ItemUtils.createFilledResult(itemInHand,
                     player,
                     new ItemStack(Items.MUSHROOM_STEW),
                     false);
-            player.setItemInHand(hand, newItemInHand);
+            player.setItemInHand(interactionHand, newItemInHand);
             this.playSound(SoundEvents.MOOSHROOM_MILK, 1.0F, 1.0F);
-
             return InteractionResult.SUCCESS;
         } else if (itemInHand.is(Items.SHEARS) && this.readyForShearing()) {
             if (this.level() instanceof ServerLevel serverLevel) {
                 this.shear(serverLevel, SoundSource.PLAYERS, itemInHand);
                 this.gameEvent(GameEvent.SHEAR, player);
-                itemInHand.hurtAndBreak(1, player, getSlotForHand(hand));
+                itemInHand.hurtAndBreak(1, player, interactionHand.asEquipmentSlot());
             }
 
             return InteractionResult.SUCCESS;
         } else {
-            return super.mobInteract(player, hand);
+            return super.mobInteract(player, interactionHand);
         }
     }
 

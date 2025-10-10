@@ -1,9 +1,9 @@
 {
   "values": [
-    "shroomcraft:red",
-    "shroomcraft:brown",
     "shroomcraft:blue",
+    "shroomcraft:brown",
     "shroomcraft:orange",
-    "shroomcraft:purple"
+    "shroomcraft:purple",
+    "shroomcraft:red"
   ]
 }

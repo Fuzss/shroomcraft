@@ -1,8 +1,8 @@
 {
   "values": [
-    "shroomcraft:shroomwood_planks",
     "shroomcraft:blue_shroomwood_planks",
     "shroomcraft:orange_shroomwood_planks",
-    "shroomcraft:purple_shroomwood_planks"
+    "shroomcraft:purple_shroomwood_planks",
+    "shroomcraft:shroomwood_planks"
   ]
 }

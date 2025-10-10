@@ -1,11 +1,11 @@
 {
   "values": [
-    "minecraft:brown_mushroom",
-    "minecraft:red_mushroom",
-    "minecraft:crimson_fungus",
-    "minecraft:warped_fungus",
     "shroomcraft:blue_mushroom",
+    "minecraft:brown_mushroom",
+    "minecraft:crimson_fungus",
     "shroomcraft:orange_mushroom",
-    "shroomcraft:purple_mushroom"
+    "shroomcraft:purple_mushroom",
+    "minecraft:red_mushroom",
+    "minecraft:warped_fungus"
   ]
 }

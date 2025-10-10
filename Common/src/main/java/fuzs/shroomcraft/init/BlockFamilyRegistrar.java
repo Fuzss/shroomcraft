@@ -170,8 +170,8 @@ public class BlockFamilyRegistrar {
                 function.apply(builder, this.blockVariants.get(variant).value());
             }
         });
-        if (this.blockVariants.containsKey(BlockFamily.Variant.SIGN) &&
-                this.blockVariants.containsKey(BlockFamily.Variant.WALL_SIGN)) {
+        if (this.blockVariants.containsKey(BlockFamily.Variant.SIGN)
+                && this.blockVariants.containsKey(BlockFamily.Variant.WALL_SIGN)) {
             builder.sign(this.blockVariants.get(BlockFamily.Variant.SIGN).value(),
                     this.blockVariants.get(BlockFamily.Variant.WALL_SIGN).value());
         }
@@ -297,7 +297,7 @@ public class BlockFamilyRegistrar {
                             () -> {
                                 return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .forceSolidOn()
-                                        .noCollission()
+                                        .noCollision()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.PRESSURE_PLATE,
@@ -311,7 +311,7 @@ public class BlockFamilyRegistrar {
                             (BlockBehaviour.Properties properties) -> new ButtonBlock(blockSetType, 30, properties),
                             () -> {
                                 return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
-                                        .noCollission()
+                                        .noCollision()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.BUTTON,
@@ -326,7 +326,7 @@ public class BlockFamilyRegistrar {
                             () -> {
                                 return BlockBehaviour.Properties.ofFullCopy(this.baseBlock())
                                         .forceSolidOn()
-                                        .noCollission();
+                                        .noCollision();
                             }));
             Holder<Block> signHolder = this.familyRegistrar.blockVariants.get(BlockFamily.Variant.SIGN);
             this.familyRegistrar.blockVariants.put(BlockFamily.Variant.WALL_SIGN,
@@ -337,7 +337,7 @@ public class BlockFamilyRegistrar {
                                         .overrideLootTable(signHolder.value().getLootTable())
                                         .overrideDescription(signHolder.value().getDescriptionId())
                                         .forceSolidOn()
-                                        .noCollission();
+                                        .noCollision();
                             }));
             Holder<Block> wallSignHolder = this.familyRegistrar.blockVariants.get(BlockFamily.Variant.WALL_SIGN);
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.SIGN,
@@ -353,7 +353,7 @@ public class BlockFamilyRegistrar {
             this.familyRegistrar.hangingSignBlock = this.registries.registerBlock(this.basePath() + "_hanging_sign",
                     (BlockBehaviour.Properties properties) -> new CeilingHangingSignBlock(woodType, properties),
                     () -> {
-                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock()).forceSolidOn().noCollission();
+                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock()).forceSolidOn().noCollision();
                     });
             Holder<Block> hangingSignHolder = this.familyRegistrar.hangingSignBlock;
             this.familyRegistrar.wallHangingSignBlock = this.registries.registerBlock(
@@ -364,7 +364,7 @@ public class BlockFamilyRegistrar {
                                 .overrideLootTable(hangingSignHolder.value().getLootTable())
                                 .overrideDescription(hangingSignHolder.value().getDescriptionId())
                                 .forceSolidOn()
-                                .noCollission();
+                                .noCollision();
                     });
             Holder<Block> wallHangingSignHolder = this.familyRegistrar.wallHangingSignBlock;
             this.familyRegistrar.hangingSignItem = this.registries.registerBlockItem(hangingSignHolder,

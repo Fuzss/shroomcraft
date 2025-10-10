@@ -94,13 +94,9 @@ public class ModItems {
                     properties),
             () -> new Item.Properties().stacksTo(1).component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY));
     public static final Holder.Reference<Item> SHROOMFIN_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
-            ModRegistry.SHROOMFIN_ENTITY_TYPE,
-            -8360594,
-            -3368584);
+            ModRegistry.SHROOMFIN_ENTITY_TYPE);
     public static final Holder.Reference<Item> CLUCKSHROOM_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
-            ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
-            -1,
-            -1);
+            ModRegistry.CLUCKSHROOM_ENTITY_TYPE);
     public static final Holder.Reference<Item> BLUE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem("blue_shroombomb",
             LingeringPotionItem::new,
             () -> new Item.Properties().stacksTo(16)

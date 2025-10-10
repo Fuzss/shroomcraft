@@ -4,7 +4,7 @@
   "group": "hanging_sign",
   "key": {
     "#": "shroomcraft:orange_shroomwood_planks",
-    "X": "minecraft:chain"
+    "X": "minecraft:iron_chain"
   },
   "pattern": [
     "X X",

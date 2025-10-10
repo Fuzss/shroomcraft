@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "wooden_fence",
+  "key": {
+    "#": "minecraft:stick",
+    "W": "shroomcraft:purple_shroomwood_planks"
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "count": 3,
+    "id": "shroomcraft:purple_shroomwood_fence"
+  }
+}

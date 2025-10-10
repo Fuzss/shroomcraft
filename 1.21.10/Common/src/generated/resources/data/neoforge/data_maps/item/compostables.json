@@ -1,0 +1,61 @@
+{
+  "values": {
+    "shroomcraft:blue_mushroom": {
+      "chance": 0.65
+    },
+    "shroomcraft:blue_mushroom_block": {
+      "chance": 0.85
+    },
+    "shroomcraft:blue_mushroom_sprouts": {
+      "chance": 0.5
+    },
+    "shroomcraft:blue_mushroom_stem": {
+      "chance": 0.65
+    },
+    "shroomcraft:blue_shroomspores": {
+      "chance": 0.3
+    },
+    "shroomcraft:brown_shroomspores": {
+      "chance": 0.3
+    },
+    "shroomcraft:mushroom_sprouts": {
+      "chance": 0.5
+    },
+    "shroomcraft:mycelial_growth": {
+      "chance": 0.5
+    },
+    "shroomcraft:orange_mushroom": {
+      "chance": 0.65
+    },
+    "shroomcraft:orange_mushroom_block": {
+      "chance": 0.85
+    },
+    "shroomcraft:orange_mushroom_sprouts": {
+      "chance": 0.5
+    },
+    "shroomcraft:orange_mushroom_stem": {
+      "chance": 0.65
+    },
+    "shroomcraft:orange_shroomspores": {
+      "chance": 0.3
+    },
+    "shroomcraft:purple_mushroom": {
+      "chance": 0.65
+    },
+    "shroomcraft:purple_mushroom_block": {
+      "chance": 0.85
+    },
+    "shroomcraft:purple_mushroom_sprouts": {
+      "chance": 0.5
+    },
+    "shroomcraft:purple_mushroom_stem": {
+      "chance": 0.65
+    },
+    "shroomcraft:purple_shroomspores": {
+      "chance": 0.3
+    },
+    "shroomcraft:red_shroomspores": {
+      "chance": 0.3
+    }
+  }
+}

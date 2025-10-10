@@ -1,0 +1,6 @@
+// 1.21.8	2025-07-18T14:58:08.204349	Tags for minecraft:entity_type mod id vanilla
+1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/aquatic.json
+1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/axolotl_hunt_targets.json
+1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/can_breathe_under_water.json
+8454a4a5e790b7cf14ec67f78da6da61ddc91988 data/minecraft/tags/entity_type/fall_damage_immune.json
+1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/not_scary_for_pufferfish.json

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "shroomcraft:shroomwood_planks"
+            "items": "shroomcraft:stripped_mushroom_stem"
           }
         ]
       },

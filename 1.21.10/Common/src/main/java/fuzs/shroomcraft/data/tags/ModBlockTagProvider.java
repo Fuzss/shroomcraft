@@ -3,7 +3,10 @@ package fuzs.shroomcraft.data.tags;
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
-import fuzs.shroomcraft.init.*;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
+import fuzs.shroomcraft.init.ModBlockFamilies;
+import fuzs.shroomcraft.init.ModBlocks;
+import fuzs.shroomcraft.init.ModTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -70,8 +73,13 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
             if (registrar.hangingSignBlock() != null) {
                 this.tag(BlockTags.CEILING_HANGING_SIGNS).add(registrar.hangingSignBlock());
             }
+
             if (registrar.wallHangingSignBlock() != null) {
                 this.tag(BlockTags.WALL_HANGING_SIGNS).add(registrar.wallHangingSignBlock());
+            }
+
+            if (registrar.shelfBlock() != null) {
+                this.tag(BlockTags.WOODEN_SHELVES).add(registrar.shelfBlock());
             }
         });
         this.tag(BlockTags.MINEABLE_WITH_AXE)

@@ -48,6 +48,14 @@ public class ModModelProvider extends AbstractModelProvider {
         this.createHangingSign(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
                 ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                 blockModelGenerators);
+        blockModelGenerators.createShelf(ModBlockFamilies.SHROOMWOOD_FAMILY.shelfBlock().value(),
+                ModBlocks.STRIPPED_MUSHROOM_STEM.value());
+        blockModelGenerators.createShelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.shelfBlock().value(),
+                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
+        blockModelGenerators.createShelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.shelfBlock().value(),
+                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
+        blockModelGenerators.createShelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.shelfBlock().value(),
+                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
         blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.PlantType.NOT_TINTED);

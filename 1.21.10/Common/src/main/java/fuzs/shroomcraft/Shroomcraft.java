@@ -7,12 +7,8 @@ import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
 import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
 import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
-import fuzs.shroomcraft.handler.AxeStrippingHandler;
 import fuzs.shroomcraft.handler.BiomeModificationsHandler;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
-import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModItems;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.*;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
@@ -37,6 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -69,7 +66,6 @@ public class Shroomcraft implements ModConstructor {
     }
 
     private static void registerEventHandler() {
-        PlayerInteractEvents.USE_BLOCK.register(AxeStrippingHandler::onUseBlock);
         AddBlockEntityTypeBlocksCallback.EVENT.register((BiConsumer<BlockEntityType<?>, Block> consumer) -> {
             ModBlockFamilies.getAllFamilyRegistrars()
                     .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> blockConsumer) -> {
@@ -90,6 +86,13 @@ public class Shroomcraft implements ModConstructor {
                     .map(Holder::value)
                     .forEach((Block block) -> {
                         consumer.accept(BlockEntityType.HANGING_SIGN, block);
+                    });
+            ModBlockFamilies.getAllFamilyRegistrars()
+                    .map(BlockFamilyRegistrar::shelfBlock)
+                    .filter(Objects::nonNull)
+                    .map(Holder::value)
+                    .forEach((Block block) -> {
+                        consumer.accept(BlockEntityType.SHELF, block);
                     });
         });
         ServerEntityLevelEvents.LOAD.register(ModMushroomCow::onEntityLoad);
@@ -164,6 +167,22 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterGameplayContent(GameplayContentContext context) {
+        context.registerFlammable(ModBlocks.STRIPPED_MUSHROOM_STEM, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_MUSHROOM_HYPHAE, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE, 5, 5);
+        context.registerFlammable(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE, 5, 5);
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
+            registrar.forEachFlammableVariant((Holder.Reference<Block> holder) -> {
+                context.registerFlammable(holder, 5, 20);
+            });
+            if (registrar.shelfBlock() != null) {
+                context.registerFlammable(registrar.shelfBlock(), 30, 20);
+            }
+        });
         context.registerCompostable(ModItems.BROWN_SHROOMSPORES, 0.3F);
         context.registerCompostable(ModItems.RED_SHROOMSPORES, 0.3F);
         context.registerCompostable(ModItems.BLUE_SHROOMSPORES, 0.3F);
@@ -183,6 +202,10 @@ public class Shroomcraft implements ModConstructor {
         context.registerCompostable(ModItems.BLUE_MUSHROOM_BLOCK, 0.85F);
         context.registerCompostable(ModItems.ORANGE_MUSHROOM_BLOCK, 0.85F);
         context.registerCompostable(ModItems.PURPLE_MUSHROOM_BLOCK, 0.85F);
+        context.registerStrippable(Blocks.MUSHROOM_STEM.builtInRegistryHolder(), ModBlocks.STRIPPED_MUSHROOM_STEM);
+        context.registerStrippable(ModBlocks.BLUE_MUSHROOM_STEM, ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM);
+        context.registerStrippable(ModBlocks.ORANGE_MUSHROOM_STEM, ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM);
+        context.registerStrippable(ModBlocks.PURPLE_MUSHROOM_STEM, ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM);
     }
 
     @Override

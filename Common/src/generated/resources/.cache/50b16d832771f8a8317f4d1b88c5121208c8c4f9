@@ -1,4 +1,4 @@
-// 1.21.10	2025-10-10T12:46:58.003138	Tags for minecraft:block mod id vanilla
+// 1.21.10	2025-10-24T10:32:47.022272	Tags for minecraft:block mod id vanilla
 beb44a791b5f081c80682357551b350cf1a59c9f data/minecraft/tags/block/ceiling_hanging_signs.json
 a6b1b30504240c28fa46431ab276349a7a992edb data/minecraft/tags/block/combination_step_sound_blocks.json
 3b62452c2274823457815d0afd61954e0eeabe5d data/minecraft/tags/block/crops.json
@@ -17,6 +17,7 @@ f1c56442d7f53e3021b1caffeff9dba7bf598643 data/minecraft/tags/block/wall_signs.js
 32a60f0f98a12ea006372e19cba7f54236b655a2 data/minecraft/tags/block/wooden_doors.json
 13ee764bf6059cd11184f08cdba928efa7e2eef2 data/minecraft/tags/block/wooden_fences.json
 15a6466cc811b03585a40ccb125215cf4ddd8282 data/minecraft/tags/block/wooden_pressure_plates.json
+b700f8b03cabbdb1ec444a3d7376843611d2d006 data/minecraft/tags/block/wooden_shelves.json
 4da15371c02469beb4201b9a1bb45a5a962e3b3c data/minecraft/tags/block/wooden_slabs.json
 c6e69d6953dda60ad28c9dcf355b98994843e2ec data/minecraft/tags/block/wooden_stairs.json
 22c5d97fb8be61deaa8fb413a16de7ae79672e5f data/minecraft/tags/block/wooden_trapdoors.json

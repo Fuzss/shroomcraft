@@ -3,7 +3,10 @@ package fuzs.shroomcraft.data.tags;
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
-import fuzs.shroomcraft.init.*;
+import fuzs.shroomcraft.init.BlockFamilyRegistrar;
+import fuzs.shroomcraft.init.ModBlockFamilies;
+import fuzs.shroomcraft.init.ModItems;
+import fuzs.shroomcraft.init.ModTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -42,6 +45,7 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
             .put(BlockFamily.Variant.STAIRS, ItemTags.WOODEN_STAIRS)
             .put(BlockFamily.Variant.PRESSURE_PLATE, ItemTags.WOODEN_PRESSURE_PLATES)
             .put(BlockFamily.Variant.TRAPDOOR, ItemTags.WOODEN_TRAPDOORS)
+            .put(BlockFamily.Variant.SIGN, ItemTags.SIGNS)
             .buildKeepingLast();
 
     public ModItemTagProvider(DataProviderContext context) {
@@ -63,6 +67,11 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
                 }
             }
         });
+        this.tag(ItemTags.LOGS_THAT_BURN)
+                .addTag(ModTags.SHROOMWOOD_LOGS_ITEM_TAG,
+                        ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG,
+                        ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG,
+                        ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG);
         this.tag(ModTags.SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_MUSHROOM_STEM.value(), ModItems.STRIPPED_MUSHROOM_HYPHAE.value());
         this.tag(ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
@@ -72,8 +81,21 @@ public class ModItemTagProvider extends AbstractTagProvider<Item> {
         this.tag(ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value(), ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
         ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            this.tag(ItemTags.BOATS).add(registrar.boatItem());
-            this.tag(ItemTags.CHEST_BOATS).add(registrar.chestBoatItem());
+            if (registrar.hangingSignItem() != null) {
+                this.tag(ItemTags.HANGING_SIGNS).add(registrar.hangingSignItem());
+            }
+
+            if (registrar.shelfItem() != null) {
+                this.tag(ItemTags.WOODEN_SHELVES).add(registrar.shelfItem());
+            }
+
+            if (registrar.boatItem() != null) {
+                this.tag(ItemTags.BOATS).add(registrar.boatItem());
+            }
+
+            if (registrar.chestBoatItem() != null) {
+                this.tag(ItemTags.CHEST_BOATS).add(registrar.chestBoatItem());
+            }
         });
         this.tag(ItemTags.FISHES).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());
         this.tag(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN.value(), ModItems.COOKED_SHROOMFIN.value());

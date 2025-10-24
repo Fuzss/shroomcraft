@@ -31,10 +31,22 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
         this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
+        this.hangingSign(ModBlockFamilies.SHROOMWOOD_FAMILY.hangingSignItem().value(),
+                ModBlocks.STRIPPED_MUSHROOM_STEM.value());
+        this.hangingSign(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.hangingSignItem().value(),
+                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
+        this.hangingSign(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.hangingSignItem().value(),
+                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
+        this.hangingSign(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.hangingSignItem().value(),
+                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
+        this.shelf(ModBlockFamilies.SHROOMWOOD_FAMILY.shelfItem().value(), ModBlocks.STRIPPED_MUSHROOM_STEM.value());
+        this.shelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.shelfItem().value(),
+                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
+        this.shelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.shelfItem().value(),
+                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
+        this.shelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.shelfItem().value(),
+                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
         ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            if (registrar.hangingSignItem() != null) {
-                this.hangingSign(registrar.hangingSignItem().value(), registrar.getBaseBlock().value());
-            }
             if (registrar.boatItem() != null) {
                 this.woodenBoat(registrar.boatItem().value(), registrar.getBaseBlock().value());
                 if (registrar.chestBoatItem() != null) {

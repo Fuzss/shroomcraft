@@ -31,6 +31,10 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
                 "Orange Shroomwood Hanging Sign");
         builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.hangingSignBlock(),
                 "Purple Shroomwood Hanging Sign");
+        builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.shelfBlock(), "Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.shelfBlock(), "Blue Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.shelfBlock(), "Orange Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.shelfBlock(), "Purple Shroomwood Shelf");
         builder.add(ModBlocks.BLUE_MUSHROOM.value(), "Blue Mushroom");
         builder.add(ModBlocks.ORANGE_MUSHROOM.value(), "Orange Mushroom");
         builder.add(ModBlocks.PURPLE_MUSHROOM.value(), "Purple Mushroom");

@@ -1,14 +1,17 @@
 package fuzs.shroomcraft.init;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -18,6 +21,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
@@ -35,6 +39,12 @@ public class BlockFamilyRegistrar {
             .put(BlockFamily.Variant.BUTTON, BlockFamily.Builder::button)
             .put(BlockFamily.Variant.PRESSURE_PLATE, BlockFamily.Builder::pressurePlate)
             .build();
+    static final Set<BlockFamily.Variant> FLAMMABLE_VARIANTS = ImmutableSet.of(BlockFamily.Variant.CUSTOM_FENCE,
+            BlockFamily.Variant.FENCE,
+            BlockFamily.Variant.CUSTOM_FENCE_GATE,
+            BlockFamily.Variant.FENCE_GATE,
+            BlockFamily.Variant.STAIRS,
+            BlockFamily.Variant.SLAB);
 
     final Map<BlockFamily.Variant, Holder.Reference<Block>> blockVariants = new LinkedHashMap<>();
     final Map<BlockFamily.Variant, Holder.Reference<Item>> itemVariants = new LinkedHashMap<>();
@@ -44,6 +54,8 @@ public class BlockFamilyRegistrar {
     Holder.Reference<Block> hangingSignBlock;
     Holder.Reference<Block> wallHangingSignBlock;
     Holder.Reference<Item> hangingSignItem;
+    Holder.Reference<Block> shelfBlock;
+    Holder.Reference<Item> shelfItem;
     Holder.Reference<Item> boatItem;
     Holder.Reference<Item> chestBoatItem;
     Holder.Reference<EntityType<Boat>> boatEntityType;
@@ -86,6 +98,7 @@ public class BlockFamilyRegistrar {
                 .button(builder.familyRegistrar.blockSetType)
                 .sign(builder.familyRegistrar.woodType)
                 .hangingSign(builder.familyRegistrar.woodType)
+                .shelf()
                 .boat();
     }
 
@@ -97,6 +110,18 @@ public class BlockFamilyRegistrar {
         this.blockVariants.values().forEach(consumer);
         consumer.accept(this.hangingSignBlock);
         consumer.accept(this.wallHangingSignBlock);
+        consumer.accept(this.shelfBlock);
+    }
+
+    /**
+     * Shelf is missing from this, must be handled separately.
+     */
+    public void forEachFlammableVariant(Consumer<Holder.Reference<Block>> consumer) {
+        this.blockVariants.forEach((BlockFamily.Variant variant, Holder.Reference<Block> holder) -> {
+            if (FLAMMABLE_VARIANTS.contains(variant)) {
+                consumer.accept(holder);
+            }
+        });
     }
 
     public Map<BlockFamily.Variant, Holder.Reference<Item>> getItemVariants() {
@@ -106,6 +131,7 @@ public class BlockFamilyRegistrar {
     public void forEachItemVariant(Consumer<Holder.Reference<Item>> consumer) {
         this.itemVariants.values().forEach(consumer);
         consumer.accept(this.hangingSignItem);
+        consumer.accept(this.shelfItem);
         consumer.accept(this.boatItem);
         consumer.accept(this.chestBoatItem);
     }
@@ -147,6 +173,14 @@ public class BlockFamilyRegistrar {
         return this.hangingSignItem;
     }
 
+    public Holder.Reference<Block> shelfBlock() {
+        return this.shelfBlock;
+    }
+
+    public Holder.Reference<Item> shelfItem() {
+        return this.shelfItem;
+    }
+
     public Holder.Reference<Item> boatItem() {
         return this.boatItem;
     }
@@ -175,6 +209,7 @@ public class BlockFamilyRegistrar {
             builder.sign(this.blockVariants.get(BlockFamily.Variant.SIGN).value(),
                     this.blockVariants.get(BlockFamily.Variant.WALL_SIGN).value());
         }
+
         return builder;
     }
 
@@ -271,8 +306,7 @@ public class BlockFamilyRegistrar {
                             }));
             this.familyRegistrar.itemVariants.put(BlockFamily.Variant.DOOR,
                     this.registries.registerBlockItem(this.familyRegistrar.blockVariants.get(BlockFamily.Variant.DOOR),
-                            DoubleHighBlockItem::new,
-                            Item.Properties::new));
+                            DoubleHighBlockItem::new));
             return this;
         }
 
@@ -372,6 +406,17 @@ public class BlockFamilyRegistrar {
                             wallHangingSignHolder.value(),
                             properties),
                     () -> new Item.Properties().stacksTo(16));
+            return this;
+        }
+
+        public Builder shelf() {
+            this.familyRegistrar.shelfBlock = this.registries.registerBlock(this.basePath() + "_shelf",
+                    ShelfBlock::new,
+                    () -> {
+                        return BlockBehaviour.Properties.ofFullCopy(this.baseBlock()).sound(SoundType.SHELF);
+                    });
+            this.familyRegistrar.shelfItem = this.registries.registerBlockItem(this.familyRegistrar.shelfBlock,
+                    () -> new Item.Properties().component(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
             return this;
         }
 

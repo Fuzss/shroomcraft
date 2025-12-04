@@ -76,9 +76,9 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerLayerDefinition(ModModelLayers.ORANGE_SHROOMWOOD_CHEST_BOAT, BoatModel::createChestBoatModel);
         context.registerLayerDefinition(ModModelLayers.PURPLE_SHROOMWOOD_BOAT, BoatModel::createBoatModel);
         context.registerLayerDefinition(ModModelLayers.PURPLE_SHROOMWOOD_CHEST_BOAT, BoatModel::createChestBoatModel);
-        context.registerLayerDefinition(ModModelLayers.MOOSHROOM, CowModel::createBodyLayer);
+        context.registerLayerDefinition(ModModelLayers.MOOSHROOM, ModMushroomCowRenderer::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM_BABY,
-                () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
+                () -> ModMushroomCowRenderer.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
         context.registerLayerDefinition(ModModelLayers.SHROOMFIN, ShroomfinModel::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, CluckshroomRenderer::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM_BABY,

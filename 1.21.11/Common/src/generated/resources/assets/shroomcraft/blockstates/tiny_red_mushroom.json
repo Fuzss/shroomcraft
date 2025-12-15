@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "shroomcraft:block/tiny_red_mushroom_stage0"
+    },
+    "age=1": {
+      "model": "shroomcraft:block/tiny_red_mushroom_stage1"
+    }
+  }
+}

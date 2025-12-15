@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_shelf_unconnected",
+  "textures": {
+    "all": "shroomcraft:block/blue_shroomwood_shelf",
+    "particle": "shroomcraft:block/stripped_blue_mushroom_stem"
+  }
+}

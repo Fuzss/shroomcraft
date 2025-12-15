@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "shroomcraft:shroomwood_planks",
+  "result": {
+    "count": 2,
+    "id": "shroomcraft:shroomwood_slab"
+  }
+}

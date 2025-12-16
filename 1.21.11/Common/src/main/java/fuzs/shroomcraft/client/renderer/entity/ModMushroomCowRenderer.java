@@ -6,15 +6,15 @@ import fuzs.shroomcraft.client.init.ModModelLayers;
 import fuzs.shroomcraft.client.renderer.entity.layer.ModMushroomCowMushroomLayer;
 import fuzs.shroomcraft.client.renderer.entity.state.ModMushroomCowRenderState;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
-import net.minecraft.client.model.CowModel;
+import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Map;
 
 public class ModMushroomCowRenderer extends AgeableMobRenderer<ModMushroomCow, ModMushroomCowRenderState, CowModel> {
-    private static final Map<ModMushroomCow.ColorVariant, ResourceLocation> TEXTURES = ImmutableMap.<ModMushroomCow.ColorVariant, ResourceLocation>builder()
+    private static final Map<ModMushroomCow.ColorVariant, Identifier> TEXTURES = ImmutableMap.<ModMushroomCow.ColorVariant, Identifier>builder()
             .put(ModMushroomCow.ColorVariant.BLUE, Shroomcraft.id("textures/entity/cow/blue_mooshroom.png"))
             .put(ModMushroomCow.ColorVariant.ORANGE, Shroomcraft.id("textures/entity/cow/orange_mooshroom.png"))
             .put(ModMushroomCow.ColorVariant.PURPLE, Shroomcraft.id("textures/entity/cow/purple_mooshroom.png"))
@@ -31,7 +31,7 @@ public class ModMushroomCowRenderer extends AgeableMobRenderer<ModMushroomCow, M
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ModMushroomCowRenderState renderState) {
+    public Identifier getTextureLocation(ModMushroomCowRenderState renderState) {
         return TEXTURES.get(renderState.variant);
     }
 

@@ -9,18 +9,18 @@ import fuzs.shroomcraft.world.entity.animal.Shroomfin;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class ShroomfinRenderer extends MobRenderer<Shroomfin, LivingEntityRenderState, ShroomfinModel> {
-    private static final ResourceLocation TEXTURE_LOCATION = Shroomcraft.id("textures/entity/fish/shroomfin.png");
+    private static final Identifier TEXTURE_LOCATION = Shroomcraft.id("textures/entity/fish/shroomfin.png");
 
     public ShroomfinRenderer(EntityRendererProvider.Context context) {
         super(context, new ShroomfinModel(context.bakeLayer(ModModelLayers.SHROOMFIN)), 0.3F);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(LivingEntityRenderState renderState) {
+    public Identifier getTextureLocation(LivingEntityRenderState renderState) {
         return TEXTURE_LOCATION;
     }
 

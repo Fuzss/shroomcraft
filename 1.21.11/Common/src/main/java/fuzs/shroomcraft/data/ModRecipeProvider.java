@@ -5,9 +5,11 @@ import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
 import fuzs.shroomcraft.init.*;
 import fuzs.shroomcraft.world.item.crafting.DistinctShapelessRecipe;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
@@ -62,8 +64,9 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .unlockedBy(getHasName(Items.MUSHROOM_STEW), this.has(Items.MUSHROOM_STEW))
                 .unlockedBy(getHasName(Items.BOWL), this.has(Items.BOWL))
                 .unlockedBy(getHasName(ModTags.MUSHROOMS_ITEM_TAG), this.has(ModTags.MUSHROOMS_ITEM_TAG))
-                .save(new TransformingRecipeOutput(this.output,
-                        (Recipe<?> recipe) -> new DistinctShapelessRecipe((ShapelessRecipe) recipe)));
+                .save(TransformingRecipeOutput.transformed(this.output, (Recipe<?> recipe) -> {
+                    return new DistinctShapelessRecipe((ShapelessRecipe) recipe);
+                }));
         this.shroombomb(ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());
         this.shroombomb(ModItems.ORANGE_SHROOMBOMB.value(), ModItems.ORANGE_SHROOMSPORES.value());
         this.shroombomb(ModItems.PURPLE_SHROOMBOMB.value(), ModItems.PURPLE_SHROOMSPORES.value());
@@ -83,13 +86,6 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.oneToOneConversionRecipe(ModItems.BLUE_SHROOMSPORES.value(), ModItems.BLUE_MUSHROOM.value(), null, 2);
         this.oneToOneConversionRecipe(ModItems.ORANGE_SHROOMSPORES.value(), ModItems.ORANGE_MUSHROOM.value(), null, 2);
         this.oneToOneConversionRecipe(ModItems.PURPLE_SHROOMSPORES.value(), ModItems.PURPLE_MUSHROOM.value(), null, 2);
-    }
-
-    @Deprecated(forRemoval = true)
-    public void foodCooking(ItemLike result, ItemLike ingredient) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ingredient), RecipeCategory.FOOD, result, 0.35F, 200)
-                .unlockedBy(getHasName(ingredient), this.has(ingredient))
-                .save(this.output);
     }
 
     public void shroombomb(ItemLike result, ItemLike ingredient) {

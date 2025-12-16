@@ -1,0 +1,62 @@
+{
+    "mod": {
+        "id": "shroomcraft",
+        "group": "fuzs.shroomcraft",
+        "name": "Shroomcraft",
+        "version": "21.11.0",
+        "authors": [
+            "Dayiel",
+            "Fuzs"
+        ],
+        "description": "Grow new mushrooms, craft vibrant shroomwood, and hang out with the most adorable creatures ever!",
+        "license": "MPL-2.0"
+    },
+    "dependencies": [
+        {
+            "name": "fabricapi",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        },
+        {
+            "name": "forgeconfigapiport",
+            "type": "required",
+            "platforms": [
+                "fabric"
+            ]
+        },
+        {
+            "name": "puzzleslib",
+            "type": "required",
+            "platforms": [
+                "fabric",
+                "neoforge"
+            ]
+        }
+    ],
+    "links": [
+        {
+            "name": "github",
+            "slug": "shroomcraft"
+        },
+        {
+            "name": "curseforge",
+            "slug": "shroomcraft",
+            "id": "1371092"
+        },
+        {
+            "name": "modrinth",
+            "slug": "shroomcraft",
+            "id": "ORxNgqTW"
+        }
+    ],
+    "environments": {
+        "client": "required",
+        "server": "required"
+    },
+    "platforms": [
+        "fabric",
+        "neoforge"
+    ]
+}

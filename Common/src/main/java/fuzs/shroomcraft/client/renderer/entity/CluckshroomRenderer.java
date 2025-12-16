@@ -5,14 +5,14 @@ import fuzs.shroomcraft.client.renderer.entity.layer.CluckshroomBlockStateLayer;
 import fuzs.shroomcraft.client.renderer.entity.state.CluckshroomRenderState;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
-import net.minecraft.client.model.ChickenModel;
+import net.minecraft.client.model.animal.chicken.ChickenModel;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class CluckshroomRenderer extends AgeableMobRenderer<Cluckshroom, CluckshroomRenderState, ChickenModel> {
@@ -40,7 +40,7 @@ public class CluckshroomRenderer extends AgeableMobRenderer<Cluckshroom, Clucksh
     }
 
     @Override
-    public ResourceLocation getTextureLocation(CluckshroomRenderState chickenRenderState) {
+    public Identifier getTextureLocation(CluckshroomRenderState chickenRenderState) {
         return chickenRenderState.textureLocation;
     }
 

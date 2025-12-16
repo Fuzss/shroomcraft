@@ -9,7 +9,6 @@ import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModLootTables;
 import fuzs.shroomcraft.init.ModRegistry;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
@@ -25,13 +24,14 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.Util;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.MushroomCow;
+import net.minecraft.world.entity.animal.cow.MushroomCow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -47,7 +47,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -73,27 +73,24 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     public static EventResult onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isNewlySpawned) {
-        @Nullable EntitySpawnReason entitySpawnReason = EntityHelper.getMobSpawnReason(entity);
+        EntitySpawnReason entitySpawnReason = EntityHelper.getMobSpawnReason(entity);
         if (isNewlySpawned && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
                 && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
                 entity.blockPosition(),
                 serverLevel.getRandom())) {
-            MushroomCow mushroomCow = (MushroomCow) entity;
-
-            mushroomCow.convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                    ConversionParams.single(mushroomCow, true, true),
-                    mob -> {
+            ((MushroomCow) entity).convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+                    ConversionParams.single((MushroomCow) entity, true, true),
+                    (ModMushroomCow mob) -> {
                         DifficultyInstance difficulty = new DifficultyInstance(serverLevel.getDifficulty(),
                                 serverLevel.getDayTime(),
                                 0L,
-                                serverLevel.getMoonBrightness());
+                                serverLevel.getMoonBrightness(entity.blockPosition()));
                         mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
                     });
-
             return EventResult.INTERRUPT;
+        } else {
+            return EventResult.PASS;
         }
-
-        return EventResult.PASS;
     }
 
     public static boolean getSpawnAsCustomEntityOdds(ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
@@ -114,7 +111,9 @@ public class ModMushroomCow extends MushroomCow {
                         serverLevel,
                         entity.position(),
                         itemInHand);
-                optional.ifPresent(mob -> ((ModMushroomCow) entity).onOffspringSpawnedFromEgg(player, mob));
+                optional.ifPresent((Mob mob) -> {
+                    ((ModMushroomCow) entity).onOffspringSpawnedFromEgg(player, mob);
+                });
                 if (optional.isEmpty()) {
                     return EventResultHolder.interrupt(InteractionResult.PASS);
                 } else {
@@ -206,6 +205,7 @@ public class ModMushroomCow extends MushroomCow {
             } else {
                 colorVariants = ColorVariant.getOverworldVariants();
             }
+
             return Util.getRandom(colorVariants, level.getRandom());
         }
     }

@@ -10,21 +10,21 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public record MobBlockVariant(ResourceLocation textureLocation,
+public record MobBlockVariant(Identifier textureLocation,
                               BlockState blockState,
                               ResourceKey<LootTable> shearingLootTable,
                               HolderSet<Biome> biomes) {
     public static final Codec<MobBlockVariant> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ResourceLocation.CODEC.fieldOf("asset_id").forGetter(MobBlockVariant::textureLocation),
+            Identifier.CODEC.fieldOf("asset_id").forGetter(MobBlockVariant::textureLocation),
             BlockState.CODEC.fieldOf("carried_block").forGetter(MobBlockVariant::blockState),
             ResourceKey.codec(Registries.LOOT_TABLE)
                     .fieldOf("shearing_loot_table")
@@ -33,7 +33,7 @@ public record MobBlockVariant(ResourceLocation textureLocation,
                     .optionalFieldOf("biomes", HolderSet.empty())
                     .forGetter(MobBlockVariant::biomes)).apply(instance, MobBlockVariant::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, MobBlockVariant> DIRECT_STREAM_CODEC = StreamCodec.composite(
-            ResourceLocation.STREAM_CODEC,
+            Identifier.STREAM_CODEC,
             MobBlockVariant::textureLocation,
             ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY),
             MobBlockVariant::blockState,
@@ -66,19 +66,19 @@ public record MobBlockVariant(ResourceLocation textureLocation,
         return ByteBufCodecs.holderRegistry(registryKey);
     }
 
-    public static ResourceLocation transformTextureLocation(ResourceLocation resourceLocation) {
-        return resourceLocation.withPath((String string) -> "textures/" + string + ".png");
+    public static Identifier transformTextureLocation(Identifier identifier) {
+        return identifier.withPath((String string) -> "textures/" + string + ".png");
     }
 
-    public static ResourceLocation getTextureLocation(Holder.Reference<? extends EntityType<?>> entityType, ResourceKey<MobBlockVariant> resourceKey) {
-        String path = entityType.key().location().getPath();
-        return resourceKey.location().withPath((String string) -> "entity/" + path + "/" + string + "_" + path);
+    public static Identifier getTextureLocation(Holder.Reference<? extends EntityType<?>> entityType, ResourceKey<MobBlockVariant> resourceKey) {
+        String path = entityType.key().identifier().getPath();
+        return resourceKey.identifier().withPath((String string) -> "entity/" + path + "/" + string + "_" + path);
     }
 
     public static ResourceKey<LootTable> getShearingLootTable(Holder.Reference<? extends EntityType<?>> entityType, ResourceKey<MobBlockVariant> resourceKey) {
         return ResourceKey.create(Registries.LOOT_TABLE,
-                resourceKey.location()
-                        .withPath((String string) -> "shearing/" + entityType.key().location().getPath() + "/" +
-                                string));
+                resourceKey.identifier()
+                        .withPath((String string) -> "shearing/" + entityType.key().identifier().getPath() + "/"
+                                + string));
     }
 }

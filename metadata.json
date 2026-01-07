@@ -3,7 +3,7 @@
         "id": "shroomcraft",
         "group": "fuzs.shroomcraft",
         "name": "Shroomcraft",
-        "version": "21.11.0",
+        "version": "21.11.1",
         "authors": [
             "Dayiel",
             "Fuzs"
@@ -37,13 +37,13 @@
     ],
     "links": [
         {
-            "name": "github",
-            "slug": "shroomcraft"
-        },
-        {
             "name": "curseforge",
             "slug": "shroomcraft",
             "id": "1371092"
+        },
+        {
+            "name": "github",
+            "slug": "shroomcraft"
         },
         {
             "name": "modrinth",

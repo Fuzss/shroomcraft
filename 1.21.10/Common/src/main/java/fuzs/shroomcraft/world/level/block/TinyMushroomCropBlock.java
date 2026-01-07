@@ -44,10 +44,8 @@ public class TinyMushroomCropBlock extends TorchflowerCropBlock {
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        int age = state.getValue(AGE);
-        if (age < 3 && random.nextInt(10) == 0) {
-            state = state.setValue(AGE, age + 1);
-            level.setBlock(pos, state, 2);
+        if (random.nextInt(2) == 0) {
+            super.randomTick(state, level, pos, random);
         }
     }
 
@@ -63,6 +61,6 @@ public class TinyMushroomCropBlock extends TorchflowerCropBlock {
 
     @Override
     public BlockState getStateForAge(int age) {
-        return age == 2 ? this.plantBlock.value().defaultBlockState() : super.getStateForAge(age);
+        return age == this.getMaxAge() ? this.plantBlock.value().defaultBlockState() : super.getStateForAge(age);
     }
 }

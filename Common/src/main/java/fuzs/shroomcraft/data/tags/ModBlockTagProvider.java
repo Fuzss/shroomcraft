@@ -3,14 +3,15 @@ package fuzs.shroomcraft.data.tags;
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModTags;
+import fuzs.shroomcraft.init.family.BlockSetFamily;
+import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
+import fuzs.shroomcraft.init.family.BlockSetVariant;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.BlockFamily;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -18,36 +19,36 @@ import net.minecraft.world.level.block.Block;
 import java.util.Map;
 
 public class ModBlockTagProvider extends AbstractTagProvider<Block> {
-    static final Map<BlockFamily.Variant, TagKey<Block>> VARIANT_TAGS = ImmutableMap.<BlockFamily.Variant, TagKey<Block>>builder()
-            .put(BlockFamily.Variant.BUTTON, BlockTags.BUTTONS)
-            .put(BlockFamily.Variant.DOOR, BlockTags.DOORS)
-            .put(BlockFamily.Variant.CUSTOM_FENCE, BlockTags.FENCES)
-            .put(BlockFamily.Variant.FENCE, BlockTags.FENCES)
-            .put(BlockFamily.Variant.CUSTOM_FENCE_GATE, BlockTags.FENCE_GATES)
-            .put(BlockFamily.Variant.FENCE_GATE, BlockTags.FENCE_GATES)
-            .put(BlockFamily.Variant.SIGN, BlockTags.STANDING_SIGNS)
-            .put(BlockFamily.Variant.SLAB, BlockTags.SLABS)
-            .put(BlockFamily.Variant.STAIRS, BlockTags.STAIRS)
-            .put(BlockFamily.Variant.PRESSURE_PLATE, BlockTags.PRESSURE_PLATES)
-            .put(BlockFamily.Variant.TRAPDOOR, BlockTags.TRAPDOORS)
-            .put(BlockFamily.Variant.WALL, BlockTags.WALLS)
-            .put(BlockFamily.Variant.WALL_SIGN, BlockTags.WALL_SIGNS)
+    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
+            .put(BlockSetVariant.BUTTON, BlockTags.BUTTONS)
+            .put(BlockSetVariant.DOOR, BlockTags.DOORS)
+            .put(BlockSetVariant.FENCE, BlockTags.FENCES)
+            .put(BlockSetVariant.FENCE_GATE, BlockTags.FENCE_GATES)
+            .put(BlockSetVariant.SIGN, BlockTags.STANDING_SIGNS)
+            .put(BlockSetVariant.SLAB, BlockTags.SLABS)
+            .put(BlockSetVariant.STAIRS, BlockTags.STAIRS)
+            .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.PRESSURE_PLATES)
+            .put(BlockSetVariant.TRAPDOOR, BlockTags.TRAPDOORS)
+            .put(BlockSetVariant.WALL, BlockTags.WALLS)
+            .put(BlockSetVariant.WALL_SIGN, BlockTags.WALL_SIGNS)
+            .put(BlockSetVariant.HANGING_SIGN, BlockTags.CEILING_HANGING_SIGNS)
+            .put(BlockSetVariant.WALL_HANGING_SIGN, BlockTags.WALL_HANGING_SIGNS)
             .build();
-    static final Map<BlockFamily.Variant, TagKey<Block>> VARIANT_STONE_TAGS = ImmutableMap.<BlockFamily.Variant, TagKey<Block>>builder()
+    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_STONE_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
             .putAll(VARIANT_TAGS)
-            .put(BlockFamily.Variant.BUTTON, BlockTags.STONE_BUTTONS)
-            .put(BlockFamily.Variant.PRESSURE_PLATE, BlockTags.STONE_PRESSURE_PLATES)
+            .put(BlockSetVariant.BUTTON, BlockTags.STONE_BUTTONS)
+            .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.STONE_PRESSURE_PLATES)
             .buildKeepingLast();
-    static final Map<BlockFamily.Variant, TagKey<Block>> VARIANT_WOODEN_TAGS = ImmutableMap.<BlockFamily.Variant, TagKey<Block>>builder()
+    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_WOODEN_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
             .putAll(VARIANT_TAGS)
-            .put(BlockFamily.Variant.BUTTON, BlockTags.WOODEN_BUTTONS)
-            .put(BlockFamily.Variant.DOOR, BlockTags.WOODEN_DOORS)
-            .put(BlockFamily.Variant.CUSTOM_FENCE, BlockTags.WOODEN_FENCES)
-            .put(BlockFamily.Variant.FENCE, BlockTags.WOODEN_FENCES)
-            .put(BlockFamily.Variant.SLAB, BlockTags.WOODEN_SLABS)
-            .put(BlockFamily.Variant.STAIRS, BlockTags.WOODEN_STAIRS)
-            .put(BlockFamily.Variant.PRESSURE_PLATE, BlockTags.WOODEN_PRESSURE_PLATES)
-            .put(BlockFamily.Variant.TRAPDOOR, BlockTags.WOODEN_TRAPDOORS)
+            .put(BlockSetVariant.BUTTON, BlockTags.WOODEN_BUTTONS)
+            .put(BlockSetVariant.DOOR, BlockTags.WOODEN_DOORS)
+            .put(BlockSetVariant.FENCE, BlockTags.WOODEN_FENCES)
+            .put(BlockSetVariant.SLAB, BlockTags.WOODEN_SLABS)
+            .put(BlockSetVariant.STAIRS, BlockTags.WOODEN_STAIRS)
+            .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.WOODEN_PRESSURE_PLATES)
+            .put(BlockSetVariant.TRAPDOOR, BlockTags.WOODEN_TRAPDOORS)
+            .put(BlockSetVariant.SHELF, BlockTags.WOODEN_SHELVES)
             .buildKeepingLast();
 
     public ModBlockTagProvider(DataProviderContext context) {
@@ -61,25 +62,12 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                         ModBlocks.BLUE_SHROOMWOOD_PLANKS.value(),
                         ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value(),
                         ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            for (Map.Entry<BlockFamily.Variant, TagKey<Block>> entry : VARIANT_WOODEN_TAGS.entrySet()) {
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily registrar) -> {
+            for (Map.Entry<BlockSetVariant, TagKey<Block>> entry : VARIANT_WOODEN_TAGS.entrySet()) {
                 Holder.Reference<Block> block = registrar.getBlock(entry.getKey());
                 if (block != null) {
                     this.tag(entry.getValue()).add(block);
                 }
-            }
-        });
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            if (registrar.hangingSignBlock() != null) {
-                this.tag(BlockTags.CEILING_HANGING_SIGNS).add(registrar.hangingSignBlock());
-            }
-
-            if (registrar.wallHangingSignBlock() != null) {
-                this.tag(BlockTags.WALL_HANGING_SIGNS).add(registrar.wallHangingSignBlock());
-            }
-
-            if (registrar.shelfBlock() != null) {
-                this.tag(BlockTags.WOODEN_SHELVES).add(registrar.shelfBlock());
             }
         });
         this.tag(BlockTags.MINEABLE_WITH_AXE)

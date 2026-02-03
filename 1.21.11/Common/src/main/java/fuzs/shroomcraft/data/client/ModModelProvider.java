@@ -2,11 +2,10 @@ package fuzs.shroomcraft.data.client;
 
 import fuzs.puzzleslib.api.client.data.v2.AbstractModelProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
+import fuzs.shroomcraft.init.family.BlockSetFamily;
 import fuzs.shroomcraft.init.family.BlockSetVariant;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -14,6 +13,9 @@ import net.minecraft.client.data.models.model.*;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Objects;
 
 public class ModModelProvider extends AbstractModelProvider {
     public static final TextureSlot GLOW_LICHEN_TEXTURE_SLOT = TextureSlot.create("glow_lichen");
@@ -34,30 +36,18 @@ public class ModModelProvider extends AbstractModelProvider {
 
     @Override
     public void addBlockModels(BlockModelGenerators blockModelGenerators) {
-        ModBlockFamilies.getAllFamilies()
-                .filter(BlockFamily::shouldGenerateModel)
-                .forEach(blockFamily -> blockModelGenerators.family(blockFamily.getBaseBlock())
-                        .generateFor(blockFamily));
-        this.createHangingSign(ModBlocks.STRIPPED_MUSHROOM_STEM.value(),
-                ModBlockFamilies.SHROOMWOOD_FAMILY,
+        this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
+                ModBlocks.STRIPPED_MUSHROOM_STEM.value(),
                 blockModelGenerators);
-        this.createHangingSign(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(),
-                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(),
                 blockModelGenerators);
-        this.createHangingSign(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
-                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
                 blockModelGenerators);
-        this.createHangingSign(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
-                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
                 blockModelGenerators);
-        blockModelGenerators.createShelf(ModBlockFamilies.SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF).value(),
-                ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        blockModelGenerators.createShelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF)
-                .value(), ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        blockModelGenerators.createShelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF)
-                .value(), ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        blockModelGenerators.createShelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF)
-                .value(), ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
         blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.PlantType.NOT_TINTED);
@@ -122,12 +112,26 @@ public class ModModelProvider extends AbstractModelProvider {
                 1);
     }
 
-    public final void createHangingSign(Block particleBlock, BlockSetFamily registrar, BlockModelGenerators blockModelGenerators) {
-        if (registrar.getBlock(BlockSetVariant.HANGING_SIGN) != null
-                && registrar.getBlock(BlockSetVariant.WALL_HANGING_SIGN) != null) {
-            blockModelGenerators.createHangingSign(particleBlock,
-                    registrar.getBlock(BlockSetVariant.HANGING_SIGN).value(),
-                    registrar.getBlock(BlockSetVariant.WALL_HANGING_SIGN).value());
+    public void generateFor(BlockSetFamily blockSetFamily, BlockModelGenerators blockModelGenerators) {
+        this.generateFor(blockSetFamily, null, blockModelGenerators);
+    }
+
+    public void generateFor(BlockSetFamily blockSetFamily, @Nullable Block strippedBlock, BlockModelGenerators blockModelGenerators) {
+        BlockFamily blockFamily = blockSetFamily.getVanillaFamily().getFamily();
+        if (blockFamily.shouldGenerateModel()) {
+            blockModelGenerators.family(blockFamily.getBaseBlock()).generateFor(blockFamily);
+            if (blockSetFamily.getBlockVariants().containsKey(BlockSetVariant.HANGING_SIGN)
+                    && blockSetFamily.getBlockVariants().containsKey(BlockSetVariant.WALL_HANGING_SIGN)) {
+                Objects.requireNonNull(strippedBlock, "stripped block is null");
+                blockModelGenerators.createHangingSign(strippedBlock,
+                        blockSetFamily.getBlock(BlockSetVariant.HANGING_SIGN).value(),
+                        blockSetFamily.getBlock(BlockSetVariant.WALL_HANGING_SIGN).value());
+            }
+
+            if (blockSetFamily.getBlockVariants().containsKey(BlockSetVariant.SHELF)) {
+                Objects.requireNonNull(strippedBlock, "stripped block is null");
+                blockModelGenerators.createShelf(blockSetFamily.getBlock(BlockSetVariant.SHELF).value(), strippedBlock);
+            }
         }
     }
 

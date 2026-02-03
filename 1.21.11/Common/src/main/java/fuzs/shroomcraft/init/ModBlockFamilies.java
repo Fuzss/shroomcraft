@@ -24,12 +24,12 @@ public class ModBlockFamilies {
         // NO-OP
     }
 
-    public static Stream<BlockSetFamily> getAllFamilyRegistrars() {
+    public static Stream<BlockSetFamily> getAllBlockSetFamilies() {
         return Stream.of(SHROOMWOOD_FAMILY, BLUE_SHROOMWOOD_FAMILY, ORANGE_SHROOMWOOD_FAMILY, PURPLE_SHROOMWOOD_FAMILY);
     }
 
     public static Stream<BlockFamily> getAllFamilies() {
-        return getAllFamilyRegistrars().map(BlockSetFamilyRegistrar.class::cast)
+        return getAllBlockSetFamilies().map(BlockSetFamilyRegistrar.class::cast)
                 .map(BlockSetFamilyRegistrar::getWoodenVanillaFamily);
     }
 }

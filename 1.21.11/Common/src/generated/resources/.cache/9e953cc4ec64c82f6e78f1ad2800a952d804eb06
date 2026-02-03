@@ -1,6 +1,8 @@
-// 1.21.11	2025-12-16T10:05:28.043309	Tags for minecraft:entity_type mod id vanilla
+// 1.21.11	2026-02-04T00:04:26.761956	Tags for minecraft:entity_type mod id vanilla
+213984831583dbb1ab24b8eb03224eaa2dbeba15 data/c/tags/entity_type/boats.json
 1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/aquatic.json
 1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/axolotl_hunt_targets.json
+e13d907658818b458b7d47640f55aaf2a478be90 data/minecraft/tags/entity_type/boat.json
 1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/can_breathe_under_water.json
 8454a4a5e790b7cf14ec67f78da6da61ddc91988 data/minecraft/tags/entity_type/fall_damage_immune.json
 1514ce586e47147fa2d306983df560ffff5a4921 data/minecraft/tags/entity_type/not_scary_for_pufferfish.json

@@ -22,55 +22,53 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
     BlockSetVariant STAIRS = new VanillaBlockSetVariant(BlockFamily.Variant.STAIRS, BlockFamily.Builder::stairs) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.STAIRS,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_stairs",
                             (BlockBehaviour.Properties properties) -> new StairBlock(familyRegistrar.baseBlock.value()
                                     .defaultBlockState(), properties),
                             () -> {
                                 return BlockBehaviour.Properties.ofLegacyCopy(familyRegistrar.baseBlock.value());
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.STAIRS,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.STAIRS)));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant SLAB = new VanillaBlockSetVariant(BlockFamily.Variant.SLAB, BlockFamily.Builder::slab) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.SLAB,
-                    registries.registerBlock(basePath + "_slab", SlabBlock::new, () -> {
-                        return BlockBehaviour.Properties.ofFullCopy(familyRegistrar.baseBlock.value());
-                    }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.SLAB,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.SLAB)));
+            familyRegistrar.blockVariants.put(this, registries.registerBlock(basePath + "_slab", SlabBlock::new, () -> {
+                return BlockBehaviour.Properties.ofFullCopy(familyRegistrar.baseBlock.value());
+            }));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant WALL = new VanillaBlockSetVariant(BlockFamily.Variant.WALL, BlockFamily.Builder::wall) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.WALL,
-                    registries.registerBlock(basePath + "_wall", WallBlock::new, () -> {
-                        return BlockBehaviour.Properties.ofLegacyCopy(familyRegistrar.baseBlock.value()).forceSolidOn();
-                    }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.WALL,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.WALL)));
+            familyRegistrar.blockVariants.put(this, registries.registerBlock(basePath + "_wall", WallBlock::new, () -> {
+                return BlockBehaviour.Properties.ofLegacyCopy(familyRegistrar.baseBlock.value()).forceSolidOn();
+            }));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant FENCE = new VanillaBlockSetVariant(BlockFamily.Variant.FENCE, BlockFamily.Builder::fence) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.FENCE,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_fence", FenceBlock::new, () -> {
                         return BlockBehaviour.Properties.ofFullCopy(familyRegistrar.baseBlock.value());
                     }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.FENCE,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.FENCE)));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant FENCE_GATE = new VanillaBlockSetVariant(BlockFamily.Variant.FENCE_GATE,
             BlockFamily.Builder::fenceGate) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.FENCE_GATE,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_fence_gate",
                             (BlockBehaviour.Properties properties) -> new FenceGateBlock(familyRegistrar.woodType,
                                     properties),
@@ -78,14 +76,14 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                 return BlockBehaviour.Properties.ofFullCopy(familyRegistrar.baseBlock.value())
                                         .forceSolidOn();
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.FENCE_GATE,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.FENCE_GATE)));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant DOOR = new VanillaBlockSetVariant(BlockFamily.Variant.DOOR, BlockFamily.Builder::door) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.DOOR,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_door",
                             (BlockBehaviour.Properties properties) -> new DoorBlock(familyRegistrar.blockSetType,
                                     properties),
@@ -94,15 +92,14 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .noOcclusion()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.DOOR,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.DOOR),
-                            DoubleHighBlockItem::new));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this), DoubleHighBlockItem::new));
         }
     };
     BlockSetVariant TRAPDOOR = new VanillaBlockSetVariant(BlockFamily.Variant.TRAPDOOR, BlockFamily.Builder::trapdoor) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.TRAPDOOR,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_trapdoor",
                             (BlockBehaviour.Properties properties) -> new TrapDoorBlock(familyRegistrar.blockSetType,
                                     properties),
@@ -111,14 +108,14 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .noOcclusion()
                                         .isValidSpawn(Blocks::never);
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.TRAPDOOR,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.TRAPDOOR)));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant BUTTON = new VanillaBlockSetVariant(BlockFamily.Variant.BUTTON, BlockFamily.Builder::button) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.BUTTON,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_button",
                             (BlockBehaviour.Properties properties) -> new ButtonBlock(familyRegistrar.blockSetType,
                                     30,
@@ -128,15 +125,15 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .noCollision()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.BUTTON,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.BUTTON)));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant PRESSURE_PLATE = new VanillaBlockSetVariant(BlockFamily.Variant.PRESSURE_PLATE,
             BlockFamily.Builder::pressurePlate) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.PRESSURE_PLATE,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_pressure_plate",
                             (BlockBehaviour.Properties properties) -> new PressurePlateBlock(familyRegistrar.blockSetType,
                                     properties),
@@ -146,14 +143,14 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .noCollision()
                                         .pushReaction(PushReaction.DESTROY);
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.PRESSURE_PLATE,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(BlockSetVariant.PRESSURE_PLATE)));
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this)));
         }
     };
     BlockSetVariant SIGN = new StandaloneBlockSetVariant(BlockFamily.Variant.SIGN) {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(BlockSetVariant.SIGN,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_sign",
                             (BlockBehaviour.Properties properties) -> new StandingSignBlock(familyRegistrar.woodType,
                                     properties),
@@ -162,8 +159,8 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .forceSolidOn()
                                         .noCollision();
                             }));
-            Holder<Block> signHolder = familyRegistrar.blockVariants.get(BlockSetVariant.SIGN);
-            familyRegistrar.blockVariants.put(BlockSetVariant.WALL_SIGN,
+            Holder<Block> signHolder = familyRegistrar.blockVariants.get(this);
+            familyRegistrar.blockVariants.put(WALL_SIGN,
                     registries.registerBlock(basePath + "_wall_sign",
                             (BlockBehaviour.Properties properties) -> new WallSignBlock(familyRegistrar.woodType,
                                     properties),
@@ -174,10 +171,10 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .forceSolidOn()
                                         .noCollision();
                             }));
-            familyRegistrar.itemVariants.put(BlockSetVariant.SIGN,
+            familyRegistrar.itemVariants.put(this,
                     registries.registerBlockItem(signHolder,
                             (Block block, Item.Properties properties) -> new SignItem(block,
-                                    familyRegistrar.blockVariants.get(BlockSetVariant.WALL_SIGN).value(),
+                                    familyRegistrar.blockVariants.get(WALL_SIGN).value(),
                                     properties),
                             () -> new Item.Properties().stacksTo(16)));
         }
@@ -191,7 +188,7 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
     BlockSetVariant HANGING_SIGN = new StandaloneBlockSetVariant("hanging_sign") {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(HANGING_SIGN,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_hanging_sign",
                             (BlockBehaviour.Properties properties) -> new CeilingHangingSignBlock(familyRegistrar.woodType,
                                     properties),
@@ -200,7 +197,7 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .forceSolidOn()
                                         .noCollision();
                             }));
-            Holder<Block> hangingSignHolder = familyRegistrar.blockVariants.get(HANGING_SIGN);
+            Holder<Block> hangingSignHolder = familyRegistrar.blockVariants.get(this);
             familyRegistrar.blockVariants.put(WALL_HANGING_SIGN,
                     registries.registerBlock(basePath + "_wall_hanging_sign",
                             (BlockBehaviour.Properties properties) -> new WallHangingSignBlock(familyRegistrar.woodType,
@@ -212,10 +209,10 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
                                         .forceSolidOn()
                                         .noCollision();
                             }));
-            familyRegistrar.itemVariants.put(HANGING_SIGN,
+            familyRegistrar.itemVariants.put(this,
                     registries.registerBlockItem(hangingSignHolder,
                             (Block block, Item.Properties properties) -> new HangingSignItem(block,
-                                    familyRegistrar.blockVariants.get(HANGING_SIGN).value(),
+                                    familyRegistrar.blockVariants.get(this).value(),
                                     properties),
                             () -> new Item.Properties().stacksTo(16)));
         }
@@ -229,13 +226,13 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
     BlockSetVariant SHELF = new StandaloneBlockSetVariant("shelf") {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.blockVariants.put(SHELF,
+            familyRegistrar.blockVariants.put(this,
                     registries.registerBlock(basePath + "_shelf", ShelfBlock::new, () -> {
                         return BlockBehaviour.Properties.ofFullCopy(familyRegistrar.baseBlock.value())
                                 .sound(SoundType.SHELF);
                     }));
-            familyRegistrar.itemVariants.put(SHELF,
-                    registries.registerBlockItem(familyRegistrar.blockVariants.get(SHELF),
+            familyRegistrar.itemVariants.put(this,
+                    registries.registerBlockItem(familyRegistrar.blockVariants.get(this),
                             () -> new Item.Properties().component(DataComponents.CONTAINER,
                                     ItemContainerContents.EMPTY)));
         }
@@ -243,44 +240,44 @@ public sealed interface BlockSetVariant extends StringRepresentable permits Stan
     BlockSetVariant BOAT = new StandaloneBlockSetVariant("boat") {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.entityVariants.put(BOAT,
+            familyRegistrar.entityVariants.put(this,
                     (Holder.Reference<EntityType<?>>) (Holder.Reference<?>) registries.registerEntityType(
                             basePath + "_boat",
                             () -> EntityType.Builder.of((EntityType<Boat> entityType, Level level) -> {
                                         return new Boat(entityType,
                                                 level,
-                                                () -> familyRegistrar.itemVariants.get(BOAT).value());
+                                                () -> familyRegistrar.itemVariants.get(this).value());
                                     }, MobCategory.MISC)
                                     .noLootTable()
                                     .sized(1.375F, 0.5625F)
                                     .eyeHeight(0.5625F)
                                     .clientTrackingRange(10)));
-            familyRegistrar.itemVariants.put(BOAT,
+            familyRegistrar.itemVariants.put(this,
                     registries.registerItem(basePath + "_boat",
                             (Item.Properties properties) -> new BoatItem((EntityType<? extends AbstractBoat>) familyRegistrar.entityVariants.get(
-                                    BOAT).value(), properties),
+                                    this).value(), properties),
                             () -> new Item.Properties().stacksTo(1)));
         }
     };
     BlockSetVariant CHEST_BOAT = new StandaloneBlockSetVariant("chest_boat") {
         @Override
         public void generateFor(BlockSetFamilyRegistrar familyRegistrar, RegistryManager registries, String basePath) {
-            familyRegistrar.entityVariants.put(CHEST_BOAT,
+            familyRegistrar.entityVariants.put(this,
                     (Holder.Reference<EntityType<?>>) (Holder.Reference<?>) registries.registerEntityType(
                             basePath + "_chest_boat",
                             () -> EntityType.Builder.of((EntityType<ChestBoat> entityType, Level level) -> {
                                         return new ChestBoat(entityType,
                                                 level,
-                                                () -> familyRegistrar.itemVariants.get(CHEST_BOAT).value());
+                                                () -> familyRegistrar.itemVariants.get(this).value());
                                     }, MobCategory.MISC)
                                     .noLootTable()
                                     .sized(1.375F, 0.5625F)
                                     .eyeHeight(0.5625F)
                                     .clientTrackingRange(10)));
-            familyRegistrar.itemVariants.put(CHEST_BOAT,
+            familyRegistrar.itemVariants.put(this,
                     registries.registerItem(basePath + "_chest_boat",
                             (Item.Properties properties) -> new BoatItem((EntityType<? extends AbstractBoat>) familyRegistrar.entityVariants.get(
-                                    CHEST_BOAT).value(), properties),
+                                    this).value(), properties),
                             () -> new Item.Properties().stacksTo(1)));
         }
     };

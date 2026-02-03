@@ -5,7 +5,6 @@ import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
 import fuzs.shroomcraft.init.*;
 import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
 import fuzs.shroomcraft.init.family.BlockSetVariant;
 import fuzs.shroomcraft.world.item.crafting.DistinctShapelessRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -51,13 +50,13 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
         this.shelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
                 ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily registrar) -> {
+        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily registrar) -> {
             if (registrar.getItem(BlockSetVariant.BOAT) != null) {
                 this.woodenBoat(registrar.getItem(BlockSetVariant.BOAT).value(), registrar.getBaseBlock().value());
-                if (registrar.getItem(BlockSetVariant.CHEST_BOAT) != null) {
-                    this.chestBoat(registrar.getItem(BlockSetVariant.CHEST_BOAT).value(), registrar.getItem(
-                            BlockSetVariant.BOAT).value());
-                }
+            }
+            if (registrar.getItem(BlockSetVariant.CHEST_BOAT) != null) {
+                this.chestBoat(registrar.getItem(BlockSetVariant.CHEST_BOAT).value(), registrar.getItem(
+                        BlockSetVariant.BOAT).value());
             }
         });
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());

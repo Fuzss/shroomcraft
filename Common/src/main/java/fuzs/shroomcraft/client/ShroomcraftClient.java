@@ -32,7 +32,7 @@ public class ShroomcraftClient implements ClientModConstructor {
 
     @Override
     public void onClientSetup() {
-        ModBlockFamilies.getAllFamilyRegistrars()
+        ModBlockFamilies.getAllBlockSetFamilies()
                 .map(BlockSetFamily::getWoodType)
                 .forEach(ClientWoodTypeRegistry::registerWoodType);
     }
@@ -118,7 +118,7 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerChunkRenderType(ModBlocks.TINY_BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
         context.registerChunkRenderType(ModBlocks.TINY_ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
         context.registerChunkRenderType(ModBlocks.TINY_PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        ModBlockFamilies.getAllFamilyRegistrars()
+        ModBlockFamilies.getAllBlockSetFamilies()
                 .mapMulti((BlockSetFamily blockSetFamily, Consumer<Holder.Reference<Block>> consumer) -> {
                     consumer.accept(blockSetFamily.getBlock(BlockSetVariant.DOOR));
                     consumer.accept(blockSetFamily.getBlock(BlockSetVariant.TRAPDOOR));

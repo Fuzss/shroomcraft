@@ -12,14 +12,11 @@ import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
 import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
-import fuzs.shroomcraft.init.family.BlockSetVariant;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
 import net.minecraft.advancements.criterion.LocationPredicate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.dispenser.BlockSource;
@@ -54,9 +51,7 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class Shroomcraft implements ModConstructor {
     public static final String MOD_ID = "shroomcraft";
@@ -71,33 +66,9 @@ public class Shroomcraft implements ModConstructor {
 
     private static void registerEventHandler() {
         AddBlockEntityTypeBlocksCallback.EVENT.register((BiConsumer<BlockEntityType<?>, Block> consumer) -> {
-            ModBlockFamilies.getAllFamilyRegistrars()
-                    .mapMulti((BlockSetFamily blockSetFamily, Consumer<Holder.Reference<Block>> blockConsumer) -> {
-                        blockConsumer.accept(blockSetFamily.getBlock(BlockSetVariant.SIGN));
-                        blockConsumer.accept(blockSetFamily.getBlock(BlockSetVariant.WALL_SIGN));
-                    })
-                    .filter(Objects::nonNull)
-                    .map(Holder::value)
-                    .forEach((Block block) -> {
-                        consumer.accept(BlockEntityType.SIGN, block);
-                    });
-            ModBlockFamilies.getAllFamilyRegistrars()
-                    .mapMulti((BlockSetFamily blockSetFamily, Consumer<Holder.Reference<Block>> blockConsumer) -> {
-                        blockConsumer.accept(blockSetFamily.getBlock(BlockSetVariant.HANGING_SIGN));
-                        blockConsumer.accept(blockSetFamily.getBlock(BlockSetVariant.WALL_HANGING_SIGN));
-                    })
-                    .filter(Objects::nonNull)
-                    .map(Holder::value)
-                    .forEach((Block block) -> {
-                        consumer.accept(BlockEntityType.HANGING_SIGN, block);
-                    });
-            ModBlockFamilies.getAllFamilyRegistrars()
-                    .map((BlockSetFamily blockSetFamily) -> blockSetFamily.getBlock(BlockSetVariant.SHELF))
-                    .filter(Objects::nonNull)
-                    .map(Holder::value)
-                    .forEach((Block block) -> {
-                        consumer.accept(BlockEntityType.SHELF, block);
-                    });
+            ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
+                blockSetFamily.generateFor(consumer, BlockSetFamily.VARIANT_BLOCK_ENTITY_TYPE);
+            });
         });
         ServerEntityLevelEvents.LOAD.register(ModMushroomCow::onEntityLoad);
         PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);
@@ -114,6 +85,7 @@ public class Shroomcraft implements ModConstructor {
                                     .setBiomes(HolderSet.direct(registries.lookupOrThrow(Registries.BIOME)
                                             .getOrThrow(Biomes.MUSHROOM_FIELDS)))));
                         }
+
                         builder.add(entriesBuilder);
                     }
                 });
@@ -123,9 +95,10 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onCommonSetup() {
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily blockSetFamily) -> {
+        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
             BlockSetType.register(blockSetFamily.getBlockSetType());
             WoodType.register(blockSetFamily.getWoodType());
+            blockSetFamily.generateFor(BlockSetFamily.VARIANT_DISPENSE_BEHAVIOR);
         });
         DispenserBlock.registerBehavior(ModItems.SHROOMFIN_BUCKET.value(), new DefaultDispenseItemBehavior() {
             @Override
@@ -171,6 +144,9 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterGameplayContent(GameplayContentContext context) {
+        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
+            blockSetFamily.generateFor(context, BlockSetFamily.VARIANT_WOODEN_FLAMMABLE);
+        });
         context.registerFlammable(ModBlocks.STRIPPED_MUSHROOM_STEM, 5, 5);
         context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM, 5, 5);
         context.registerFlammable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM, 5, 5);
@@ -179,14 +155,6 @@ public class Shroomcraft implements ModConstructor {
         context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE, 5, 5);
         context.registerFlammable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE, 5, 5);
         context.registerFlammable(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE, 5, 5);
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily blockSetFamily) -> {
-            ((BlockSetFamilyRegistrar) blockSetFamily).forEachFlammableVariant((Holder.Reference<Block> holder) -> {
-                context.registerFlammable(holder, 5, 20);
-            });
-            if (blockSetFamily.getBlock(BlockSetVariant.SHELF) != null) {
-                context.registerFlammable(blockSetFamily.getBlock(BlockSetVariant.SHELF), 30, 20);
-            }
-        });
         context.registerCompostable(ModItems.BROWN_SHROOMSPORES, 0.3F);
         context.registerCompostable(ModItems.RED_SHROOMSPORES, 0.3F);
         context.registerCompostable(ModItems.BLUE_SHROOMSPORES, 0.3F);

@@ -7,7 +7,6 @@ import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModTags;
 import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
 import fuzs.shroomcraft.init.family.BlockSetVariant;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -19,7 +18,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.Map;
 
 public class ModBlockTagProvider extends AbstractTagProvider<Block> {
-    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
+    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_BLOCK_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
             .put(BlockSetVariant.BUTTON, BlockTags.BUTTONS)
             .put(BlockSetVariant.DOOR, BlockTags.DOORS)
             .put(BlockSetVariant.FENCE, BlockTags.FENCES)
@@ -34,13 +33,13 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
             .put(BlockSetVariant.HANGING_SIGN, BlockTags.CEILING_HANGING_SIGNS)
             .put(BlockSetVariant.WALL_HANGING_SIGN, BlockTags.WALL_HANGING_SIGNS)
             .build();
-    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_STONE_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
-            .putAll(VARIANT_TAGS)
+    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_STONE_BLOCK_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
+            .putAll(VARIANT_BLOCK_TAGS)
             .put(BlockSetVariant.BUTTON, BlockTags.STONE_BUTTONS)
             .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.STONE_PRESSURE_PLATES)
             .buildKeepingLast();
-    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_WOODEN_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
-            .putAll(VARIANT_TAGS)
+    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_WOODEN_BLOCK_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
+            .putAll(VARIANT_BLOCK_TAGS)
             .put(BlockSetVariant.BUTTON, BlockTags.WOODEN_BUTTONS)
             .put(BlockSetVariant.DOOR, BlockTags.WOODEN_DOORS)
             .put(BlockSetVariant.FENCE, BlockTags.WOODEN_FENCES)
@@ -62,13 +61,8 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                         ModBlocks.BLUE_SHROOMWOOD_PLANKS.value(),
                         ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value(),
                         ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily registrar) -> {
-            for (Map.Entry<BlockSetVariant, TagKey<Block>> entry : VARIANT_WOODEN_TAGS.entrySet()) {
-                Holder.Reference<Block> block = registrar.getBlock(entry.getKey());
-                if (block != null) {
-                    this.tag(entry.getValue()).add(block);
-                }
-            }
+        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
+            this.generateFor(blockSetFamily.getBlockVariants(), VARIANT_WOODEN_BLOCK_TAGS);
         });
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
@@ -135,5 +129,14 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value());
+    }
+
+    public final void generateFor(Map<BlockSetVariant, Holder.Reference<Block>> variantTypes, Map<BlockSetVariant, TagKey<Block>> variantTags) {
+        variantTypes.forEach((BlockSetVariant variant, Holder.Reference<Block> holder) -> {
+            TagKey<Block> tagKey = variantTags.get(variant);
+            if (tagKey != null) {
+                this.tag(tagKey).add(holder);
+            }
+        });
     }
 }

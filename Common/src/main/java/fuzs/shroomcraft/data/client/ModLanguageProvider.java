@@ -20,13 +20,13 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
     public void addTranslations(TranslationBuilder builder) {
         builder.add(ModRegistry.CREATIVE_MODE_TAB.value(), Shroomcraft.MOD_NAME);
         builder.blockFamily("Shroomwood", "Shroomwood Planks")
-                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
+                .generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY.getWoodenVanillaFamily());
         builder.blockFamily("Blue Shroomwood", "Blue Shroomwood Planks")
-                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
+                .generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getWoodenVanillaFamily());
         builder.blockFamily("Orange Shroomwood", "Orange Shroomwood Planks")
-                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
+                .generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getWoodenVanillaFamily());
         builder.blockFamily("Purple Shroomwood", "Purple Shroomwood Planks")
-                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
+                .generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getWoodenVanillaFamily());
         builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.HANGING_SIGN),
                 "Shroomwood Hanging Sign");
         builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.HANGING_SIGN),

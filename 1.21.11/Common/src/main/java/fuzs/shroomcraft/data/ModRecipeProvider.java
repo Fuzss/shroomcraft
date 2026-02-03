@@ -4,6 +4,9 @@ import fuzs.puzzleslib.api.data.v2.AbstractRecipeProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
 import fuzs.shroomcraft.init.*;
+import fuzs.shroomcraft.init.family.BlockSetFamily;
+import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
+import fuzs.shroomcraft.init.family.BlockSetVariant;
 import fuzs.shroomcraft.world.item.crafting.DistinctShapelessRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -33,26 +36,27 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
         this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.SHROOMWOOD_FAMILY.hangingSignItem().value(),
+        this.hangingSign(ModBlockFamilies.SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
                 ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.hangingSignItem().value(),
+        this.hangingSign(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
                 ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.hangingSignItem().value(),
+        this.hangingSign(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
                 ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.hangingSignItem().value(),
+        this.hangingSign(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
                 ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.SHROOMWOOD_FAMILY.shelfItem().value(), ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.shelfItem().value(),
+        this.shelf(ModBlockFamilies.SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(), ModBlocks.STRIPPED_MUSHROOM_STEM.value());
+        this.shelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
                 ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.shelfItem().value(),
+        this.shelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
                 ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.shelfItem().value(),
+        this.shelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
                 ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar registrar) -> {
-            if (registrar.boatItem() != null) {
-                this.woodenBoat(registrar.boatItem().value(), registrar.getBaseBlock().value());
-                if (registrar.chestBoatItem() != null) {
-                    this.chestBoat(registrar.chestBoatItem().value(), registrar.boatItem().value());
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily registrar) -> {
+            if (registrar.getItem(BlockSetVariant.BOAT) != null) {
+                this.woodenBoat(registrar.getItem(BlockSetVariant.BOAT).value(), registrar.getBaseBlock().value());
+                if (registrar.getItem(BlockSetVariant.CHEST_BOAT) != null) {
+                    this.chestBoat(registrar.getItem(BlockSetVariant.CHEST_BOAT).value(), registrar.getItem(
+                            BlockSetVariant.BOAT).value());
                 }
             }
         });

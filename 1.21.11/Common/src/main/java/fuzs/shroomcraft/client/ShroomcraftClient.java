@@ -10,10 +10,11 @@ import fuzs.shroomcraft.client.model.ShroomfinModel;
 import fuzs.shroomcraft.client.renderer.entity.CluckshroomRenderer;
 import fuzs.shroomcraft.client.renderer.entity.ModMushroomCowRenderer;
 import fuzs.shroomcraft.client.renderer.entity.ShroomfinRenderer;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.family.BlockSetFamily;
+import fuzs.shroomcraft.init.family.BlockSetVariant;
 import net.minecraft.client.model.animal.chicken.ChickenModel;
 import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.model.object.boat.BoatModel;
@@ -21,7 +22,8 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Holder;
-import net.minecraft.data.BlockFamily;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.level.block.Block;
 
 import java.util.function.Consumer;
@@ -31,34 +33,43 @@ public class ShroomcraftClient implements ClientModConstructor {
     @Override
     public void onClientSetup() {
         ModBlockFamilies.getAllFamilyRegistrars()
-                .map(BlockFamilyRegistrar::getWoodType)
+                .map(BlockSetFamily::getWoodType)
                 .forEach(ClientWoodTypeRegistry::registerWoodType);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onRegisterEntityRenderers(EntityRenderersContext context) {
-        context.registerEntityRenderer(ModBlockFamilies.SHROOMWOOD_FAMILY.boatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.SHROOMWOOD_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.CHEST_BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.SHROOMWOOD_CHEST_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.BLUE_SHROOMWOOD_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.CHEST_BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.BLUE_SHROOMWOOD_CHEST_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.ORANGE_SHROOMWOOD_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.CHEST_BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.ORANGE_SHROOMWOOD_CHEST_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.PURPLE_SHROOMWOOD_BOAT));
-        context.registerEntityRenderer(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        context.registerEntityRenderer((EntityType<? extends AbstractBoat>) ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getEntityType(
+                        BlockSetVariant.CHEST_BOAT).value(),
                 (EntityRendererProvider.Context contextX) -> new BoatRenderer(contextX,
                         ModModelLayers.PURPLE_SHROOMWOOD_CHEST_BOAT));
         context.registerEntityRenderer(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), ModMushroomCowRenderer::new);
@@ -108,9 +119,9 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerChunkRenderType(ModBlocks.TINY_ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
         context.registerChunkRenderType(ModBlocks.TINY_PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
         ModBlockFamilies.getAllFamilyRegistrars()
-                .mapMulti((BlockFamilyRegistrar registrar, Consumer<Holder.Reference<Block>> consumer) -> {
-                    consumer.accept(registrar.getBlock(BlockFamily.Variant.DOOR));
-                    consumer.accept(registrar.getBlock(BlockFamily.Variant.TRAPDOOR));
+                .mapMulti((BlockSetFamily blockSetFamily, Consumer<Holder.Reference<Block>> consumer) -> {
+                    consumer.accept(blockSetFamily.getBlock(BlockSetVariant.DOOR));
+                    consumer.accept(blockSetFamily.getBlock(BlockSetVariant.TRAPDOOR));
                 })
                 .map(Holder.Reference::value)
                 .forEach((Block block) -> {

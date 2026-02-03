@@ -7,6 +7,8 @@ import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
+import fuzs.shroomcraft.init.family.BlockSetVariant;
 
 public class ModLanguageProvider extends AbstractLanguageProvider {
 
@@ -18,23 +20,28 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
     public void addTranslations(TranslationBuilder builder) {
         builder.add(ModRegistry.CREATIVE_MODE_TAB.value(), Shroomcraft.MOD_NAME);
         builder.blockFamily("Shroomwood", "Shroomwood Planks")
-                .generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY.getWoodenFamily());
+                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
         builder.blockFamily("Blue Shroomwood", "Blue Shroomwood Planks")
-                .generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getWoodenFamily());
+                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
         builder.blockFamily("Orange Shroomwood", "Orange Shroomwood Planks")
-                .generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getWoodenFamily());
+                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
         builder.blockFamily("Purple Shroomwood", "Purple Shroomwood Planks")
-                .generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getWoodenFamily());
-        builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.hangingSignBlock(), "Shroomwood Hanging Sign");
-        builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.hangingSignBlock(), "Blue Shroomwood Hanging Sign");
-        builder.addBlock(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.hangingSignBlock(),
+                .generateFor(((BlockSetFamilyRegistrar) ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY).getWoodenVanillaFamily());
+        builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.HANGING_SIGN),
+                "Shroomwood Hanging Sign");
+        builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.HANGING_SIGN),
+                "Blue Shroomwood Hanging Sign");
+        builder.addBlock(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.HANGING_SIGN),
                 "Orange Shroomwood Hanging Sign");
-        builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.hangingSignBlock(),
+        builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.HANGING_SIGN),
                 "Purple Shroomwood Hanging Sign");
-        builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.shelfBlock(), "Shroomwood Shelf");
-        builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.shelfBlock(), "Blue Shroomwood Shelf");
-        builder.addBlock(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.shelfBlock(), "Orange Shroomwood Shelf");
-        builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.shelfBlock(), "Purple Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF), "Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF),
+                "Blue Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF),
+                "Orange Shroomwood Shelf");
+        builder.addBlock(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getBlock(BlockSetVariant.SHELF),
+                "Purple Shroomwood Shelf");
         builder.add(ModBlocks.BLUE_MUSHROOM.value(), "Blue Mushroom");
         builder.add(ModBlocks.ORANGE_MUSHROOM.value(), "Orange Mushroom");
         builder.add(ModBlocks.PURPLE_MUSHROOM.value(), "Purple Mushroom");
@@ -74,24 +81,35 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         builder.add(ModItems.BLUE_SHROOMSPORES.value(), "Blue Shroomspores");
         builder.add(ModItems.ORANGE_SHROOMSPORES.value(), "Orange Shroomspores");
         builder.add(ModItems.PURPLE_SHROOMSPORES.value(), "Purple Shroomspores");
-        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.boatItem().value(), "Shroomwood Boat");
-        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatItem().value(), "Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.boatEntityType().value(), "Shroomwood Boat");
-        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatEntityType().value(), "Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatItem().value(), "Blue Shroomwood Boat");
-        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatItem().value(), "Blue Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Blue Shroomwood Boat");
-        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.getItem(BlockSetVariant.BOAT).value(), "Shroomwood Boat");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.getItem(BlockSetVariant.CHEST_BOAT).value(),
+                "Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.BOAT).value(), "Shroomwood Boat");
+        builder.add(ModBlockFamilies.SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.CHEST_BOAT).value(),
+                "Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.BOAT).value(),
+                "Blue Shroomwood Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.CHEST_BOAT).value(),
                 "Blue Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatItem().value(), "Orange Shroomwood Boat");
-        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatItem().value(), "Orange Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Orange Shroomwood Boat");
-        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.BOAT).value(),
+                "Blue Shroomwood Boat");
+        builder.add(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.CHEST_BOAT).value(),
+                "Blue Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.BOAT).value(),
+                "Orange Shroomwood Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.CHEST_BOAT).value(),
                 "Orange Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatItem().value(), "Purple Shroomwood Boat");
-        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatItem().value(), "Purple Shroomwood Chest Boat");
-        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatEntityType().value(), "Purple Shroomwood Boat");
-        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatEntityType().value(),
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.BOAT).value(),
+                "Orange Shroomwood Boat");
+        builder.add(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.CHEST_BOAT).value(),
+                "Orange Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.BOAT).value(),
+                "Purple Shroomwood Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.CHEST_BOAT).value(),
+                "Purple Shroomwood Chest Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.BOAT).value(),
+                "Purple Shroomwood Boat");
+        builder.add(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getEntityType(BlockSetVariant.CHEST_BOAT).value(),
                 "Purple Shroomwood Chest Boat");
         builder.add(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), "Mooshroom");
         builder.add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), "Shroomfin");

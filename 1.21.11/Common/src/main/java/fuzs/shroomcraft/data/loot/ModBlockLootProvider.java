@@ -2,9 +2,11 @@ package fuzs.shroomcraft.data.loot;
 
 import fuzs.puzzleslib.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
+import fuzs.shroomcraft.init.family.BlockSetFamily;
+import fuzs.shroomcraft.init.family.BlockSetFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
+import fuzs.shroomcraft.init.family.BlockSetVariant;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 
@@ -27,13 +29,13 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
                 }
             });
         });
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar blockFamilyRegistrar) -> {
-            if (blockFamilyRegistrar.hangingSignBlock() != null) {
-                this.dropSelf(blockFamilyRegistrar.hangingSignBlock().value());
+        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockSetFamily blockSetFamily) -> {
+            if (blockSetFamily.getBlock(BlockSetVariant.HANGING_SIGN) != null) {
+                this.dropSelf(blockSetFamily.getBlock(BlockSetVariant.HANGING_SIGN).value());
             }
 
-            if (blockFamilyRegistrar.shelfBlock() != null) {
-                this.dropSelf(blockFamilyRegistrar.shelfBlock().value());
+            if (blockSetFamily.getBlock(BlockSetVariant.SHELF) != null) {
+                this.dropSelf(blockSetFamily.getBlock(BlockSetVariant.SHELF).value());
             }
         });
         this.dropSelf(ModBlocks.BLUE_MUSHROOM.value());

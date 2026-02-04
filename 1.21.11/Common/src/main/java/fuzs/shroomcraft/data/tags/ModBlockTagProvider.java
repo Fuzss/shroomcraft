@@ -1,54 +1,17 @@
 package fuzs.shroomcraft.data.tags;
 
-import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
+import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModTags;
-import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetVariant;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
-import java.util.Map;
-
 public class ModBlockTagProvider extends AbstractTagProvider<Block> {
-    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_BLOCK_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
-            .put(BlockSetVariant.BUTTON, BlockTags.BUTTONS)
-            .put(BlockSetVariant.DOOR, BlockTags.DOORS)
-            .put(BlockSetVariant.FENCE, BlockTags.FENCES)
-            .put(BlockSetVariant.FENCE_GATE, BlockTags.FENCE_GATES)
-            .put(BlockSetVariant.SIGN, BlockTags.STANDING_SIGNS)
-            .put(BlockSetVariant.SLAB, BlockTags.SLABS)
-            .put(BlockSetVariant.STAIRS, BlockTags.STAIRS)
-            .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.PRESSURE_PLATES)
-            .put(BlockSetVariant.TRAPDOOR, BlockTags.TRAPDOORS)
-            .put(BlockSetVariant.WALL, BlockTags.WALLS)
-            .put(BlockSetVariant.WALL_SIGN, BlockTags.WALL_SIGNS)
-            .put(BlockSetVariant.HANGING_SIGN, BlockTags.CEILING_HANGING_SIGNS)
-            .put(BlockSetVariant.WALL_HANGING_SIGN, BlockTags.WALL_HANGING_SIGNS)
-            .build();
-    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_STONE_BLOCK_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
-            .putAll(VARIANT_BLOCK_TAGS)
-            .put(BlockSetVariant.BUTTON, BlockTags.STONE_BUTTONS)
-            .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.STONE_PRESSURE_PLATES)
-            .buildKeepingLast();
-    public static final Map<BlockSetVariant, TagKey<Block>> VARIANT_WOODEN_BLOCK_TAGS = ImmutableMap.<BlockSetVariant, TagKey<Block>>builder()
-            .putAll(VARIANT_BLOCK_TAGS)
-            .put(BlockSetVariant.BUTTON, BlockTags.WOODEN_BUTTONS)
-            .put(BlockSetVariant.DOOR, BlockTags.WOODEN_DOORS)
-            .put(BlockSetVariant.FENCE, BlockTags.WOODEN_FENCES)
-            .put(BlockSetVariant.SLAB, BlockTags.WOODEN_SLABS)
-            .put(BlockSetVariant.STAIRS, BlockTags.WOODEN_STAIRS)
-            .put(BlockSetVariant.PRESSURE_PLATE, BlockTags.WOODEN_PRESSURE_PLATES)
-            .put(BlockSetVariant.TRAPDOOR, BlockTags.WOODEN_TRAPDOORS)
-            .put(BlockSetVariant.SHELF, BlockTags.WOODEN_SHELVES)
-            .buildKeepingLast();
 
     public ModBlockTagProvider(DataProviderContext context) {
         super(Registries.BLOCK, context);
@@ -129,14 +92,5 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value());
-    }
-
-    public final void generateFor(Map<BlockSetVariant, Holder.Reference<Block>> variantTypes, Map<BlockSetVariant, TagKey<Block>> variantTags) {
-        variantTypes.forEach((BlockSetVariant variant, Holder.Reference<Block> holder) -> {
-            TagKey<Block> tagKey = variantTags.get(variant);
-            if (tagKey != null) {
-                this.tag(tagKey).add(holder);
-            }
-        });
     }
 }

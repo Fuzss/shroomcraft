@@ -1,4 +1,4 @@
-package fuzs.shroomcraft.client.init;
+package fuzs.shroomcraft.client.model.geom;
 
 import fuzs.puzzleslib.api.client.init.v1.ModelLayerFactory;
 import fuzs.shroomcraft.Shroomcraft;

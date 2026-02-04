@@ -3,9 +3,10 @@ package fuzs.shroomcraft.data;
 import fuzs.puzzleslib.api.data.v2.AbstractRecipeProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
-import fuzs.shroomcraft.init.*;
-import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetVariant;
+import fuzs.shroomcraft.init.ModBlockFamilies;
+import fuzs.shroomcraft.init.ModBlocks;
+import fuzs.shroomcraft.init.ModItems;
+import fuzs.shroomcraft.init.ModTags;
 import fuzs.shroomcraft.world.item.crafting.DistinctShapelessRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -24,7 +25,18 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
 
     @Override
     public void addRecipes(RecipeOutput recipeOutput) {
-        this.generateForBlockFamilies(ModBlockFamilies.getAllFamilies());
+        this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
+                createVariantWoodProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_MUSHROOM_STEM.value()));
+        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+                createVariantWoodProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()));
+        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+                createVariantWoodProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()));
+        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+                createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
         this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
@@ -35,30 +47,6 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
         this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
-                ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
-                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
-                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.hangingSign(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.HANGING_SIGN).value(),
-                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(), ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
-                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
-                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.shelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItem(BlockSetVariant.SHELF).value(),
-                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily registrar) -> {
-            if (registrar.getItem(BlockSetVariant.BOAT) != null) {
-                this.woodenBoat(registrar.getItem(BlockSetVariant.BOAT).value(), registrar.getBaseBlock().value());
-            }
-            if (registrar.getItem(BlockSetVariant.CHEST_BOAT) != null) {
-                this.chestBoat(registrar.getItem(BlockSetVariant.CHEST_BOAT).value(), registrar.getItem(
-                        BlockSetVariant.BOAT).value());
-            }
-        });
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
         ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(ModTags.MUSHROOMS_ITEM_TAG)
@@ -91,7 +79,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.oneToOneConversionRecipe(ModItems.PURPLE_SHROOMSPORES.value(), ModItems.PURPLE_MUSHROOM.value(), null, 2);
     }
 
-    public void shroombomb(ItemLike result, ItemLike ingredient) {
+    public final void shroombomb(ItemLike result, ItemLike ingredient) {
         ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.MISC, result)
                 .define('#', Items.PAPER)
                 .define('X', Items.GUNPOWDER)

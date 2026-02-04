@@ -3,7 +3,7 @@ package fuzs.shroomcraft.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import fuzs.shroomcraft.Shroomcraft;
-import fuzs.shroomcraft.client.init.ModModelLayers;
+import fuzs.shroomcraft.client.model.geom.ModModelLayers;
 import fuzs.shroomcraft.client.model.ShroomfinModel;
 import fuzs.shroomcraft.world.entity.animal.Shroomfin;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

@@ -1,38 +1,13 @@
 package fuzs.shroomcraft.data.loot;
 
-import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
-import fuzs.shroomcraft.init.family.BlockSetFamily;
-import fuzs.shroomcraft.init.family.BlockSetVariant;
-import net.minecraft.core.Holder;
-import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.level.block.Block;
 
-import java.util.Map;
-import java.util.function.BiConsumer;
-
 public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
-    public static final Map<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>> VARIANT_PROVIDERS = ImmutableMap.<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>>builder()
-            .put(BlockSetVariant.STAIRS, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.SLAB, (AbstractLootProvider.Blocks provider, Block block) -> {
-                provider.add(block, provider::createSlabItemTable);
-            })
-            .put(BlockSetVariant.WALL, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.FENCE, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.FENCE_GATE, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.DOOR, (AbstractLootProvider.Blocks provider, Block block) -> {
-                provider.add(block, provider::createDoorTable);
-            })
-            .put(BlockSetVariant.TRAPDOOR, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.BUTTON, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.PRESSURE_PLATE, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.SIGN, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.HANGING_SIGN, BlockLootSubProvider::dropSelf)
-            .put(BlockSetVariant.SHELF, BlockLootSubProvider::dropSelf)
-            .build();
 
     public ModBlockLootProvider(DataProviderContext context) {
         super(context);
@@ -85,14 +60,5 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
         this.dropSelf(ModBlocks.TINY_BLUE_MUSHROOM.value());
         this.dropSelf(ModBlocks.TINY_ORANGE_MUSHROOM.value());
         this.dropSelf(ModBlocks.TINY_PURPLE_MUSHROOM.value());
-    }
-
-    public final void generateFor(BlockSetFamily blockSetFamily, Map<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>> variantProviders) {
-        blockSetFamily.getBlockVariants().forEach((BlockSetVariant variant, Holder.Reference<Block> block) -> {
-            BiConsumer<AbstractLootProvider.Blocks, Block> provider = variantProviders.get(variant);
-            if (provider != null) {
-                provider.accept(this, block.value());
-            }
-        });
     }
 }

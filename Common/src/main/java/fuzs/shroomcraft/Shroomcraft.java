@@ -6,12 +6,12 @@ import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
 import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
 import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
+import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.handler.BiomeModificationsHandler;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModRegistry;
-import fuzs.shroomcraft.init.family.BlockSetFamily;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
@@ -37,8 +37,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -67,7 +65,7 @@ public class Shroomcraft implements ModConstructor {
     private static void registerEventHandler() {
         AddBlockEntityTypeBlocksCallback.EVENT.register((BiConsumer<BlockEntityType<?>, Block> consumer) -> {
             ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-                blockSetFamily.generateFor(consumer, BlockSetFamily.VARIANT_BLOCK_ENTITY_TYPE);
+                blockSetFamily.registerFor(consumer, BlockSetFamily.VARIANT_BLOCK_ENTITY_TYPE);
             });
         });
         ServerEntityLevelEvents.LOAD.register(ModMushroomCow::onEntityLoad);
@@ -96,9 +94,8 @@ public class Shroomcraft implements ModConstructor {
     @Override
     public void onCommonSetup() {
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            BlockSetType.register(blockSetFamily.getBlockSetType());
-            WoodType.register(blockSetFamily.getWoodType());
-            blockSetFamily.generateFor(BlockSetFamily.VARIANT_DISPENSE_BEHAVIOR);
+            blockSetFamily.register();
+            blockSetFamily.registerFor(BlockSetFamily.VARIANT_DISPENSE_BEHAVIOR);
         });
         DispenserBlock.registerBehavior(ModItems.SHROOMFIN_BUCKET.value(), new DefaultDispenseItemBehavior() {
             @Override
@@ -144,8 +141,13 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterGameplayContent(GameplayContentContext context) {
+        // Fuel values are added automatically based on wooden item tags.
+        context.registerFlammable(ModBlocks.SHROOMWOOD_PLANKS, 5, 20);
+        context.registerFlammable(ModBlocks.BLUE_SHROOMWOOD_PLANKS, 5, 20);
+        context.registerFlammable(ModBlocks.ORANGE_SHROOMWOOD_PLANKS, 5, 20);
+        context.registerFlammable(ModBlocks.PURPLE_SHROOMWOOD_PLANKS, 5, 20);
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            blockSetFamily.generateFor(context, BlockSetFamily.VARIANT_WOODEN_FLAMMABLE);
+            blockSetFamily.registerFor(context, BlockSetFamily.VARIANT_WOODEN_FLAMMABLE);
         });
         context.registerFlammable(ModBlocks.STRIPPED_MUSHROOM_STEM, 5, 5);
         context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM, 5, 5);

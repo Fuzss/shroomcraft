@@ -30,6 +30,10 @@ public class ModModelProvider extends AbstractModelProvider {
 
     @Override
     public void addBlockModels(BlockModelGenerators blockModelGenerators) {
+        blockModelGenerators.createTrivialCube(ModBlocks.SHROOMWOOD_PLANKS.value());
+        blockModelGenerators.createTrivialCube(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
+        blockModelGenerators.createTrivialCube(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());
+        blockModelGenerators.createTrivialCube(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
         this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.SHROOMWOOD_FAMILY,
                 createVariantWoodBlockProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,

@@ -2,7 +2,7 @@ package fuzs.shroomcraft.client.renderer.entity;
 
 import com.google.common.collect.ImmutableMap;
 import fuzs.shroomcraft.Shroomcraft;
-import fuzs.shroomcraft.client.init.ModModelLayers;
+import fuzs.shroomcraft.client.model.geom.ModModelLayers;
 import fuzs.shroomcraft.client.renderer.entity.layer.ModMushroomCowMushroomLayer;
 import fuzs.shroomcraft.client.renderer.entity.state.ModMushroomCowRenderState;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;

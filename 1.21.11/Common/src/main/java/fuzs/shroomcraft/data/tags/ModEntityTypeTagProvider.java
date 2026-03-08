@@ -2,6 +2,8 @@ package fuzs.shroomcraft.data.tags;
 
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
+import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
+import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -16,6 +18,9 @@ public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>>
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
+        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
+            this.generateFor(blockSetFamily.getEntityVariants(), VARIANT_ENTITY_TYPE_TAGS);
+        });
         this.tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
         this.tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());
         this.tag(EntityTypeTags.AQUATIC).add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value());

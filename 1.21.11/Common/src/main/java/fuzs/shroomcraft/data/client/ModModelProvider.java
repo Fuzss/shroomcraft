@@ -2,14 +2,12 @@ package fuzs.shroomcraft.data.client;
 
 import fuzs.puzzleslib.api.client.data.v2.AbstractModelProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -32,30 +30,26 @@ public class ModModelProvider extends AbstractModelProvider {
 
     @Override
     public void addBlockModels(BlockModelGenerators blockModelGenerators) {
-        ModBlockFamilies.getAllFamilies()
-                .filter(BlockFamily::shouldGenerateModel)
-                .forEach(blockFamily -> blockModelGenerators.family(blockFamily.getBaseBlock())
-                        .generateFor(blockFamily));
-        this.createHangingSign(ModBlocks.STRIPPED_MUSHROOM_STEM.value(),
+        blockModelGenerators.createTrivialCube(ModBlocks.SHROOMWOOD_PLANKS.value());
+        blockModelGenerators.createTrivialCube(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
+        blockModelGenerators.createTrivialCube(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());
+        blockModelGenerators.createTrivialCube(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
+        this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.SHROOMWOOD_FAMILY,
-                blockModelGenerators);
-        this.createHangingSign(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(),
+                createVariantWoodBlockProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_MUSHROOM_STEM.value()));
+        this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                blockModelGenerators);
-        this.createHangingSign(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(),
+                createVariantWoodBlockProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()));
+        this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                blockModelGenerators);
-        this.createHangingSign(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
+                createVariantWoodBlockProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()));
+        this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                blockModelGenerators);
-        blockModelGenerators.createShelf(ModBlockFamilies.SHROOMWOOD_FAMILY.shelfBlock().value(),
-                ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        blockModelGenerators.createShelf(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.shelfBlock().value(),
-                ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        blockModelGenerators.createShelf(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.shelfBlock().value(),
-                ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        blockModelGenerators.createShelf(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.shelfBlock().value(),
-                ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
+                createVariantWoodBlockProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+                        ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
         blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.PlantType.NOT_TINTED);
@@ -120,32 +114,18 @@ public class ModModelProvider extends AbstractModelProvider {
                 1);
     }
 
-    public final void createHangingSign(Block particleBlock, BlockFamilyRegistrar registrar, BlockModelGenerators blockModelGenerators) {
-        if (registrar.hangingSignBlock() != null && registrar.wallHangingSignBlock() != null) {
-            blockModelGenerators.createHangingSign(particleBlock,
-                    registrar.hangingSignBlock().value(),
-                    registrar.wallHangingSignBlock().value());
-        }
-    }
-
     @Override
     public void addItemModels(ItemModelGenerators itemModelGenerators) {
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.SHROOMWOOD_FAMILY.boatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.SHROOMWOOD_FAMILY.chestBoatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.boatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.chestBoatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.boatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.chestBoatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.boatItem().value(),
-                ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.chestBoatItem().value(),
-                ModelTemplates.FLAT_ITEM);
+        this.generateForItems(itemModelGenerators, ModBlockFamilies.SHROOMWOOD_FAMILY, VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators,
+                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+                VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators,
+                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+                VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators,
+                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+                VARIANT_WOOD_ITEM_PROVIDERS);
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.COOKED_SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN_BUCKET.value(), ModelTemplates.FLAT_ITEM);

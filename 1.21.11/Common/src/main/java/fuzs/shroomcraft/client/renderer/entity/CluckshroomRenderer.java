@@ -1,6 +1,6 @@
 package fuzs.shroomcraft.client.renderer.entity;
 
-import fuzs.shroomcraft.client.init.ModModelLayers;
+import fuzs.shroomcraft.client.model.geom.ModModelLayers;
 import fuzs.shroomcraft.client.renderer.entity.layer.CluckshroomBlockStateLayer;
 import fuzs.shroomcraft.client.renderer.entity.state.CluckshroomRenderState;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;

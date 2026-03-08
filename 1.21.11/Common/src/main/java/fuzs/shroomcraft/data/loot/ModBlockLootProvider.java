@@ -2,10 +2,9 @@ package fuzs.shroomcraft.data.loot;
 
 import fuzs.puzzleslib.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.shroomcraft.init.BlockFamilyRegistrar;
+import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
-import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 
 public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
@@ -16,25 +15,8 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
 
     @Override
     public void addLootTables() {
-        ModBlockFamilies.getAllFamilies().forEach((BlockFamily blockFamily) -> {
-            blockFamily.getVariants().forEach((BlockFamily.Variant variant, Block block) -> {
-                if (variant == BlockFamily.Variant.SLAB) {
-                    this.add(block, this::createSlabItemTable);
-                } else if (variant == BlockFamily.Variant.DOOR) {
-                    this.add(block, this::createDoorTable);
-                } else if (variant != BlockFamily.Variant.WALL_SIGN) {
-                    this.dropSelf(block);
-                }
-            });
-        });
-        ModBlockFamilies.getAllFamilyRegistrars().forEach((BlockFamilyRegistrar blockFamilyRegistrar) -> {
-            if (blockFamilyRegistrar.hangingSignBlock() != null) {
-                this.dropSelf(blockFamilyRegistrar.hangingSignBlock().value());
-            }
-
-            if (blockFamilyRegistrar.shelfBlock() != null) {
-                this.dropSelf(blockFamilyRegistrar.shelfBlock().value());
-            }
+        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
+            this.generateFor(blockSetFamily, VARIANT_PROVIDERS);
         });
         this.dropSelf(ModBlocks.BLUE_MUSHROOM.value());
         this.dropSelf(ModBlocks.ORANGE_MUSHROOM.value());

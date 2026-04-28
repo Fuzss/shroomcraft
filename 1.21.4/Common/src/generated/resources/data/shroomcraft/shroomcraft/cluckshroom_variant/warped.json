@@ -1,0 +1,8 @@
+{
+  "asset_id": "shroomcraft:entity/cluckshroom/warped_cluckshroom",
+  "biomes": "minecraft:warped_forest",
+  "carried_block": {
+    "Name": "minecraft:warped_fungus"
+  },
+  "shearing_loot_table": "shroomcraft:shearing/cluckshroom/warped"
+}

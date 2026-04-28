@@ -2,16 +2,16 @@ package fuzs.shroomcraft.neoforge;
 
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
-import fuzs.shroomcraft.Shroomcraft;
-import fuzs.shroomcraft.data.ModRecipeProvider;
-import fuzs.shroomcraft.data.loot.ModBlockLootProvider;
-import fuzs.shroomcraft.data.loot.ModEntityLootProvider;
-import fuzs.shroomcraft.data.loot.ModShearingLootProvider;
-import fuzs.shroomcraft.data.tags.ModBlockTagProvider;
-import fuzs.shroomcraft.data.tags.ModCluckshroomVariantTagProvider;
-import fuzs.shroomcraft.data.tags.ModEntityTypeTagProvider;
-import fuzs.shroomcraft.data.tags.ModItemTagProvider;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.common.Shroomcraft;
+import fuzs.shroomcraft.common.data.ModRecipeProvider;
+import fuzs.shroomcraft.common.data.loot.ModBlockLootProvider;
+import fuzs.shroomcraft.common.data.loot.ModEntityLootProvider;
+import fuzs.shroomcraft.common.data.loot.ModShearingLootProvider;
+import fuzs.shroomcraft.common.data.tags.ModBlockTagProvider;
+import fuzs.shroomcraft.common.data.tags.ModCluckshroomVariantTagProvider;
+import fuzs.shroomcraft.common.data.tags.ModEntityTypeTagProvider;
+import fuzs.shroomcraft.common.data.tags.ModItemTagProvider;
+import fuzs.shroomcraft.common.init.ModRegistry;
 import net.neoforged.fml.common.Mod;
 
 @Mod(Shroomcraft.MOD_ID)

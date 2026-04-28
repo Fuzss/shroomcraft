@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.fabric.client;
 
-import fuzs.shroomcraft.Shroomcraft;
-import fuzs.shroomcraft.client.ShroomcraftClient;
+import fuzs.shroomcraft.common.Shroomcraft;
+import fuzs.shroomcraft.common.client.ShroomcraftClient;
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import net.fabricmc.api.ClientModInitializer;
 

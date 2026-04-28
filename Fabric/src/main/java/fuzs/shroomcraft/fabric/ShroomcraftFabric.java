@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.fabric;
 
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
-import fuzs.shroomcraft.Shroomcraft;
+import fuzs.shroomcraft.common.Shroomcraft;
 import net.fabricmc.api.ModInitializer;
 
 public class ShroomcraftFabric implements ModInitializer {

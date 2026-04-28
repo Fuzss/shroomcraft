@@ -1,8 +1,8 @@
 package fuzs.shroomcraft.data.tags;
 
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
-import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModTags;
@@ -10,6 +10,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class ModBlockTagProvider extends AbstractTagProvider<Block> {
 
@@ -52,6 +53,8 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
         this.tag(ModTags.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG)
                 .add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(),
                         ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
+        this.tag(ModTags.SUPPORTS_MUSHROOM_SPROUTS_BLOCK_TAG).addTag(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
+        this.tag(ModTags.SUPPORTS_TINY_MUSHROOM_BLOCK_TAG).addTag(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
         this.tag(BlockTags.CROPS)
                 .add(ModBlocks.TINY_BROWN_MUSHROOM.value(),
                         ModBlocks.TINY_RED_MUSHROOM.value(),
@@ -92,5 +95,23 @@ public class ModBlockTagProvider extends AbstractTagProvider<Block> {
                 .add(ModBlocks.BLUE_MUSHROOM.value(),
                         ModBlocks.ORANGE_MUSHROOM.value(),
                         ModBlocks.PURPLE_MUSHROOM.value());
+        this.tag(ModTags.HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)
+                .addTag(BlockTags.SUBSTRATE_OVERWORLD)
+                .add(Blocks.MYCELIUM)
+                .add(Blocks.PODZOL)
+                .add(Blocks.CRIMSON_NYLIUM)
+                .add(Blocks.WARPED_NYLIUM);
+        this.tag(ModTags.HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)
+                .addTag(BlockTags.SUBSTRATE_OVERWORLD)
+                .add(Blocks.MYCELIUM)
+                .add(Blocks.PODZOL)
+                .add(Blocks.CRIMSON_NYLIUM)
+                .add(Blocks.WARPED_NYLIUM);
+        this.tag(ModTags.HUGE_BLUE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)
+                .addTag(BlockTags.SUBSTRATE_OVERWORLD)
+                .add(Blocks.MYCELIUM)
+                .add(Blocks.PODZOL)
+                .add(Blocks.CRIMSON_NYLIUM)
+                .add(Blocks.WARPED_NYLIUM);
     }
 }

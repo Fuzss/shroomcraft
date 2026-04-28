@@ -1,9 +1,9 @@
 package fuzs.shroomcraft.world.entity.animal;
 
-import fuzs.puzzleslib.api.event.v1.core.EventResult;
-import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
-import fuzs.puzzleslib.api.network.v4.codec.ExtraStreamCodecs;
-import fuzs.puzzleslib.api.util.v1.EntityHelper;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
+import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
+import fuzs.puzzleslib.common.api.network.v4.codec.ExtraStreamCodecs;
+import fuzs.puzzleslib.common.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModLootTables;
@@ -33,6 +33,7 @@ import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.cow.MushroomCow;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -82,7 +83,7 @@ public class ModMushroomCow extends MushroomCow {
                     ConversionParams.single((MushroomCow) entity, true, true),
                     (ModMushroomCow mob) -> {
                         DifficultyInstance difficulty = new DifficultyInstance(serverLevel.getDifficulty(),
-                                serverLevel.getDayTime(),
+                                serverLevel.getOverworldClockTime(),
                                 0L,
                                 serverLevel.getMoonBrightness(entity.blockPosition()));
                         mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
@@ -101,7 +102,7 @@ public class ModMushroomCow extends MushroomCow {
         }
     }
 
-    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity) {
+    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive()
                 && entity.getType() == ModRegistry.MOOSHROOM_ENTITY_TYPE.value()) {
@@ -211,11 +212,11 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     @Override
-    protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> lootTable, ItemStack shears, BiConsumer<ServerLevel, ItemStack> dropConsumer) {
+    protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> key, ItemInstance tool, BiConsumer<ServerLevel, ItemStack> consumer) {
         super.dropFromShearingLootTable(level,
-                lootTable == BuiltInLootTables.SHEAR_MOOSHROOM ? ModLootTables.SHEAR_MOOSHROOM_LOOT_TABLE : lootTable,
-                shears,
-                dropConsumer);
+                key == BuiltInLootTables.SHEAR_MOOSHROOM ? ModLootTables.SHEAR_MOOSHROOM_LOOT_TABLE : key,
+                tool,
+                consumer);
     }
 
     @Override

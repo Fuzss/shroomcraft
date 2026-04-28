@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.MultifaceSpreadeableBlock;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
@@ -33,33 +34,34 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> MUSHROOM_ISLAND_VEGETATION_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
             "mushroom_island_vegetation");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_BLUE_MUSHROOM_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BLUE_MUSHROOM_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_blue_mushroom");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_ORANGE_MUSHROOM_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+            "blue_mushroom");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ORANGE_MUSHROOM_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_orange_mushroom");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_PURPLE_MUSHROOM_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+            "orange_mushroom");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PURPLE_MUSHROOM_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_purple_mushroom");
+            "purple_mushroom");
     public static final ResourceKey<ConfiguredFeature<?, ?>> MYCELIAL_GROWTH_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
             "mycelial_growth");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_mushroom_sprouts");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+            "mushroom_sprouts");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_blue_mushroom_sprouts");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+            "blue_mushroom_sprouts");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_orange_mushroom_sprouts");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
+            "orange_mushroom_sprouts");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE = ModRegistry.REGISTRIES.makeResourceKey(
             Registries.CONFIGURED_FEATURE,
-            "patch_purple_mushroom_sprouts");
+            "purple_mushroom_sprouts");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        FeatureUtils.register(context, HUGE_BLUE_MUSHROOM_CONFIGURED_FEATURE,
+        FeatureUtils.register(context,
+                HUGE_BLUE_MUSHROOM_CONFIGURED_FEATURE,
                 ModRegistry.HUGE_BLUE_MUSHROOM_FEATURE.value(),
                 new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM_BLOCK.value()
                         .defaultBlockState()
@@ -68,8 +70,10 @@ public class ModConfiguredFeatures {
                                 .defaultBlockState()
                                 .setValue(HugeMushroomBlock.UP, Boolean.FALSE)
                                 .setValue(HugeMushroomBlock.DOWN, Boolean.FALSE)),
-                        3));
-        FeatureUtils.register(context, HUGE_ORANGE_MUSHROOM_CONFIGURED_FEATURE,
+                        3,
+                        BlockPredicate.matchesTag(ModTags.HUGE_BLUE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)));
+        FeatureUtils.register(context,
+                HUGE_ORANGE_MUSHROOM_CONFIGURED_FEATURE,
                 ModRegistry.HUGE_ORANGE_MUSHROOM_FEATURE.value(),
                 new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM_BLOCK.value()
                         .defaultBlockState()
@@ -78,8 +82,10 @@ public class ModConfiguredFeatures {
                                 .defaultBlockState()
                                 .setValue(HugeMushroomBlock.UP, Boolean.FALSE)
                                 .setValue(HugeMushroomBlock.DOWN, Boolean.FALSE)),
-                        3));
-        FeatureUtils.register(context, HUGE_PURPLE_MUSHROOM_CONFIGURED_FEATURE,
+                        3,
+                        BlockPredicate.matchesTag(ModTags.HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)));
+        FeatureUtils.register(context,
+                HUGE_PURPLE_MUSHROOM_CONFIGURED_FEATURE,
                 ModRegistry.HUGE_PURPLE_MUSHROOM_FEATURE.value(),
                 new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM_BLOCK.value()
                         .defaultBlockState()
@@ -88,9 +94,11 @@ public class ModConfiguredFeatures {
                                 .defaultBlockState()
                                 .setValue(HugeMushroomBlock.UP, Boolean.FALSE)
                                 .setValue(HugeMushroomBlock.DOWN, Boolean.FALSE)),
-                        3));
+                        3,
+                        BlockPredicate.matchesTag(ModTags.HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)));
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureLookup = context.lookup(Registries.CONFIGURED_FEATURE);
-        FeatureUtils.register(context, MUSHROOM_ISLAND_VEGETATION_CONFIGURED_FEATURE,
+        FeatureUtils.register(context,
+                MUSHROOM_ISLAND_VEGETATION_CONFIGURED_FEATURE,
                 Feature.SIMPLE_RANDOM_SELECTOR,
                 new SimpleRandomFeatureConfiguration(HolderSet.direct(PlacementUtils.inlinePlaced(
                                 configuredFeatureLookup.getOrThrow(TreeFeatures.HUGE_BROWN_MUSHROOM)),
@@ -101,19 +109,20 @@ public class ModConfiguredFeatures {
                                 HUGE_ORANGE_MUSHROOM_CONFIGURED_FEATURE)),
                         PlacementUtils.inlinePlaced(configuredFeatureLookup.getOrThrow(
                                 HUGE_PURPLE_MUSHROOM_CONFIGURED_FEATURE)))));
-        FeatureUtils.register(context, PATCH_BLUE_MUSHROOM_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM.value()))));
-        FeatureUtils.register(context, PATCH_ORANGE_MUSHROOM_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM.value()))));
-        FeatureUtils.register(context, PATCH_PURPLE_MUSHROOM_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM.value()))));
-        FeatureUtils.register(context, MYCELIAL_GROWTH_CONFIGURED_FEATURE,
+        FeatureUtils.register(context,
+                BLUE_MUSHROOM_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM.value())));
+        FeatureUtils.register(context,
+                ORANGE_MUSHROOM_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM.value())));
+        FeatureUtils.register(context,
+                PURPLE_MUSHROOM_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM.value())));
+        FeatureUtils.register(context,
+                MYCELIAL_GROWTH_CONFIGURED_FEATURE,
                 Feature.MULTIFACE_GROWTH,
                 new MultifaceGrowthConfiguration((MultifaceSpreadeableBlock) ModBlocks.MYCELIAL_GROWTH.value(),
                         20,
@@ -130,21 +139,21 @@ public class ModConfiguredFeatures {
                                 Blocks.CALCITE,
                                 Blocks.TUFF,
                                 Blocks.DEEPSLATE)));
-        FeatureUtils.register(context, PATCH_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.MUSHROOM_SPROUTS.value()))));
-        FeatureUtils.register(context, PATCH_BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM_SPROUTS.value()))));
-        FeatureUtils.register(context, PATCH_ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value()))));
-        FeatureUtils.register(context, PATCH_PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
-                Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value()))));
+        FeatureUtils.register(context,
+                MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.MUSHROOM_SPROUTS.value())));
+        FeatureUtils.register(context,
+                BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BLUE_MUSHROOM_SPROUTS.value())));
+        FeatureUtils.register(context,
+                ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value())));
+        FeatureUtils.register(context,
+                PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE,
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value())));
     }
 }

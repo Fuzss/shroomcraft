@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.data.tags;
 
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.puzzleslib.api.data.v2.tags.AbstractTagProvider;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
 import fuzs.shroomcraft.init.CluckshroomVariants;
 import fuzs.shroomcraft.init.ModRegistry;
 import fuzs.shroomcraft.init.ModTags;

@@ -1,24 +1,18 @@
 package fuzs.shroomcraft.client;
 
-import fuzs.puzzleslib.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.api.client.core.v1.context.EntityRenderersContext;
-import fuzs.puzzleslib.api.client.core.v1.context.LayerDefinitionsContext;
-import fuzs.puzzleslib.api.client.core.v1.context.RenderTypesContext;
-import fuzs.puzzleslib.api.client.init.v1.family.ClientBlockSetFamily;
-import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
-import fuzs.shroomcraft.client.model.geom.ModModelLayers;
+import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
+import fuzs.puzzleslib.common.api.client.core.v1.context.EntityRenderersContext;
+import fuzs.puzzleslib.common.api.client.core.v1.context.LayerDefinitionsContext;
+import fuzs.puzzleslib.common.api.client.init.v1.family.ClientBlockSetFamily;
 import fuzs.shroomcraft.client.model.ShroomfinModel;
+import fuzs.shroomcraft.client.model.geom.ModModelLayers;
 import fuzs.shroomcraft.client.renderer.entity.CluckshroomRenderer;
 import fuzs.shroomcraft.client.renderer.entity.ModMushroomCowRenderer;
 import fuzs.shroomcraft.client.renderer.entity.ShroomfinRenderer;
 import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModRegistry;
-import net.minecraft.client.model.animal.chicken.ChickenModel;
 import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.model.object.boat.BoatModel;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
-import net.minecraft.world.level.block.Block;
 
 public class ShroomcraftClient implements ClientModConstructor {
 
@@ -66,33 +60,6 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerLayerDefinition(ModModelLayers.SHROOMFIN, ShroomfinModel::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, CluckshroomRenderer::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM_BABY,
-                () -> CluckshroomRenderer.createBodyLayer().apply(ChickenModel.BABY_TRANSFORMER));
-    }
-
-    @Override
-    public void onRegisterBlockRenderTypes(RenderTypesContext<Block> context) {
-        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            ClientBlockSetFamily.registerFor(blockSetFamily, context, ClientBlockSetFamily.VARIANT_RENDER_TYPE);
-        });
-        context.registerChunkRenderType(ModBlocks.BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.MYCELIAL_GROWTH.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.TINY_BROWN_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.TINY_RED_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.TINY_BLUE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.TINY_ORANGE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
-        context.registerChunkRenderType(ModBlocks.TINY_PURPLE_MUSHROOM.value(), ChunkSectionLayer.CUTOUT);
+                () -> CluckshroomRenderer.createBodyLayer().apply(CluckshroomRenderer.BABY_TRANSFORMER));
     }
 }

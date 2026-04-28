@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.data.loot;
 
-import fuzs.puzzleslib.api.data.v2.AbstractLootProvider;
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v2.AbstractLootProvider;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.init.CluckshroomVariants;
 import fuzs.shroomcraft.init.ModItems;
 import fuzs.shroomcraft.init.ModLootTables;

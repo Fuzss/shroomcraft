@@ -1,6 +1,6 @@
 package fuzs.shroomcraft.init;
 
-import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 
 import java.util.stream.Stream;
 

@@ -1,5 +1,5 @@
 {
-  "feature": "shroomcraft:patch_blue_mushroom_sprouts",
+  "feature": "shroomcraft:blue_mushroom_sprouts",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

@@ -3,7 +3,7 @@ package fuzs.shroomcraft.world.level.levelgen.feature;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.AbstractHugeMushroomFeature;
@@ -16,11 +16,11 @@ public class HugePurpleMushroomFeature extends AbstractHugeMushroomFeature {
     }
 
     @Override
-    protected void makeCap(LevelAccessor level, RandomSource random, BlockPos pos, int treeHeight, BlockPos.MutableBlockPos mutablePos, HugeMushroomFeatureConfiguration config) {
+    protected void makeCap(WorldGenLevel level, RandomSource random, BlockPos pos, int treeHeight, BlockPos.MutableBlockPos mutablePos, HugeMushroomFeatureConfiguration config) {
         // same as red mushroom, but does not generate bottom most layer
         for (int i = treeHeight - 2; i <= treeHeight; i++) {
-            int j = i < treeHeight ? config.foliageRadius : config.foliageRadius - 1;
-            int k = config.foliageRadius - 2;
+            int j = i < treeHeight ? config.foliageRadius() : config.foliageRadius() - 1;
+            int k = config.foliageRadius() - 2;
 
             for (int l = -j; l <= j; l++) {
                 for (int m = -j; m <= j; m++) {
@@ -33,12 +33,11 @@ public class HugePurpleMushroomFeature extends AbstractHugeMushroomFeature {
                     if (i >= treeHeight || bl5 != bl6) {
                         mutablePos.setWithOffset(pos, l, i, m);
                         if (!level.getBlockState(mutablePos).isSolidRender()) {
-                            BlockState blockState = config.capProvider.getState(random, pos);
-                            if (blockState.hasProperty(HugeMushroomBlock.WEST) &&
-                                    blockState.hasProperty(HugeMushroomBlock.EAST) &&
-                                    blockState.hasProperty(HugeMushroomBlock.NORTH) &&
-                                    blockState.hasProperty(HugeMushroomBlock.SOUTH) &&
-                                    blockState.hasProperty(HugeMushroomBlock.UP)) {
+                            BlockState blockState = config.capProvider().getState(level, random, pos);
+                            if (blockState.hasProperty(HugeMushroomBlock.WEST) && blockState.hasProperty(
+                                    HugeMushroomBlock.EAST) && blockState.hasProperty(HugeMushroomBlock.NORTH)
+                                    && blockState.hasProperty(HugeMushroomBlock.SOUTH) && blockState.hasProperty(
+                                    HugeMushroomBlock.UP)) {
                                 blockState = blockState.setValue(HugeMushroomBlock.UP,
                                                 Boolean.valueOf(i >= treeHeight - 1))
                                         .setValue(HugeMushroomBlock.WEST, Boolean.valueOf(l < -k))

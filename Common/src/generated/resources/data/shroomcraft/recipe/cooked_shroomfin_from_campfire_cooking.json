@@ -5,7 +5,6 @@
   "experience": 0.35,
   "ingredient": "shroomcraft:shroomfin",
   "result": {
-    "count": 1,
     "id": "shroomcraft:cooked_shroomfin"
   }
 }

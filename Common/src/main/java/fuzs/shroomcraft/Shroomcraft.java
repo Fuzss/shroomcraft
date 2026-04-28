@@ -1,12 +1,12 @@
 package fuzs.shroomcraft;
 
-import fuzs.puzzleslib.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.api.core.v1.context.*;
-import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
-import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
-import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
-import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
-import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
+import fuzs.puzzleslib.common.api.core.v1.context.*;
+import fuzs.puzzleslib.common.api.event.v1.AddBlockEntityTypeBlocksCallback;
+import fuzs.puzzleslib.common.api.event.v1.entity.ServerEntityLevelEvents;
+import fuzs.puzzleslib.common.api.event.v1.entity.player.PlayerInteractEvents;
+import fuzs.puzzleslib.common.api.event.v1.server.LootTableLoadCallback;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.handler.BiomeModificationsHandler;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;

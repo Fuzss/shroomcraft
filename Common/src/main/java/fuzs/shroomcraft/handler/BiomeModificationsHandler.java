@@ -1,9 +1,9 @@
 package fuzs.shroomcraft.handler;
 
-import fuzs.puzzleslib.api.biome.v1.BiomeLoadingContext;
-import fuzs.puzzleslib.api.biome.v1.BiomeLoadingPhase;
-import fuzs.puzzleslib.api.biome.v1.BiomeModificationContext;
-import fuzs.puzzleslib.api.core.v1.context.BiomeModificationsContext;
+import fuzs.puzzleslib.common.api.biome.v1.BiomeLoadingContext;
+import fuzs.puzzleslib.common.api.biome.v1.BiomeLoadingPhase;
+import fuzs.puzzleslib.common.api.biome.v1.BiomeModificationContext;
+import fuzs.puzzleslib.common.api.core.v1.context.BiomeModificationsContext;
 import fuzs.shroomcraft.init.ModPlacedFeatures;
 import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;

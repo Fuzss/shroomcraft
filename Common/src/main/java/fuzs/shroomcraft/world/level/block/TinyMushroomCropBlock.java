@@ -2,11 +2,11 @@ package fuzs.shroomcraft.world.level.block;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import fuzs.shroomcraft.init.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
@@ -39,7 +39,7 @@ public class TinyMushroomCropBlock extends TorchflowerCropBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        return state.is(BlockTags.MUSHROOM_GROW_BLOCK);
+        return state.is(ModTags.SUPPORTS_TINY_MUSHROOM_BLOCK_TAG);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package fuzs.shroomcraft.init;
 
-import fuzs.puzzleslib.api.init.v3.registry.RegistryManager;
+import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
@@ -19,7 +19,10 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
@@ -38,13 +41,11 @@ public class ModRegistry {
             "mooshroom/variant",
             (DataComponentType.Builder<ModMushroomCow.ColorVariant> builder) -> builder.persistent(ModMushroomCow.ColorVariant.CODEC)
                     .networkSynchronized(ModMushroomCow.ColorVariant.STREAM_CODEC));
-    public static final Holder.Reference<DataComponentType<EitherHolder<MobBlockVariant>>> MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
+    public static final Holder.Reference<DataComponentType<Holder<MobBlockVariant>>> MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
             "mob_block_variant",
-            (DataComponentType.Builder<EitherHolder<MobBlockVariant>> builder) -> builder.persistent(EitherHolder.codec(
-                            CLUCKSHROOM_VARIANT_REGISTRY_KEY,
-                            MobBlockVariant.codec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)))
-                    .networkSynchronized(EitherHolder.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY,
-                            MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY))));
+            (DataComponentType.Builder<Holder<MobBlockVariant>> builder) -> builder.persistent(MobBlockVariant.codec(
+                            CLUCKSHROOM_VARIANT_REGISTRY_KEY))
+                    .networkSynchronized(MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)));
     public static final Holder.Reference<EntityType<ModMushroomCow>> MOOSHROOM_ENTITY_TYPE = REGISTRIES.registerEntityType(
             "mooshroom",
             () -> EntityType.Builder.of(ModMushroomCow::new, MobCategory.CREATURE)
@@ -74,7 +75,7 @@ public class ModRegistry {
     public static final Holder.Reference<RecipeSerializer<DistinctShapelessRecipe>> DISTINCT_SHAPELESS_RECIPE_SERIALIZER = REGISTRIES.register(
             Registries.RECIPE_SERIALIZER,
             "crafting_shapeless_distinct",
-            DistinctShapelessRecipe.Serializer::new);
+            () -> DistinctShapelessRecipe.SERIALIZER);
     public static final Holder.Reference<Feature<HugeMushroomFeatureConfiguration>> HUGE_PURPLE_MUSHROOM_FEATURE = REGISTRIES.register(
             Registries.FEATURE,
             "huge_purple_mushroom",

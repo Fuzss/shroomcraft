@@ -7,8 +7,10 @@ import fuzs.shroomcraft.client.renderer.entity.layer.ModMushroomCowMushroomLayer
 import fuzs.shroomcraft.client.renderer.entity.state.ModMushroomCowRenderState;
 import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
 import net.minecraft.client.model.animal.cow.CowModel;
+import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.MushroomCowRenderer;
 import net.minecraft.resources.Identifier;
 
 import java.util.Map;
@@ -22,12 +24,15 @@ public class ModMushroomCowRenderer extends AgeableMobRenderer<ModMushroomCow, M
             .put(ModMushroomCow.ColorVariant.WARPED, Shroomcraft.id("textures/entity/cow/warped_mooshroom.png"))
             .build();
 
+    private final BlockModelResolver blockModelResolver;
+
     public ModMushroomCowRenderer(Context context) {
         super(context,
                 new CowModel(context.bakeLayer(ModModelLayers.MOOSHROOM)),
                 new CowModel(context.bakeLayer(ModModelLayers.MOOSHROOM_BABY)),
                 0.7F);
-        this.addLayer(new ModMushroomCowMushroomLayer(this, context.getBlockRenderDispatcher()));
+        this.blockModelResolver = context.getBlockModelResolver();
+        this.addLayer(new ModMushroomCowMushroomLayer(this));
     }
 
     @Override
@@ -41,8 +46,11 @@ public class ModMushroomCowRenderer extends AgeableMobRenderer<ModMushroomCow, M
     }
 
     @Override
-    public void extractRenderState(ModMushroomCow entity, ModMushroomCowRenderState reusedState, float partialTick) {
-        super.extractRenderState(entity, reusedState, partialTick);
-        reusedState.variant = entity.getColorVariant();
+    public void extractRenderState(ModMushroomCow entity, ModMushroomCowRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.variant = entity.getColorVariant();
+        this.blockModelResolver.update(state.blockModel,
+                state.variant.block.value().defaultBlockState(),
+                MushroomCowRenderer.BLOCK_DISPLAY_CONTEXT);
     }
 }

@@ -1,4 +1,4 @@
-// 1.21.11	2025-12-16T10:05:28.042932	Tags for minecraft:block mod id vanilla
+// 26.1.2	2026-04-29T00:05:50.683471	Tags for minecraft:block mod id vanilla
 beb44a791b5f081c80682357551b350cf1a59c9f data/minecraft/tags/block/ceiling_hanging_signs.json
 a6b1b30504240c28fa46431ab276349a7a992edb data/minecraft/tags/block/combination_step_sound_blocks.json
 3b62452c2274823457815d0afd61954e0eeabe5d data/minecraft/tags/block/crops.json
@@ -22,6 +22,11 @@ b700f8b03cabbdb1ec444a3d7376843611d2d006 data/minecraft/tags/block/wooden_shelve
 c6e69d6953dda60ad28c9dcf355b98994843e2ec data/minecraft/tags/block/wooden_stairs.json
 22c5d97fb8be61deaa8fb413a16de7ae79672e5f data/minecraft/tags/block/wooden_trapdoors.json
 1f8ce3dcb2df8a364b569b9ac5aa81176eb48bf9 data/shroomcraft/tags/block/blue_shroomwood_logs.json
+03b96b07e2c96466383015825077a7b29c3dae83 data/shroomcraft/tags/block/huge_blue_mushroom_can_place_on.json
+03b96b07e2c96466383015825077a7b29c3dae83 data/shroomcraft/tags/block/huge_orange_mushroom_can_place_on.json
+03b96b07e2c96466383015825077a7b29c3dae83 data/shroomcraft/tags/block/huge_purple_mushroom_can_place_on.json
 5f8bb525b7ec5dcc7177c5e468307dfb6fe610a4 data/shroomcraft/tags/block/orange_shroomwood_logs.json
 192fa96be1427b854512866039db259a0ca38166 data/shroomcraft/tags/block/purple_shroomwood_logs.json
 a8654ec12a4e91eda4db4645d71b896eaa148e76 data/shroomcraft/tags/block/shroomwood_logs.json
+1ec50998909f709b6e0f93b906bc73f710b29451 data/shroomcraft/tags/block/supports_mushroom_sprouts.json
+1ec50998909f709b6e0f93b906bc73f710b29451 data/shroomcraft/tags/block/supports_tiny_mushroom.json

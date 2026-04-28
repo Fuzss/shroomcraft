@@ -1,8 +1,8 @@
 package fuzs.shroomcraft.data;
 
-import fuzs.puzzleslib.api.data.v2.AbstractRecipeProvider;
-import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
-import fuzs.puzzleslib.api.data.v2.recipes.TransformingRecipeOutput;
+import fuzs.puzzleslib.common.api.data.v2.AbstractRecipeProvider;
+import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v2.recipes.TransformingRecipeOutput;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;

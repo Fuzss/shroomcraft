@@ -1,2 +1,4 @@
 classTweaker    v2  official
-accessible  field   net/minecraft/client/model/animal/chicken/ChickenModel  head    Lnet/minecraft/client/model/geom/ModelPart;
+accessible  field   net/minecraft/client/model/animal/chicken/AdultChickenModel head    Lnet/minecraft/client/model/geom/ModelPart;
+accessible  field   net/minecraft/world/item/crafting/NormalCraftingRecipe  commonInfo  Lnet/minecraft/world/item/crafting/Recipe$CommonInfo;
+accessible  field   net/minecraft/world/item/crafting/NormalCraftingRecipe  bookInfo    Lnet/minecraft/world/item/crafting/CraftingRecipe$CraftingBookInfo;

@@ -1,6 +1,6 @@
 package fuzs.shroomcraft.world.entity.animal;
 
-import fuzs.puzzleslib.api.util.v1.EntityHelper;
+import fuzs.puzzleslib.common.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.CluckshroomVariants;
 import fuzs.shroomcraft.init.ModRegistry;
@@ -29,7 +29,6 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.animal.chicken.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
@@ -221,9 +220,11 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Nullable
     @Override
     public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        return dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value() ?
-                castComponentValue((DataComponentType<T>) dataComponentType,
-                        new EitherHolder<>(this.getBlockVariant())) : super.get(dataComponentType);
+        if (dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value()) {
+            return castComponentValue((DataComponentType<T>) dataComponentType, this.getBlockVariant());
+        } else {
+            return super.get(dataComponentType);
+        }
     }
 
     @Override
@@ -236,14 +237,8 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Override
     protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
         if (dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value()) {
-            Optional<Holder<MobBlockVariant>> optional = castComponentValue(ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value(),
-                    object).unwrap(this.registryAccess());
-            if (optional.isPresent()) {
-                this.setBlockVariant(optional.get());
-                return true;
-            } else {
-                return false;
-            }
+            this.setBlockVariant(castComponentValue(ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value(), object));
+            return true;
         } else {
             return super.applyImplicitComponent(dataComponentType, object);
         }
@@ -283,7 +278,7 @@ public class Cluckshroom extends Chicken implements Shearable {
         public void tick() {
             ServerLevel serverLevel = getServerLevel(this.mob);
             if (EntityHelper.isMobGriefingAllowed(serverLevel, this.mob)) {
-                if (!this.mob.isBaby() && serverLevel.random.nextInt(1000) == 0
+                if (!this.mob.isBaby() && serverLevel.getRandom().nextInt(1000) == 0
                         && this.mob.getDeltaMovement().lengthSqr() > 1.0E-5F) {
                     BlockPos blockPos = this.mob.blockPosition();
                     BlockState blockState = ((Cluckshroom) this.mob).getBlockVariant().value().blockState();

@@ -3,6 +3,7 @@ package fuzs.shroomcraft.client.renderer.entity.state;
 import fuzs.shroomcraft.init.CluckshroomVariants;
 import fuzs.shroomcraft.init.ModRegistry;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.entity.state.ChickenRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
@@ -12,5 +13,5 @@ public class CluckshroomRenderState extends ChickenRenderState {
     public Identifier textureLocation = MobBlockVariant.transformTextureLocation(MobBlockVariant.getTextureLocation(
             ModRegistry.CLUCKSHROOM_ENTITY_TYPE,
             CluckshroomVariants.RED_CLUCKSHROOM_VARIANT));
-    public BlockState blockState = Blocks.RED_MUSHROOM.defaultBlockState();
+    public final BlockModelRenderState blockModel = new BlockModelRenderState();
 }

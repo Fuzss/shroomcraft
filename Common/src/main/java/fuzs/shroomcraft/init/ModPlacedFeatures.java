@@ -59,22 +59,22 @@ public class ModPlacedFeatures {
                 PlacementUtils.HEIGHTMAP,
                 BiomeFilter.biome());
         PlacementUtils.register(context, BLUE_MUSHROOM_NORMAL_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_BLUE_MUSHROOM_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.BLUE_MUSHROOM_CONFIGURED_FEATURE),
                 getMushroomPlacement(384, null));
         PlacementUtils.register(context, ORANGE_MUSHROOM_NORMAL_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_ORANGE_MUSHROOM_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.ORANGE_MUSHROOM_CONFIGURED_FEATURE),
                 getMushroomPlacement(384, null));
         PlacementUtils.register(context, PURPLE_MUSHROOM_NORMAL_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_PURPLE_MUSHROOM_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PURPLE_MUSHROOM_CONFIGURED_FEATURE),
                 getMushroomPlacement(384, null));
         PlacementUtils.register(context, BLUE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_BLUE_MUSHROOM_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.BLUE_MUSHROOM_CONFIGURED_FEATURE),
                 getMushroomPlacement(64, null));
         PlacementUtils.register(context, ORANGE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_ORANGE_MUSHROOM_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.ORANGE_MUSHROOM_CONFIGURED_FEATURE),
                 getMushroomPlacement(64, null));
         PlacementUtils.register(context, PURPLE_MUSHROOM_MUSHROOM_FIELDS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_PURPLE_MUSHROOM_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PURPLE_MUSHROOM_CONFIGURED_FEATURE),
                 getMushroomPlacement(64, null));
         PlacementUtils.register(context, MYCELIAL_GROWTH_PLACED_FEATURE,
                 configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.MYCELIAL_GROWTH_CONFIGURED_FEATURE),
@@ -83,16 +83,16 @@ public class ModPlacedFeatures {
                 InSquarePlacement.spread(),
                 BiomeFilter.biome());
         PlacementUtils.register(context, PATCH_MUSHROOM_SPROUTS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
                 getMushroomPlacement(16, null));
         PlacementUtils.register(context, PATCH_BLUE_MUSHROOM_SPROUTS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.BLUE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
                 getMushroomPlacement(16, null));
         PlacementUtils.register(context, PATCH_ORANGE_MUSHROOM_SPROUTS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.ORANGE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
                 getMushroomPlacement(16, null));
         PlacementUtils.register(context, PATCH_PURPLE_MUSHROOM_SPROUTS_PLACED_FEATURE,
-                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PATCH_PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
+                configuredFeatureLookup.getOrThrow(ModConfiguredFeatures.PURPLE_MUSHROOM_SPROUTS_CONFIGURED_FEATURE),
                 getMushroomPlacement(16, null));
     }
 

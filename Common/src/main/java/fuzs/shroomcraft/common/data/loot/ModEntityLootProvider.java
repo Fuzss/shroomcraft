@@ -2,8 +2,8 @@ package fuzs.shroomcraft.common.data.loot;
 
 import fuzs.puzzleslib.common.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.shroomcraft.common.init.ModEntityTypes;
 import fuzs.shroomcraft.common.init.ModItems;
-import fuzs.shroomcraft.common.init.ModRegistry;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -23,7 +23,7 @@ public class ModEntityLootProvider extends AbstractLootProvider.EntityTypes {
 
     @Override
     public void addLootTables() {
-        this.add(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+        this.add(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1.0F))
@@ -38,7 +38,7 @@ public class ModEntityLootProvider extends AbstractLootProvider.EntityTypes {
                                         .apply(SmeltItemFunction.smelted().when(this.shouldSmeltLoot()))
                                         .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries(),
                                                 UniformGenerator.between(0.0F, 1.0F))))));
-        this.add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
+        this.add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1.0F))
@@ -48,7 +48,7 @@ public class ModEntityLootProvider extends AbstractLootProvider.EntityTypes {
                                 .setRolls(ConstantValue.exactly(1.0F))
                                 .add(LootItem.lootTableItem(Items.BONE_MEAL))
                                 .when(LootItemRandomChanceCondition.randomChance(0.05F))));
-        this.add(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
+        this.add(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1.0F))

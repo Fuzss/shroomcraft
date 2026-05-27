@@ -1,4 +1,4 @@
-package fuzs.shroomcraft.common.world.entity.animal;
+package fuzs.shroomcraft.common.world.entity.animal.fish;
 
 import fuzs.shroomcraft.common.init.ModItems;
 import net.minecraft.world.entity.EntityType;

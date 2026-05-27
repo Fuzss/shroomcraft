@@ -3,7 +3,7 @@ package fuzs.shroomcraft.common.client.renderer.entity;
 import fuzs.shroomcraft.common.client.model.geom.ModModelLayers;
 import fuzs.shroomcraft.common.client.renderer.entity.layer.CluckshroomBlockStateLayer;
 import fuzs.shroomcraft.common.client.renderer.entity.state.CluckshroomRenderState;
-import fuzs.shroomcraft.common.world.entity.animal.Cluckshroom;
+import fuzs.shroomcraft.common.world.entity.animal.chicken.Cluckshroom;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
 import net.minecraft.client.model.BabyModelTransform;
 import net.minecraft.client.model.animal.chicken.AdultChickenModel;

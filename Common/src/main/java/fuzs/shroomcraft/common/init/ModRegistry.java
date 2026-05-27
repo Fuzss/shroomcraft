@@ -2,10 +2,8 @@ package fuzs.shroomcraft.common.init;
 
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import fuzs.shroomcraft.common.Shroomcraft;
-import fuzs.shroomcraft.common.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
-import fuzs.shroomcraft.common.world.entity.animal.ModMushroomCow;
-import fuzs.shroomcraft.common.world.entity.animal.Shroomfin;
+import fuzs.shroomcraft.common.world.entity.animal.cow.MooshroomVariant;
 import fuzs.shroomcraft.common.world.item.crafting.DistinctShapelessRecipe;
 import fuzs.shroomcraft.common.world.level.levelgen.feature.HugeBlueMushroomFeature;
 import fuzs.shroomcraft.common.world.level.levelgen.feature.HugeOrangeMushroomFeature;
@@ -17,8 +15,6 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +22,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
-import net.minecraft.world.phys.Vec3;
 
 public class ModRegistry {
     public static final ResourceKey<Registry<MobBlockVariant>> CLUCKSHROOM_VARIANT_REGISTRY_KEY = ResourceKey.createRegistryKey(
@@ -37,38 +32,18 @@ public class ModRegistry {
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
 
     static final RegistryManager REGISTRIES = RegistryManager.from(Shroomcraft.MOD_ID);
-    public static final Holder.Reference<DataComponentType<ModMushroomCow.ColorVariant>> MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
+    public static final Holder.Reference<DataComponentType<MooshroomVariant>> MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
             "mooshroom/variant",
-            (DataComponentType.Builder<ModMushroomCow.ColorVariant> builder) -> builder.persistent(ModMushroomCow.ColorVariant.CODEC)
-                    .networkSynchronized(ModMushroomCow.ColorVariant.STREAM_CODEC));
+            (DataComponentType.Builder<MooshroomVariant> builder) -> builder.persistent(MooshroomVariant.CODEC)
+                    .networkSynchronized(MooshroomVariant.STREAM_CODEC));
     public static final Holder.Reference<DataComponentType<Holder<MobBlockVariant>>> MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
             "mob_block_variant",
             (DataComponentType.Builder<Holder<MobBlockVariant>> builder) -> builder.persistent(MobBlockVariant.codec(
                             CLUCKSHROOM_VARIANT_REGISTRY_KEY))
                     .networkSynchronized(MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)));
-    public static final Holder.Reference<EntityType<ModMushroomCow>> MOOSHROOM_ENTITY_TYPE = REGISTRIES.registerEntityType(
-            "mooshroom",
-            () -> EntityType.Builder.of(ModMushroomCow::new, MobCategory.CREATURE)
-                    .sized(0.9F, 1.4F)
-                    .eyeHeight(1.3F)
-                    .passengerAttachments(1.36875F)
-                    .clientTrackingRange(10));
-    public static final Holder.Reference<EntityType<Shroomfin>> SHROOMFIN_ENTITY_TYPE = REGISTRIES.registerEntityType(
-            "shroomfin",
-            () -> EntityType.Builder.of(Shroomfin::new, MobCategory.WATER_AMBIENT)
-                    .sized(0.7F, 0.4F)
-                    .eyeHeight(0.26F)
-                    .clientTrackingRange(4));
-    public static final Holder.Reference<EntityType<Cluckshroom>> CLUCKSHROOM_ENTITY_TYPE = REGISTRIES.registerEntityType(
-            "cluckshroom",
-            () -> EntityType.Builder.of(Cluckshroom::new, MobCategory.CREATURE)
-                    .sized(0.4F, 0.7F)
-                    .eyeHeight(0.644F)
-                    .passengerAttachments(new Vec3(0.0, 0.7, -0.1))
-                    .clientTrackingRange(10));
-    public static final Holder.Reference<EntityDataSerializer<ModMushroomCow.ColorVariant>> MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
+    public static final Holder.Reference<EntityDataSerializer<MooshroomVariant>> MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
             "mushroom_variant",
-            () -> EntityDataSerializer.forValueType(ModMushroomCow.ColorVariant.STREAM_CODEC));
+            () -> EntityDataSerializer.forValueType(MooshroomVariant.STREAM_CODEC));
     public static final Holder.Reference<EntityDataSerializer<Holder<MobBlockVariant>>> CLUCKSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
             "cluckshroom_variant",
             () -> EntityDataSerializer.forValueType(MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)));
@@ -165,9 +140,9 @@ public class ModRegistry {
 
     public static void bootstrap() {
         ModBlocks.bootstrap();
+        ModEntityTypes.bootstrap();
         ModItems.bootstrap();
         ModBlockFamilies.bootstrap();
         ModTags.bootstrap();
-        ModLootTables.bootstrap();
     }
 }

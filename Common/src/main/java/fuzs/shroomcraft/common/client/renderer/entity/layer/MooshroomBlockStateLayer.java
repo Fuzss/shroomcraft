@@ -2,7 +2,7 @@ package fuzs.shroomcraft.common.client.renderer.entity.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import fuzs.shroomcraft.common.client.renderer.entity.state.ModMushroomCowRenderState;
+import fuzs.shroomcraft.common.client.renderer.entity.state.MooshroomRenderState;
 import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
@@ -15,14 +15,14 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
  *
  * @see net.minecraft.client.renderer.entity.layers.MushroomCowMushroomLayer
  */
-public class ModMushroomCowMushroomLayer extends RenderLayer<ModMushroomCowRenderState, CowModel> {
+public class MooshroomBlockStateLayer extends RenderLayer<MooshroomRenderState, CowModel> {
 
-    public ModMushroomCowMushroomLayer(RenderLayerParent<ModMushroomCowRenderState, CowModel> renderer) {
+    public MooshroomBlockStateLayer(RenderLayerParent<MooshroomRenderState, CowModel> renderer) {
         super(renderer);
     }
 
     @Override
-    public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, ModMushroomCowRenderState state, float yRot, float xRot) {
+    public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, MooshroomRenderState state, float yRot, float xRot) {
         if (!state.isBaby && !state.blockModel.isEmpty()) {
             boolean outlineOnly = state.appearsGlowing() && state.isInvisible;
             if (!state.isInvisible || outlineOnly) {

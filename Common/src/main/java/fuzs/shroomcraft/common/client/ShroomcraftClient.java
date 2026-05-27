@@ -4,13 +4,13 @@ import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
 import fuzs.puzzleslib.common.api.client.core.v1.context.EntityRenderersContext;
 import fuzs.puzzleslib.common.api.client.core.v1.context.LayerDefinitionsContext;
 import fuzs.puzzleslib.common.api.client.init.v1.family.ClientBlockSetFamily;
-import fuzs.shroomcraft.common.client.model.ShroomfinModel;
+import fuzs.shroomcraft.common.client.model.animal.fish.ShroomfinModel;
 import fuzs.shroomcraft.common.client.model.geom.ModModelLayers;
 import fuzs.shroomcraft.common.client.renderer.entity.CluckshroomRenderer;
-import fuzs.shroomcraft.common.client.renderer.entity.ModMushroomCowRenderer;
+import fuzs.shroomcraft.common.client.renderer.entity.MooshroomRenderer;
 import fuzs.shroomcraft.common.client.renderer.entity.ShroomfinRenderer;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
-import fuzs.shroomcraft.common.init.ModRegistry;
+import fuzs.shroomcraft.common.init.ModEntityTypes;
 import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.model.object.boat.BoatModel;
 
@@ -39,9 +39,9 @@ public class ShroomcraftClient implements ClientModConstructor {
                 context,
                 ModModelLayers.PURPLE_SHROOMWOOD_BOAT,
                 ModModelLayers.PURPLE_SHROOMWOOD_CHEST_BOAT);
-        context.registerEntityRenderer(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), ModMushroomCowRenderer::new);
-        context.registerEntityRenderer(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), ShroomfinRenderer::new);
-        context.registerEntityRenderer(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), CluckshroomRenderer::new);
+        context.registerEntityRenderer(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(), MooshroomRenderer::new);
+        context.registerEntityRenderer(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(), ShroomfinRenderer::new);
+        context.registerEntityRenderer(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(), CluckshroomRenderer::new);
     }
 
     @Override

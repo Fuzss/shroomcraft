@@ -1,4 +1,4 @@
-package fuzs.shroomcraft.common.client.model;
+package fuzs.shroomcraft.common.client.model.animal.fish;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;

@@ -1,10 +1,11 @@
-package fuzs.shroomcraft.common.world.entity.animal;
+package fuzs.shroomcraft.common.world.entity.animal.chicken;
 
 import fuzs.puzzleslib.common.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.common.Shroomcraft;
 import fuzs.shroomcraft.common.init.CluckshroomVariants;
 import fuzs.shroomcraft.common.init.ModRegistry;
 import fuzs.shroomcraft.common.init.ModTags;
+import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -162,10 +163,10 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     @Override
-    public void shear(ServerLevel level, SoundSource soundSource, ItemStack shears) {
-        level.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, soundSource, 1.0F, 1.0F);
-        this.convertTo(EntityType.CHICKEN, ConversionParams.single(this, false, false), cow -> {
-            level.sendParticles(ParticleTypes.EXPLOSION,
+    public void shear(ServerLevel serverLevel, SoundSource soundSource, ItemStack shears) {
+        serverLevel.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, soundSource, 1.0F, 1.0F);
+        this.convertTo(EntityType.CHICKEN, ConversionParams.single(this, false, false), (Chicken chicken) -> {
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION,
                     this.getX(),
                     this.getY(0.5),
                     this.getZ(),
@@ -174,16 +175,16 @@ public class Cluckshroom extends Chicken implements Shearable {
                     0.0,
                     0.0,
                     0.0);
-            this.dropFromShearingLootTable(level,
+            this.dropFromShearingLootTable(serverLevel,
                     this.getBlockVariant().value().shearingLootTable(),
                     shears,
-                    (serverLevelx, itemStackx) -> {
-                        for (int i = 0; i < itemStackx.getCount(); i++) {
-                            serverLevelx.addFreshEntity(new ItemEntity(this.level(),
+                    (ServerLevel level, ItemStack item) -> {
+                        for (int i = 0; i < item.getCount(); i++) {
+                            level.addFreshEntity(new ItemEntity(this.level(),
                                     this.getX(),
                                     this.getY(1.0),
                                     this.getZ(),
-                                    itemStackx.copyWithCount(1)));
+                                    item.copyWithCount(1)));
                         }
                     });
         });

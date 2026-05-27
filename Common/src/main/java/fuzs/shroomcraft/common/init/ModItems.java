@@ -88,15 +88,15 @@ public class ModItems {
     public static final Holder.Reference<Item> COOKED_SHROOMFIN = ModRegistry.REGISTRIES.registerItem("cooked_shroomfin",
             () -> new Item.Properties().food(COOKED_SHROOMFIN_FOOD_PROPERTIES));
     public static final Holder.Reference<Item> SHROOMFIN_BUCKET = ModRegistry.REGISTRIES.registerItem("shroomfin_bucket",
-            (Item.Properties properties) -> new MobBucketItem(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
+            (Item.Properties properties) -> new MobBucketItem(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(),
                     Fluids.WATER,
                     SoundEvents.BUCKET_EMPTY_FISH,
                     properties),
             () -> new Item.Properties().stacksTo(1).component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY));
     public static final Holder.Reference<Item> SHROOMFIN_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
-            ModRegistry.SHROOMFIN_ENTITY_TYPE);
+            ModEntityTypes.SHROOMFIN_ENTITY_TYPE);
     public static final Holder.Reference<Item> CLUCKSHROOM_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
-            ModRegistry.CLUCKSHROOM_ENTITY_TYPE);
+            ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE);
     public static final Holder.Reference<Item> BLUE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem("blue_shroombomb",
             LingeringPotionItem::new,
             () -> new Item.Properties().stacksTo(16)

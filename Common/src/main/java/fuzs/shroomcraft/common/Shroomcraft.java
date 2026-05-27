@@ -8,13 +8,10 @@ import fuzs.puzzleslib.common.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.common.api.event.v1.server.LootTableLoadCallback;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.common.handler.BiomeModificationsHandler;
-import fuzs.shroomcraft.common.init.ModBlockFamilies;
-import fuzs.shroomcraft.common.init.ModBlocks;
-import fuzs.shroomcraft.common.init.ModItems;
-import fuzs.shroomcraft.common.init.ModRegistry;
-import fuzs.shroomcraft.common.world.entity.animal.Cluckshroom;
+import fuzs.shroomcraft.common.init.*;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
-import fuzs.shroomcraft.common.world.entity.animal.ModMushroomCow;
+import fuzs.shroomcraft.common.world.entity.animal.chicken.Cluckshroom;
+import fuzs.shroomcraft.common.world.entity.animal.cow.Mooshroom;
 import net.minecraft.advancements.criterion.LocationPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -68,8 +65,8 @@ public class Shroomcraft implements ModConstructor {
                 blockSetFamily.registerFor(consumer, BlockSetFamily.VARIANT_BLOCK_ENTITY_TYPE);
             });
         });
-        ServerEntityEvents.LOAD.register(ModMushroomCow::onEntityLoad);
-        PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);
+        ServerEntityEvents.LOAD.register(Mooshroom::onEntityLoad);
+        PlayerInteractEvents.USE_ENTITY.register(Mooshroom::onEntityInteract);
         LootTableLoadCallback.EVENT.register((Identifier identifier, LootTable.Builder lootTable, HolderLookup.@Nullable Provider registries) -> {
             if (BuiltInLootTables.FISHING_FISH.identifier().equals(identifier)) {
                 MutableBoolean mutableBoolean = new MutableBoolean();
@@ -118,22 +115,22 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterEntityAttributes(EntityAttributesContext context) {
-        context.registerAttributes(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
-        context.registerAttributes(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
-        context.registerAttributes(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
+        context.registerAttributes(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
+        context.registerAttributes(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
+        context.registerAttributes(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
     }
 
     @Override
     public void onRegisterSpawnPlacements(SpawnPlacementsContext context) {
-        context.registerSpawnPlacement(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+        context.registerSpawnPlacement(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                ModMushroomCow::checkMooshroomSpawnRules);
-        context.registerSpawnPlacement(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
+                Mooshroom::checkMooshroomSpawnRules);
+        context.registerSpawnPlacement(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
-        context.registerSpawnPlacement(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
+        context.registerSpawnPlacement(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Cluckshroom::checkCluckshroomSpawnRules);

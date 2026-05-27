@@ -76,9 +76,11 @@ public record MobBlockVariant(Identifier textureLocation,
     }
 
     public static ResourceKey<LootTable> getShearingLootTable(Holder.Reference<? extends EntityType<?>> entityType, ResourceKey<MobBlockVariant> resourceKey) {
+        return getShearingLootTable(entityType, resourceKey.identifier());
+    }
+
+    public static ResourceKey<LootTable> getShearingLootTable(Holder.Reference<? extends EntityType<?>> entityType, Identifier variant) {
         return ResourceKey.create(Registries.LOOT_TABLE,
-                resourceKey.identifier()
-                        .withPath((String string) -> "shearing/" + entityType.key().identifier().getPath() + "/"
-                                + string));
+                variant.withPath((String string) -> "shearing/" + entityType.key().identifier().getPath() + "/" + string));
     }
 }

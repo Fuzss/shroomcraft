@@ -1,18 +1,14 @@
-package fuzs.shroomcraft.common.world.entity.animal;
+package fuzs.shroomcraft.common.world.entity.animal.cow;
 
 import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
-import fuzs.puzzleslib.common.api.network.v4.codec.ExtraStreamCodecs;
 import fuzs.shroomcraft.common.Shroomcraft;
-import fuzs.shroomcraft.common.init.ModBlocks;
-import fuzs.shroomcraft.common.init.ModLootTables;
+import fuzs.shroomcraft.common.init.ModEntityTypes;
 import fuzs.shroomcraft.common.init.ModRegistry;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
@@ -21,7 +17,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Util;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -39,8 +34,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -48,11 +41,14 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 
-public class ModMushroomCow extends MushroomCow {
-    private static final EntityDataAccessor<ColorVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(ModMushroomCow.class,
+public class Mooshroom extends MushroomCow {
+    private static final EntityDataAccessor<MooshroomVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(Mooshroom.class,
             ModRegistry.MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
     private static final Set<EntitySpawnReason> VALID_SPAWN_REASONS = Set.of(EntitySpawnReason.SPAWNER,
             EntitySpawnReason.TRIAL_SPAWNER,
@@ -62,7 +58,7 @@ public class ModMushroomCow extends MushroomCow {
     @Nullable
     private UUID lastLightningBoltUUID;
 
-    public ModMushroomCow(EntityType<? extends MushroomCow> entityType, Level level) {
+    public Mooshroom(EntityType<? extends MushroomCow> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -76,9 +72,9 @@ public class ModMushroomCow extends MushroomCow {
                 && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
                 entity.blockPosition(),
                 serverLevel.getRandom())) {
-            ((MushroomCow) entity).convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+            ((MushroomCow) entity).convertTo(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
                     ConversionParams.single((MushroomCow) entity, false, false),
-                    (ModMushroomCow mob) -> {
+                    (Mooshroom mob) -> {
                         DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(mob.blockPosition());
                         mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
                     });
@@ -89,14 +85,14 @@ public class ModMushroomCow extends MushroomCow {
         if (serverLevel.getBiome(blockPos).is(BiomeTags.IS_NETHER)) {
             return true;
         } else {
-            return randomSource.nextInt(ColorVariant.getOverworldVariants().length + 1) != 0;
+            return randomSource.nextInt(MooshroomVariant.OVERWORLD_VARIANTS.size() + 1) != 0;
         }
     }
 
     public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive()
-                && entity.getType() == ModRegistry.MOOSHROOM_ENTITY_TYPE.value()) {
+                && entity.getType() == ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value()) {
             if (level instanceof ServerLevel serverLevel) {
                 Optional<Mob> optional = spawnOffspringFromSpawnEgg(player,
                         (Mob) entity,
@@ -104,7 +100,7 @@ public class ModMushroomCow extends MushroomCow {
                         entity.position(),
                         itemInHand);
                 optional.ifPresent((Mob mob) -> {
-                    ((ModMushroomCow) entity).onOffspringSpawnedFromEgg(player, mob);
+                    ((Mooshroom) entity).onOffspringSpawnedFromEgg(player, mob);
                 });
                 if (optional.isEmpty()) {
                     return EventResultHolder.interrupt(InteractionResult.PASS);
@@ -155,16 +151,14 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_VARIANT_ID, ColorVariant.BLUE);
+        builder.define(DATA_VARIANT_ID, MooshroomVariant.BLUE);
     }
 
     @Override
     public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {
         UUID uuid = lightningBolt.getUUID();
         if (!uuid.equals(this.lastLightningBoltUUID)) {
-            ColorVariant[] colorVariants = this.getColorVariant().isNetherVariant() ? ColorVariant.getNetherVariants() :
-                    ColorVariant.getOverworldVariants();
-            this.setColorVariant(colorVariants[(this.getColorVariant().typeIndex + 1) % colorVariants.length]);
+            this.setCustomVariant(this.getCustomVariant().apply(1));
             this.lastLightningBoltUUID = uuid;
             this.playSound(SoundEvents.MOOSHROOM_CONVERT, 2.0F, 1.0F);
         }
@@ -172,7 +166,7 @@ public class ModMushroomCow extends MushroomCow {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
-        ColorVariant variant;
+        MooshroomVariant variant;
         if (spawnGroupData instanceof MooshroomGroupData mooshroomGroupData) {
             variant = mooshroomGroupData.variant;
         } else {
@@ -180,32 +174,32 @@ public class ModMushroomCow extends MushroomCow {
             spawnGroupData = new MooshroomGroupData(variant);
         }
 
-        this.setColorVariant(variant);
+        this.setCustomVariant(variant);
         return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
     }
 
-    private static ColorVariant getRandomVariant(LevelAccessor level, BlockPos pos) {
+    private static MooshroomVariant getRandomVariant(LevelAccessor level, BlockPos pos) {
         Holder<Biome> holder = level.getBiome(pos);
         if (holder.is(Biomes.CRIMSON_FOREST)) {
-            return ColorVariant.CRIMSON;
+            return MooshroomVariant.CRIMSON;
         } else if (holder.is(Biomes.WARPED_FOREST)) {
-            return ColorVariant.WARPED;
+            return MooshroomVariant.WARPED;
         } else {
-            ColorVariant[] colorVariants;
+            List<MooshroomVariant> variants;
             if (holder.is(BiomeTags.IS_NETHER)) {
-                colorVariants = ColorVariant.getNetherVariants();
+                variants = MooshroomVariant.NETHER_VARIANTS;
             } else {
-                colorVariants = ColorVariant.getOverworldVariants();
+                variants = MooshroomVariant.OVERWORLD_VARIANTS;
             }
 
-            return Util.getRandom(colorVariants, level.getRandom());
+            return Util.getRandom(variants, level.getRandom());
         }
     }
 
     @Override
     protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> key, ItemInstance tool, BiConsumer<ServerLevel, ItemStack> consumer) {
         super.dropFromShearingLootTable(level,
-                key == BuiltInLootTables.SHEAR_MOOSHROOM ? ModLootTables.SHEAR_MOOSHROOM_LOOT_TABLE : key,
+                key == BuiltInLootTables.SHEAR_MOOSHROOM ? this.getCustomVariant().shearingLootTable : key,
                 tool,
                 consumer);
     }
@@ -213,13 +207,14 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     protected void addAdditionalSaveData(ValueOutput valueOutput) {
         super.addAdditionalSaveData(valueOutput);
-        valueOutput.store(Shroomcraft.id("variant").toString(), ColorVariant.CODEC, this.getColorVariant());
+        valueOutput.discard("Type");
+        valueOutput.store(Shroomcraft.id("variant").toString(), MooshroomVariant.CODEC, this.getCustomVariant());
     }
 
     @Override
     protected void readAdditionalSaveData(ValueInput valueInput) {
         super.readAdditionalSaveData(valueInput);
-        valueInput.read(Shroomcraft.id("variant").toString(), ColorVariant.CODEC).ifPresent(this::setColorVariant);
+        valueInput.read(Shroomcraft.id("variant").toString(), MooshroomVariant.CODEC).ifPresent(this::setCustomVariant);
     }
 
     @Override
@@ -227,11 +222,11 @@ public class ModMushroomCow extends MushroomCow {
         return MushroomCow.Variant.RED;
     }
 
-    public void setColorVariant(ColorVariant colorVariant) {
+    public void setCustomVariant(MooshroomVariant colorVariant) {
         this.entityData.set(DATA_VARIANT_ID, colorVariant);
     }
 
-    public ColorVariant getColorVariant() {
+    public MooshroomVariant getCustomVariant() {
         return this.entityData.get(DATA_VARIANT_ID);
     }
 
@@ -239,7 +234,7 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     public <T> T get(DataComponentType<? extends T> dataComponentType) {
         return dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value() ?
-                castComponentValue((DataComponentType<T>) dataComponentType, this.getColorVariant()) :
+                castComponentValue((DataComponentType<T>) dataComponentType, this.getCustomVariant()) :
                 super.get(dataComponentType);
     }
 
@@ -253,7 +248,8 @@ public class ModMushroomCow extends MushroomCow {
     @Override
     protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
         if (dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value()) {
-            this.setColorVariant(castComponentValue(ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(), object));
+            this.setCustomVariant(castComponentValue(ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+                    object));
             return true;
         } else {
             return super.applyImplicitComponent(dataComponentType, object);
@@ -263,12 +259,12 @@ public class ModMushroomCow extends MushroomCow {
     @Nullable
     @Override
     public MushroomCow getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        ModMushroomCow modMushroomCow = (ModMushroomCow) this.getType().create(level, EntitySpawnReason.BREEDING);
-        if (modMushroomCow != null) {
-            modMushroomCow.setColorVariant(this.getColorVariant());
+        Mooshroom mooshroom = (Mooshroom) this.getType().create(level, EntitySpawnReason.BREEDING);
+        if (mooshroom != null) {
+            mooshroom.setCustomVariant(this.getCustomVariant());
         }
 
-        return modMushroomCow;
+        return mooshroom;
     }
 
     @Override
@@ -286,56 +282,11 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     static class MooshroomGroupData extends AgeableMob.AgeableMobGroupData {
-        public final ColorVariant variant;
+        public final MooshroomVariant variant;
 
-        MooshroomGroupData(ColorVariant variant) {
+        MooshroomGroupData(MooshroomVariant variant) {
             super(true);
             this.variant = variant;
-        }
-    }
-
-    public enum ColorVariant implements StringRepresentable {
-        BLUE(0, ModBlocks.BLUE_MUSHROOM),
-        ORANGE(1, ModBlocks.ORANGE_MUSHROOM),
-        PURPLE(2, ModBlocks.PURPLE_MUSHROOM),
-        CRIMSON(0, Blocks.CRIMSON_FUNGUS.builtInRegistryHolder()),
-        WARPED(1, Blocks.WARPED_FUNGUS.builtInRegistryHolder());
-
-        public static final StringRepresentable.StringRepresentableCodec<ColorVariant> CODEC = StringRepresentable.fromEnum(
-                ColorVariant::values);
-        public static final StreamCodec<ByteBuf, ColorVariant> STREAM_CODEC = ExtraStreamCodecs.fromEnum(ColorVariant.class);
-
-        private final int typeIndex;
-        public final Holder<Block> block;
-
-        ColorVariant(int typeIndex, Holder<Block> block) {
-            this.typeIndex = typeIndex;
-            this.block = block;
-        }
-
-        public static ColorVariant[] getOverworldVariants() {
-            return Arrays.stream(ColorVariant.values())
-                    .filter(ColorVariant::isOverworldVariant)
-                    .toArray(ColorVariant[]::new);
-        }
-
-        public static ColorVariant[] getNetherVariants() {
-            return Arrays.stream(ColorVariant.values())
-                    .filter(ColorVariant::isNetherVariant)
-                    .toArray(ColorVariant[]::new);
-        }
-
-        public boolean isOverworldVariant() {
-            return !this.isNetherVariant();
-        }
-
-        public boolean isNetherVariant() {
-            return this == CRIMSON || this == WARPED;
-        }
-
-        @Override
-        public String getSerializedName() {
-            return this.name().toLowerCase(Locale.ROOT);
         }
     }
 }

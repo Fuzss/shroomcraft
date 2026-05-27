@@ -1,9 +1,7 @@
 package fuzs.shroomcraft.common.world.entity.animal;
 
-import fuzs.puzzleslib.common.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.common.api.network.v4.codec.ExtraStreamCodecs;
-import fuzs.puzzleslib.common.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.common.Shroomcraft;
 import fuzs.shroomcraft.common.init.ModBlocks;
 import fuzs.shroomcraft.common.init.ModLootTables;
@@ -73,24 +71,17 @@ public class ModMushroomCow extends MushroomCow {
                 || level.getBlockState(pos.below()).is(BlockTags.NYLIUM);
     }
 
-    public static EventResult onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isNewlySpawned) {
-        EntitySpawnReason entitySpawnReason = EntityHelper.getMobSpawnReason(entity);
-        if (isNewlySpawned && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
+    public static void onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isLoadedFromDisk, @Nullable EntitySpawnReason entitySpawnReason) {
+        if (!isLoadedFromDisk && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
                 && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
                 entity.blockPosition(),
                 serverLevel.getRandom())) {
             ((MushroomCow) entity).convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                    ConversionParams.single((MushroomCow) entity, true, true),
+                    ConversionParams.single((MushroomCow) entity, false, false),
                     (ModMushroomCow mob) -> {
-                        DifficultyInstance difficulty = new DifficultyInstance(serverLevel.getDifficulty(),
-                                serverLevel.getOverworldClockTime(),
-                                0L,
-                                serverLevel.getMoonBrightness(entity.blockPosition()));
+                        DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(mob.blockPosition());
                         mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
                     });
-            return EventResult.INTERRUPT;
-        } else {
-            return EventResult.PASS;
         }
     }
 

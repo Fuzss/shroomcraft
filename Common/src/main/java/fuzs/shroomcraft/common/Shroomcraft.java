@@ -3,7 +3,7 @@ package fuzs.shroomcraft.common;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.context.*;
 import fuzs.puzzleslib.common.api.event.v1.AddBlockEntityTypeBlocksCallback;
-import fuzs.puzzleslib.common.api.event.v1.entity.ServerEntityLevelEvents;
+import fuzs.puzzleslib.common.api.event.v1.entity.ServerEntityEvents;
 import fuzs.puzzleslib.common.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.common.api.event.v1.server.LootTableLoadCallback;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
@@ -68,7 +68,7 @@ public class Shroomcraft implements ModConstructor {
                 blockSetFamily.registerFor(consumer, BlockSetFamily.VARIANT_BLOCK_ENTITY_TYPE);
             });
         });
-        ServerEntityLevelEvents.LOAD.register(ModMushroomCow::onEntityLoad);
+        ServerEntityEvents.LOAD.register(ModMushroomCow::onEntityLoad);
         PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);
         LootTableLoadCallback.EVENT.register((Identifier identifier, LootTable.Builder lootTable, HolderLookup.@Nullable Provider registries) -> {
             if (BuiltInLootTables.FISHING_FISH.identifier().equals(identifier)) {

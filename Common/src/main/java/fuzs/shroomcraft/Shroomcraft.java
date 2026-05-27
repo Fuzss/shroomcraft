@@ -1,33 +1,34 @@
 package fuzs.shroomcraft;
 
 import fuzs.puzzleslib.api.core.v1.ModConstructor;
-import fuzs.puzzleslib.api.core.v1.context.*;
+import fuzs.puzzleslib.api.core.v1.context.DataPackRegistriesContext;
+import fuzs.puzzleslib.api.core.v1.context.EntityAttributesContext;
+import fuzs.puzzleslib.api.core.v1.context.GameplayContentContext;
+import fuzs.puzzleslib.api.core.v1.context.SpawnPlacementsContext;
+import fuzs.puzzleslib.api.core.v2.context.BiomeModificationsContext;
 import fuzs.puzzleslib.api.event.v1.AddBlockEntityTypeBlocksCallback;
-import fuzs.puzzleslib.api.event.v1.entity.ServerEntityLevelEvents;
+import fuzs.puzzleslib.api.event.v1.entity.ServerEntityEvents;
 import fuzs.puzzleslib.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.api.event.v1.server.LootTableLoadCallback;
 import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.handler.BiomeModificationsHandler;
-import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModBlocks;
-import fuzs.shroomcraft.init.ModItems;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.*;
 import fuzs.shroomcraft.world.entity.animal.Cluckshroom;
 import fuzs.shroomcraft.world.entity.animal.MobBlockVariant;
-import fuzs.shroomcraft.world.entity.animal.ModMushroomCow;
-import net.minecraft.advancements.criterion.LocationPredicate;
+import fuzs.shroomcraft.world.entity.animal.Mooshroom;
+import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.animal.chicken.Chicken;
-import net.minecraft.world.entity.animal.cow.Cow;
-import net.minecraft.world.entity.animal.fish.AbstractFish;
-import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -45,7 +46,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
 import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,10 +69,10 @@ public class Shroomcraft implements ModConstructor {
                 blockSetFamily.registerFor(consumer, BlockSetFamily.VARIANT_BLOCK_ENTITY_TYPE);
             });
         });
-        ServerEntityLevelEvents.LOAD.register(ModMushroomCow::onEntityLoad);
-        PlayerInteractEvents.USE_ENTITY.register(ModMushroomCow::onEntityInteract);
-        LootTableLoadCallback.EVENT.register((Identifier identifier, LootTable.Builder lootTable, HolderLookup.@Nullable Provider registries) -> {
-            if (BuiltInLootTables.FISHING_FISH.identifier().equals(identifier)) {
+        ServerEntityEvents.LOAD.register(Mooshroom::onEntityLoad);
+        PlayerInteractEvents.USE_ENTITY.register(Mooshroom::onEntityInteract);
+        LootTableLoadCallback.EVENT.register((ResourceLocation identifier, LootTable.Builder lootTable, HolderLookup.@Nullable Provider registries) -> {
+            if (BuiltInLootTables.FISHING_FISH.location().equals(identifier)) {
                 MutableBoolean mutableBoolean = new MutableBoolean();
                 LootTableLoadCallback.forEachPool(lootTable, (LootPool.Builder builder) -> {
                     if (mutableBoolean.isFalse()) {
@@ -118,22 +119,22 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterEntityAttributes(EntityAttributesContext context) {
-        context.registerAttributes(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
-        context.registerAttributes(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
-        context.registerAttributes(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
+        context.registerAttributes(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(), Cow.createAttributes());
+        context.registerAttributes(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(), AbstractFish.createAttributes());
+        context.registerAttributes(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(), Chicken.createAttributes());
     }
 
     @Override
     public void onRegisterSpawnPlacements(SpawnPlacementsContext context) {
-        context.registerSpawnPlacement(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
+        context.registerSpawnPlacement(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                ModMushroomCow::checkMooshroomSpawnRules);
-        context.registerSpawnPlacement(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
+                Mooshroom::checkMooshroomSpawnRules);
+        context.registerSpawnPlacement(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
-        context.registerSpawnPlacement(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
+        context.registerSpawnPlacement(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Cluckshroom::checkCluckshroomSpawnRules);
@@ -192,7 +193,7 @@ public class Shroomcraft implements ModConstructor {
         BiomeModificationsHandler.onRegisterBiomeModifications(context);
     }
 
-    public static Identifier id(String path) {
-        return Identifier.fromNamespaceAndPath(MOD_ID, path);
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

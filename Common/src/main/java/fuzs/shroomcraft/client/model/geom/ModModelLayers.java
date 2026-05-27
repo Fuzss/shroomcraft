@@ -21,8 +21,6 @@ public class ModModelLayers {
     public static final ModelLayerLocation PURPLE_SHROOMWOOD_CHEST_BOAT = MODEL_LAYERS.registerModelLayer(
             "chest_boat/purple_shroomwood");
     public static final ModelLayerLocation MOOSHROOM = MODEL_LAYERS.registerModelLayer("mooshroom");
-    public static final ModelLayerLocation MOOSHROOM_BABY = MODEL_LAYERS.registerModelLayer("mooshroom_baby");
     public static final ModelLayerLocation SHROOMFIN = MODEL_LAYERS.registerModelLayer("shroomfin");
     public static final ModelLayerLocation CLUCKSHROOM = MODEL_LAYERS.registerModelLayer("cluckshroom");
-    public static final ModelLayerLocation CLUCKSHROOM_BABY = MODEL_LAYERS.registerModelLayer("cluckshroom_baby");
 }

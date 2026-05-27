@@ -2,6 +2,7 @@ package fuzs.shroomcraft.world.item.crafting;
 
 import com.mojang.serialization.MapCodec;
 import fuzs.shroomcraft.init.ModRegistry;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -9,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -21,13 +21,13 @@ import java.util.function.Predicate;
 public class DistinctShapelessRecipe extends ShapelessRecipe {
 
     public DistinctShapelessRecipe(ShapelessRecipe shapelessRecipe) {
-        super(shapelessRecipe.group(),
+        super(shapelessRecipe.getGroup(),
                 shapelessRecipe.category(),
                 shapelessRecipe.assemble(CraftingInput.EMPTY, RegistryAccess.EMPTY),
-                shapelessRecipe.ingredients);
+                shapelessRecipe.getIngredients());
     }
 
-    public DistinctShapelessRecipe(String group, CraftingBookCategory category, ItemStack result, List<Ingredient> ingredients) {
+    public DistinctShapelessRecipe(String group, CraftingBookCategory category, ItemStack result, NonNullList<Ingredient> ingredients) {
         super(group, category, result, ingredients);
     }
 
@@ -38,12 +38,8 @@ public class DistinctShapelessRecipe extends ShapelessRecipe {
 
     @Override
     public boolean matches(CraftingInput input, Level level) {
-        if (input.items()
-                .stream()
-                .filter(Predicate.not(ItemStack::isEmpty))
-                .map(ItemStack::getItem)
-                .distinct()
-                .count() != input.items().stream().filter(Predicate.not(ItemStack::isEmpty)).count()) {
+        if (input.items().stream().filter(Predicate.not(ItemStack::isEmpty)).map(ItemStack::getItem).distinct().count()
+                != input.items().stream().filter(Predicate.not(ItemStack::isEmpty)).count()) {
             return false;
         } else {
             return super.matches(input, level);

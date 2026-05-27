@@ -5,6 +5,7 @@ import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.level.block.Block;
 
 public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
@@ -45,12 +46,11 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
         this.dropSelf(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
-        this.add(ModBlocks.MYCELIAL_GROWTH.value(),
-                (Block block) -> this.createMultifaceBlockDrops(block, this.hasShears()));
-        this.add(ModBlocks.MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
-        this.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
-        this.add(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
-        this.add(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), this::createShearsOnlyDrop);
+        this.add(ModBlocks.MYCELIAL_GROWTH.value(), (Block block) -> this.createMultifaceBlockDrops(block, HAS_SHEARS));
+        this.add(ModBlocks.MUSHROOM_SPROUTS.value(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.ORANGE_MUSHROOM_SPROUTS.value(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(), BlockLootSubProvider::createShearsOnlyDrop);
         this.dropPottedContents(ModBlocks.POTTED_MUSHROOM_SPROUTS.value());
         this.dropPottedContents(ModBlocks.POTTED_BLUE_MUSHROOM_SPROUTS.value());
         this.dropPottedContents(ModBlocks.POTTED_ORANGE_MUSHROOM_SPROUTS.value());

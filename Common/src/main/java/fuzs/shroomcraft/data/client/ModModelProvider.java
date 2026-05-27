@@ -5,9 +5,9 @@ import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.init.ModBlockFamilies;
 import fuzs.shroomcraft.init.ModBlocks;
 import fuzs.shroomcraft.init.ModItems;
-import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.model.*;
+import net.minecraft.data.models.BlockModelGenerators;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -50,15 +50,15 @@ public class ModModelProvider extends AbstractModelProvider {
                 ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                 createVariantWoodBlockProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                         ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
-        blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
+        blockModelGenerators.createPlant(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED);
-        blockModelGenerators.createPlantWithDefaultItem(ModBlocks.ORANGE_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED);
+        blockModelGenerators.createPlant(ModBlocks.ORANGE_MUSHROOM.value(),
                 ModBlocks.POTTED_ORANGE_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED);
-        blockModelGenerators.createPlantWithDefaultItem(ModBlocks.PURPLE_MUSHROOM.value(),
+                BlockModelGenerators.TintState.NOT_TINTED);
+        blockModelGenerators.createPlant(ModBlocks.PURPLE_MUSHROOM.value(),
                 ModBlocks.POTTED_PURPLE_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED);
+                BlockModelGenerators.TintState.NOT_TINTED);
         blockModelGenerators.createMushroomBlock(ModBlocks.BLUE_MUSHROOM_BLOCK.value());
         blockModelGenerators.createMushroomBlock(ModBlocks.ORANGE_MUSHROOM_BLOCK.value());
         blockModelGenerators.createMushroomBlock(ModBlocks.PURPLE_MUSHROOM_BLOCK.value());
@@ -88,27 +88,27 @@ public class ModModelProvider extends AbstractModelProvider {
         blockModelGenerators.createNetherRoots(ModBlocks.PURPLE_MUSHROOM_SPROUTS.value(),
                 ModBlocks.POTTED_PURPLE_MUSHROOM_SPROUTS.value());
         blockModelGenerators.createCrossBlock(ModBlocks.TINY_BROWN_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED,
+                BlockModelGenerators.TintState.NOT_TINTED,
                 BlockStateProperties.AGE_1,
                 0,
                 1);
         blockModelGenerators.createCrossBlock(ModBlocks.TINY_RED_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED,
+                BlockModelGenerators.TintState.NOT_TINTED,
                 BlockStateProperties.AGE_1,
                 0,
                 1);
         blockModelGenerators.createCrossBlock(ModBlocks.TINY_BLUE_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED,
+                BlockModelGenerators.TintState.NOT_TINTED,
                 BlockStateProperties.AGE_1,
                 0,
                 1);
         blockModelGenerators.createCrossBlock(ModBlocks.TINY_ORANGE_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED,
+                BlockModelGenerators.TintState.NOT_TINTED,
                 BlockStateProperties.AGE_1,
                 0,
                 1);
         blockModelGenerators.createCrossBlock(ModBlocks.TINY_PURPLE_MUSHROOM.value(),
-                BlockModelGenerators.PlantType.NOT_TINTED,
+                BlockModelGenerators.TintState.NOT_TINTED,
                 BlockStateProperties.AGE_1,
                 0,
                 1);

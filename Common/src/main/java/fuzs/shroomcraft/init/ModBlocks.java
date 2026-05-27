@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 public class ModBlocks {
     public static final Holder.Reference<Block> BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock("blue_mushroom",
@@ -30,15 +31,15 @@ public class ModBlocks {
     public static final Holder.Reference<Block> POTTED_BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
             "potted_blue_mushroom",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(BLUE_MUSHROOM.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> POTTED_ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
             "potted_orange_mushroom",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(ORANGE_MUSHROOM.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> POTTED_PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
             "potted_purple_mushroom",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(PURPLE_MUSHROOM.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> BLUE_MUSHROOM_BLOCK = ModRegistry.REGISTRIES.registerBlock(
             "blue_mushroom_block",
             HugeMushroomBlock::new,
@@ -97,16 +98,16 @@ public class ModBlocks {
             "stripped_purple_mushroom_hyphae",
             RotatedPillarBlock::new,
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM).mapColor(MapColor.TERRACOTTA_PURPLE));
-    public static final Holder.Reference<Block> SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlock(
+    public static final Holder.Reference<Block> SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerSimpleBlock(
             "shroomwood_planks",
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.TERRACOTTA_BROWN));
-    public static final Holder.Reference<Block> BLUE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlock(
+    public static final Holder.Reference<Block> BLUE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerSimpleBlock(
             "blue_shroomwood_planks",
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.TERRACOTTA_BLUE));
-    public static final Holder.Reference<Block> ORANGE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlock(
+    public static final Holder.Reference<Block> ORANGE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerSimpleBlock(
             "orange_shroomwood_planks",
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.TERRACOTTA_ORANGE));
-    public static final Holder.Reference<Block> PURPLE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlock(
+    public static final Holder.Reference<Block> PURPLE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerSimpleBlock(
             "purple_shroomwood_planks",
             () -> BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.TERRACOTTA_PURPLE));
     public static final Holder.Reference<Block> MYCELIAL_GROWTH = ModRegistry.REGISTRIES.registerBlock("mycelial_growth",
@@ -131,19 +132,19 @@ public class ModBlocks {
     public static final Holder.Reference<Block> POTTED_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "potted_mushroom_sprouts",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(MUSHROOM_SPROUTS.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> POTTED_BLUE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "potted_blue_mushroom_sprouts",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(BLUE_MUSHROOM_SPROUTS.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> POTTED_ORANGE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "potted_orange_mushroom_sprouts",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(ORANGE_MUSHROOM_SPROUTS.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> POTTED_PURPLE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlock(
             "potted_purple_mushroom_sprouts",
             (BlockBehaviour.Properties properties) -> new FlowerPotBlock(PURPLE_MUSHROOM_SPROUTS.value(), properties),
-            Blocks::flowerPotProperties);
+            () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     public static final Holder.Reference<Block> TINY_BROWN_MUSHROOM = ModRegistry.REGISTRIES.registerBlock(
             "tiny_brown_mushroom",
             (BlockBehaviour.Properties properties) -> new TinyMushroomCropBlock(properties,

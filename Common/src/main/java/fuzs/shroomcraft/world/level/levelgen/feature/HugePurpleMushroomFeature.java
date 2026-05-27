@@ -32,13 +32,12 @@ public class HugePurpleMushroomFeature extends AbstractHugeMushroomFeature {
                     boolean bl6 = bl3 || bl4;
                     if (i >= treeHeight || bl5 != bl6) {
                         mutablePos.setWithOffset(pos, l, i, m);
-                        if (!level.getBlockState(mutablePos).isSolidRender()) {
+                        if (!level.getBlockState(mutablePos).isSolidRender(level, mutablePos)) {
                             BlockState blockState = config.capProvider.getState(random, pos);
-                            if (blockState.hasProperty(HugeMushroomBlock.WEST) &&
-                                    blockState.hasProperty(HugeMushroomBlock.EAST) &&
-                                    blockState.hasProperty(HugeMushroomBlock.NORTH) &&
-                                    blockState.hasProperty(HugeMushroomBlock.SOUTH) &&
-                                    blockState.hasProperty(HugeMushroomBlock.UP)) {
+                            if (blockState.hasProperty(HugeMushroomBlock.WEST) && blockState.hasProperty(
+                                    HugeMushroomBlock.EAST) && blockState.hasProperty(HugeMushroomBlock.NORTH)
+                                    && blockState.hasProperty(HugeMushroomBlock.SOUTH) && blockState.hasProperty(
+                                    HugeMushroomBlock.UP)) {
                                 blockState = blockState.setValue(HugeMushroomBlock.UP,
                                                 Boolean.valueOf(i >= treeHeight - 1))
                                         .setValue(HugeMushroomBlock.WEST, Boolean.valueOf(l < -k))

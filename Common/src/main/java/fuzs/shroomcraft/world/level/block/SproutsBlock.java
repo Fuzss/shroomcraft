@@ -40,14 +40,16 @@ public class SproutsBlock extends RootsBlock implements BonemealableBlock {
             BlockPos currentPos = blockPos;
             BlockState defaultBlockState = blockState.getBlock().defaultBlockState();
             for (int j = 0; j < i / 16; ++j) {
-                currentPos = currentPos.offset(randomSource.nextInt(3) - 1, (
-                        randomSource.nextInt(3) - 1) * randomSource.nextInt(3) / 2, randomSource.nextInt(3) - 1);
-                if (!defaultBlockState.canSurvive(serverLevel, currentPos) || serverLevel.getBlockState(currentPos).isCollisionShapeFullBlock(
-                        serverLevel, currentPos)) {
+                currentPos = currentPos.offset(randomSource.nextInt(3) - 1,
+                        (randomSource.nextInt(3) - 1) * randomSource.nextInt(3) / 2,
+                        randomSource.nextInt(3) - 1);
+                if (!defaultBlockState.canSurvive(serverLevel, currentPos) || serverLevel.getBlockState(currentPos)
+                        .isCollisionShapeFullBlock(serverLevel, currentPos)) {
                     continue label;
                 }
             }
-            if (serverLevel.isEmptyBlock(currentPos) && currentPos.getY() > serverLevel.getMinY()) {
+
+            if (serverLevel.isEmptyBlock(currentPos) && currentPos.getY() > serverLevel.getMinBuildHeight()) {
                 serverLevel.setBlock(currentPos, defaultBlockState, 2);
                 if (++successCounter >= this.getMostSuccesses()) {
                     return;

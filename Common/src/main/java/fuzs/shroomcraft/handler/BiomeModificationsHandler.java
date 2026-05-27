@@ -3,9 +3,9 @@ package fuzs.shroomcraft.handler;
 import fuzs.puzzleslib.api.biome.v1.BiomeLoadingContext;
 import fuzs.puzzleslib.api.biome.v1.BiomeLoadingPhase;
 import fuzs.puzzleslib.api.biome.v1.BiomeModificationContext;
-import fuzs.puzzleslib.api.core.v1.context.BiomeModificationsContext;
+import fuzs.puzzleslib.api.core.v2.context.BiomeModificationsContext;
+import fuzs.shroomcraft.init.ModEntityTypes;
 import fuzs.shroomcraft.init.ModPlacedFeatures;
-import fuzs.shroomcraft.init.ModRegistry;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biomes;
@@ -24,16 +24,20 @@ public final class BiomeModificationsHandler {
                 (BiomeModificationContext biomeModificationContext) -> {
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    8,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), 4, 8));
+                                    new MobSpawnSettings.SpawnerData(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
+                                            8,
+                                            4,
+                                            8));
                 });
         context.registerBiomeModification(BiomeLoadingPhase.ADDITIONS,
                 (BiomeLoadingContext biomeLoadingContext) -> biomeLoadingContext.is(Biomes.WARPED_FOREST),
                 (BiomeModificationContext biomeModificationContext) -> {
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    8,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), 4, 8));
+                                    new MobSpawnSettings.SpawnerData(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
+                                            8,
+                                            4,
+                                            8));
                 });
         context.registerBiomeModification(BiomeLoadingPhase.MODIFICATIONS,
                 (BiomeLoadingContext biomeLoadingContext) -> biomeLoadingContext.is(Biomes.MUSHROOM_FIELDS),
@@ -50,16 +54,20 @@ public final class BiomeModificationsHandler {
                 (BiomeModificationContext biomeModificationContext) -> {
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    8,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), 4, 8));
+                                    new MobSpawnSettings.SpawnerData(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
+                                            8,
+                                            4,
+                                            8));
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.WATER_AMBIENT,
-                                    5,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), 1, 5));
+                                    new MobSpawnSettings.SpawnerData(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(),
+                                            5,
+                                            1,
+                                            5));
                     biomeModificationContext.mobSpawnSettings()
                             .addSpawn(MobCategory.CREATURE,
-                                    8,
-                                    new MobSpawnSettings.SpawnerData(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(),
+                                    new MobSpawnSettings.SpawnerData(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(),
+                                            8,
                                             4,
                                             8));
                     biomeModificationContext.generationSettings()

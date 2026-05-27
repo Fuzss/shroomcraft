@@ -34,13 +34,12 @@ public class HugeOrangeMushroomFeature extends AbstractHugeMushroomFeature {
                         int offsetX = l + (i == treeHeight - 1 && Math.abs(l) > Math.abs(m) ? Mth.sign(l) : 0);
                         int offsetZ = m + (i == treeHeight - 1 && Math.abs(m) > Math.abs(l) ? Mth.sign(m) : 0);
                         mutablePos.setWithOffset(pos, offsetX, i, offsetZ);
-                        if (!level.getBlockState(mutablePos).isSolidRender()) {
+                        if (!level.getBlockState(mutablePos).isSolidRender(level, mutablePos)) {
                             BlockState blockState = config.capProvider.getState(random, pos);
-                            if (blockState.hasProperty(HugeMushroomBlock.WEST) &&
-                                    blockState.hasProperty(HugeMushroomBlock.EAST) &&
-                                    blockState.hasProperty(HugeMushroomBlock.NORTH) &&
-                                    blockState.hasProperty(HugeMushroomBlock.SOUTH) &&
-                                    blockState.hasProperty(HugeMushroomBlock.UP)) {
+                            if (blockState.hasProperty(HugeMushroomBlock.WEST) && blockState.hasProperty(
+                                    HugeMushroomBlock.EAST) && blockState.hasProperty(HugeMushroomBlock.NORTH)
+                                    && blockState.hasProperty(HugeMushroomBlock.SOUTH) && blockState.hasProperty(
+                                    HugeMushroomBlock.UP)) {
                                 blockState = blockState.setValue(HugeMushroomBlock.UP,
                                                 Boolean.valueOf(i >= treeHeight - 1))
                                         .setValue(HugeMushroomBlock.WEST, Boolean.valueOf(l < -k))

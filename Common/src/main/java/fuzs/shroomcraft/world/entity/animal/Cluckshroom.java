@@ -1,5 +1,6 @@
 package fuzs.shroomcraft.world.entity.animal;
 
+import fuzs.puzzleslib.api.util.v1.CompoundTagHelper;
 import fuzs.puzzleslib.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.CluckshroomVariants;
@@ -9,11 +10,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.component.DataComponentGetter;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,10 +27,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.animal.chicken.Chicken;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
@@ -40,11 +40,15 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import org.jspecify.annotations.Nullable;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -60,7 +64,7 @@ public class Cluckshroom extends Chicken implements Shearable {
         super(entityType, level);
     }
 
-    public static boolean checkCluckshroomSpawnRules(EntityType<? extends Mob> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean checkCluckshroomSpawnRules(EntityType<? extends Mob> entityType, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         return level.getBlockState(pos.below()).is(BlockTags.MOOSHROOMS_SPAWNABLE_ON) && isBrightEnoughToSpawn(level,
                 pos);
     }
@@ -76,9 +80,9 @@ public class Cluckshroom extends Chicken implements Shearable {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         Registry<MobBlockVariant> registry = this.registryAccess()
-                .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+                .registryOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
         builder.define(DATA_VARIANT_ID,
-                registry.get(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
+                registry.getHolder(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
     }
 
     @Override
@@ -94,9 +98,9 @@ public class Cluckshroom extends Chicken implements Shearable {
             return InteractionResult.SUCCESS;
         } else if (itemInHand.is(Items.SHEARS) && this.readyForShearing()) {
             if (this.level() instanceof ServerLevel serverLevel) {
-                this.shear(serverLevel, SoundSource.PLAYERS, itemInHand);
+                this.shear(SoundSource.PLAYERS);
                 this.gameEvent(GameEvent.SHEAR, player);
-                itemInHand.hurtAndBreak(1, player, interactionHand.asEquipmentSlot());
+                itemInHand.hurtAndBreak(1, player, getSlotForHand(interactionHand));
             }
 
             return InteractionResult.SUCCESS;
@@ -113,7 +117,7 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData spawnGroupData) {
         Holder<MobBlockVariant> variant;
         if (spawnGroupData instanceof MobBlockVariantGroupData mobBlockVariantGroupData) {
             variant = mobBlockVariantGroupData.variant;
@@ -128,19 +132,22 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     public static Holder<MobBlockVariant> getSpawnVariant(RegistryAccess registryAccess, Holder<Biome> biome) {
-        Registry<MobBlockVariant> registry = registryAccess.lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+        Registry<MobBlockVariant> registry = registryAccess.registryOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
         return getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
             return holder.value().biomes().contains(biome);
         }).or(() -> getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
-            TagKey<MobBlockVariant> tagKey =
-                    biome.is(BiomeTags.IS_NETHER) ? ModTags.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
-                            ModTags.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
-            return holder.is(tagKey);
-        })).or(() -> registry.get(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT)).or(registry::getAny).orElseThrow();
+                    TagKey<MobBlockVariant> tagKey =
+                            biome.is(BiomeTags.IS_NETHER) ? ModTags.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
+                                    ModTags.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
+                    return holder.is(tagKey);
+                }))
+                .or(() -> registry.getHolder(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT))
+                .or(registry::getAny)
+                .orElseThrow();
     }
 
     static Optional<Holder<MobBlockVariant>> getRandomSpawnVariant(Registry<MobBlockVariant> registry, Predicate<Holder<MobBlockVariant>> filter) {
-        return Optional.ofNullable(registry.listElements()
+        return Optional.ofNullable(registry.holders()
                 .filter(filter)
                 .collect(Collectors.collectingAndThen(Collectors.toCollection(ArrayList::new),
                         (List<Holder.Reference<MobBlockVariant>> list) -> {
@@ -154,40 +161,68 @@ public class Cluckshroom extends Chicken implements Shearable {
         UUID uuid = lightningBolt.getUUID();
         if (!uuid.equals(this.lastLightningBoltUUID)) {
             Registry<MobBlockVariant> registry = this.registryAccess()
-                    .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+                    .registryOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
             int newIndex = (registry.getIdOrThrow(this.getBlockVariant().value()) + 1) % registry.size();
-            this.setBlockVariant(registry.get(newIndex).orElseThrow(NoSuchElementException::new));
+            this.setBlockVariant(registry.getHolder(newIndex).orElseThrow(NoSuchElementException::new));
             this.lastLightningBoltUUID = uuid;
             this.playSound(SoundEvents.MOOSHROOM_CONVERT, 2.0F, 1.0F);
         }
     }
 
     @Override
-    public void shear(ServerLevel level, SoundSource soundSource, ItemStack shears) {
-        level.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, soundSource, 1.0F, 1.0F);
-        this.convertTo(EntityType.CHICKEN, ConversionParams.single(this, false, false), cow -> {
-            level.sendParticles(ParticleTypes.EXPLOSION,
-                    this.getX(),
-                    this.getY(0.5),
-                    this.getZ(),
-                    1,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0);
-            this.dropFromShearingLootTable(level,
-                    this.getBlockVariant().value().shearingLootTable(),
-                    shears,
-                    (serverLevelx, itemStackx) -> {
-                        for (int i = 0; i < itemStackx.getCount(); i++) {
-                            serverLevelx.addFreshEntity(new ItemEntity(this.level(),
-                                    this.getX(),
-                                    this.getY(1.0),
-                                    this.getZ(),
-                                    itemStackx.copyWithCount(1)));
-                        }
-                    });
-        });
+    public void shear(SoundSource soundSource) {
+        if (this.level() instanceof ServerLevel serverLevel) {
+            serverLevel.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, soundSource, 1.0F, 1.0F);
+            if (this.convertTo(EntityType.CHICKEN, false) != null) {
+                serverLevel.sendParticles(ParticleTypes.EXPLOSION,
+                        this.getX(),
+                        this.getY(0.5),
+                        this.getZ(),
+                        1,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0);
+                this.dropFromShearingLootTable(serverLevel,
+                        this.getBlockVariant().value().shearingLootTable(),
+                        (ServerLevel level, ItemStack item) -> {
+                            for (int i = 0; i < item.getCount(); i++) {
+                                level.addFreshEntity(new ItemEntity(this.level(),
+                                        this.getX(),
+                                        this.getY(1.0),
+                                        this.getZ(),
+                                        item.copyWithCount(1)));
+                            }
+                        });
+            }
+        }
+    }
+
+    /**
+     * Copied from Minecraft 26.1.
+     */
+    protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> key, BiConsumer<ServerLevel, ItemStack> consumer) {
+        this.dropFromLootTable(level,
+                key,
+                params -> params.withParameter(LootContextParams.ORIGIN, this.position())
+                        .withParameter(LootContextParams.THIS_ENTITY, this)
+                        .create(LootContextParamSets.SHEARING),
+                consumer);
+    }
+
+    /**
+     * Copied from Minecraft 26.1.
+     */
+    protected boolean dropFromLootTable(ServerLevel level, ResourceKey<LootTable> key, Function<LootParams.Builder, LootParams> paramsBuilder, BiConsumer<ServerLevel, ItemStack> consumer) {
+        LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(key);
+        LootParams params = paramsBuilder.apply(new LootParams.Builder(level));
+        List<ItemStack> drops = lootTable.getRandomItems(params);
+        if (!drops.isEmpty()) {
+            drops.forEach((ItemStack item) -> consumer.accept(level, item));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -204,55 +239,26 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     @Override
-    protected void addAdditionalSaveData(ValueOutput valueOutput) {
+    public void addAdditionalSaveData(CompoundTag valueOutput) {
         super.addAdditionalSaveData(valueOutput);
-        valueOutput.store(Shroomcraft.id("variant").toString(),
+        CompoundTagHelper.store(valueOutput,
+                Shroomcraft.id("variant").toString(),
                 MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
                 this.getBlockVariant());
     }
 
     @Override
-    protected void readAdditionalSaveData(ValueInput valueInput) {
+    public void readAdditionalSaveData(CompoundTag valueInput) {
         super.readAdditionalSaveData(valueInput);
-        valueInput.read(Shroomcraft.id("variant").toString(),
+        CompoundTagHelper.read(valueInput,
+                Shroomcraft.id("variant").toString(),
                 MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY)).ifPresent(this::setBlockVariant);
     }
 
     @Nullable
     @Override
-    public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        return dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value() ?
-                castComponentValue((DataComponentType<T>) dataComponentType,
-                        new EitherHolder<>(this.getBlockVariant())) : super.get(dataComponentType);
-    }
-
-    @Override
-    protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
-        this.applyImplicitComponentIfPresent(dataComponentGetter,
-                ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value());
-        super.applyImplicitComponents(dataComponentGetter);
-    }
-
-    @Override
-    protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
-        if (dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value()) {
-            Optional<Holder<MobBlockVariant>> optional = castComponentValue(ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value(),
-                    object).unwrap(this.registryAccess());
-            if (optional.isPresent()) {
-                this.setBlockVariant(optional.get());
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return super.applyImplicitComponent(dataComponentType, object);
-        }
-    }
-
-    @Nullable
-    @Override
     public Cluckshroom getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        Cluckshroom cluckshroom = (Cluckshroom) this.getType().create(level, EntitySpawnReason.BREEDING);
+        Cluckshroom cluckshroom = (Cluckshroom) this.getType().create(level);
         if (cluckshroom != null) {
             cluckshroom.setBlockVariant(this.getBlockVariant());
         }
@@ -281,7 +287,7 @@ public class Cluckshroom extends Chicken implements Shearable {
 
         @Override
         public void tick() {
-            ServerLevel serverLevel = getServerLevel(this.mob);
+            ServerLevel serverLevel = (ServerLevel) this.mob.level();
             if (EntityHelper.isMobGriefingAllowed(serverLevel, this.mob)) {
                 if (!this.mob.isBaby() && serverLevel.random.nextInt(1000) == 0
                         && this.mob.getDeltaMovement().lengthSqr() > 1.0E-5F) {

@@ -1,37 +1,38 @@
 package fuzs.shroomcraft.world.entity.animal;
 
-import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import fuzs.puzzleslib.api.event.v1.core.EventResultHolder;
 import fuzs.puzzleslib.api.network.v4.codec.ExtraStreamCodecs;
-import fuzs.puzzleslib.api.util.v1.EntityHelper;
+import fuzs.puzzleslib.api.util.v1.CompoundTagHelper;
 import fuzs.shroomcraft.Shroomcraft;
 import fuzs.shroomcraft.init.ModBlocks;
-import fuzs.shroomcraft.init.ModLootTables;
+import fuzs.shroomcraft.init.ModEntityTypes;
 import fuzs.shroomcraft.init.ModRegistry;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentGetter;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.util.Util;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.cow.MushroomCow;
+import net.minecraft.world.entity.animal.MushroomCow;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -42,54 +43,46 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-public class ModMushroomCow extends MushroomCow {
-    private static final EntityDataAccessor<ColorVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(ModMushroomCow.class,
+public class Mooshroom extends MushroomCow {
+    private static final EntityDataAccessor<ColorVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(Mooshroom.class,
             ModRegistry.MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
-    private static final Set<EntitySpawnReason> VALID_SPAWN_REASONS = Set.of(EntitySpawnReason.SPAWNER,
-            EntitySpawnReason.TRIAL_SPAWNER,
-            EntitySpawnReason.SPAWN_ITEM_USE,
-            EntitySpawnReason.DISPENSER);
+    private static final Set<MobSpawnType> VALID_SPAWN_REASONS = Set.of(MobSpawnType.SPAWNER,
+            MobSpawnType.TRIAL_SPAWNER,
+            MobSpawnType.SPAWN_EGG,
+            MobSpawnType.DISPENSER);
 
     @Nullable
     private UUID lastLightningBoltUUID;
 
-    public ModMushroomCow(EntityType<? extends MushroomCow> entityType, Level level) {
+    public Mooshroom(EntityType<? extends MushroomCow> entityType, Level level) {
         super(entityType, level);
     }
 
-    public static boolean checkMooshroomSpawnRules(EntityType<? extends MushroomCow> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean checkMooshroomSpawnRules(EntityType<? extends MushroomCow> entityType, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
         return checkMushroomSpawnRules((EntityType<MushroomCow>) entityType, level, spawnReason, pos, random)
                 || level.getBlockState(pos.below()).is(BlockTags.NYLIUM);
     }
 
-    public static EventResult onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isNewlySpawned) {
-        EntitySpawnReason entitySpawnReason = EntityHelper.getMobSpawnReason(entity);
-        if (isNewlySpawned && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
-                && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
-                entity.blockPosition(),
-                serverLevel.getRandom())) {
-            ((MushroomCow) entity).convertTo(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(),
-                    ConversionParams.single((MushroomCow) entity, true, true),
-                    (ModMushroomCow mob) -> {
-                        DifficultyInstance difficulty = new DifficultyInstance(serverLevel.getDifficulty(),
-                                serverLevel.getDayTime(),
-                                0L,
-                                serverLevel.getMoonBrightness(entity.blockPosition()));
-                        mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
-                    });
-            return EventResult.INTERRUPT;
-        } else {
-            return EventResult.PASS;
+    public static void onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isLoadedFromDisk, @Nullable MobSpawnType entitySpawnReason) {
+        if (!isLoadedFromDisk && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
+                && entity instanceof MushroomCow mushroomCow && VALID_SPAWN_REASONS.contains(entitySpawnReason)
+                && getSpawnAsCustomEntityOdds(serverLevel, entity.blockPosition(), serverLevel.getRandom())) {
+            Mooshroom mob = mushroomCow.convertTo(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(), false);
+            if (mob != null) {
+                DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(mob.blockPosition());
+                mob.finalizeSpawn(serverLevel, difficulty, entitySpawnReason, null);
+            }
         }
     }
 
@@ -104,7 +97,7 @@ public class ModMushroomCow extends MushroomCow {
     public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive()
-                && entity.getType() == ModRegistry.MOOSHROOM_ENTITY_TYPE.value()) {
+                && entity.getType() == ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value()) {
             if (level instanceof ServerLevel serverLevel) {
                 Optional<Mob> optional = spawnOffspringFromSpawnEgg(player,
                         (Mob) entity,
@@ -112,7 +105,7 @@ public class ModMushroomCow extends MushroomCow {
                         entity.position(),
                         itemInHand);
                 optional.ifPresent((Mob mob) -> {
-                    ((ModMushroomCow) entity).onOffspringSpawnedFromEgg(player, mob);
+                    ((Mooshroom) entity).onOffspringSpawnedFromEgg(player, mob);
                 });
                 if (optional.isEmpty()) {
                     return EventResultHolder.interrupt(InteractionResult.PASS);
@@ -142,7 +135,7 @@ public class ModMushroomCow extends MushroomCow {
             if (!mob2.isBaby()) {
                 return Optional.empty();
             } else {
-                mob2.snapTo(pos.x(), pos.y(), pos.z(), 0.0F, 0.0F);
+                mob2.moveTo(pos.x(), pos.y(), pos.z(), 0.0F, 0.0F);
                 serverLevel.addFreshEntityWithPassengers(mob2);
                 mob2.setCustomName(stack.get(DataComponents.CUSTOM_NAME));
                 stack.consume(1, player);
@@ -179,7 +172,7 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData spawnGroupData) {
         ColorVariant variant;
         if (spawnGroupData instanceof MooshroomGroupData mooshroomGroupData) {
             variant = mooshroomGroupData.variant;
@@ -211,28 +204,80 @@ public class ModMushroomCow extends MushroomCow {
     }
 
     @Override
-    protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> lootTable, ItemStack shears, BiConsumer<ServerLevel, ItemStack> dropConsumer) {
-        super.dropFromShearingLootTable(level,
-                lootTable == BuiltInLootTables.SHEAR_MOOSHROOM ? ModLootTables.SHEAR_MOOSHROOM_LOOT_TABLE : lootTable,
-                shears,
-                dropConsumer);
+    public void shear(SoundSource soundSource) {
+        if (this.level() instanceof ServerLevel serverLevel) {
+            serverLevel.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, soundSource, 1.0F, 1.0F);
+            if (this.convertTo(EntityType.COW, false) != null) {
+                serverLevel.sendParticles(ParticleTypes.EXPLOSION,
+                        this.getX(),
+                        this.getY(0.5),
+                        this.getZ(),
+                        1,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0);
+                this.dropFromShearingLootTable(serverLevel,
+                        this.getColorVariant().shearingLootTable,
+                        (ServerLevel level, ItemStack item) -> {
+                            for (int i = 0; i < item.getCount(); i++) {
+                                level.addFreshEntity(new ItemEntity(this.level(),
+                                        this.getX(),
+                                        this.getY(1.0),
+                                        this.getZ(),
+                                        item.copyWithCount(1)));
+                            }
+                        });
+            }
+        }
+    }
+
+    /**
+     * Copied from Minecraft 26.1.
+     */
+    protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> key, BiConsumer<ServerLevel, ItemStack> consumer) {
+        this.dropFromLootTable(level,
+                key,
+                params -> params.withParameter(LootContextParams.ORIGIN, this.position())
+                        .withParameter(LootContextParams.THIS_ENTITY, this)
+                        .create(LootContextParamSets.SHEARING),
+                consumer);
+    }
+
+    /**
+     * Copied from Minecraft 26.1.
+     */
+    protected boolean dropFromLootTable(ServerLevel level, ResourceKey<LootTable> key, Function<LootParams.Builder, LootParams> paramsBuilder, BiConsumer<ServerLevel, ItemStack> consumer) {
+        LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(key);
+        LootParams params = paramsBuilder.apply(new LootParams.Builder(level));
+        List<ItemStack> drops = lootTable.getRandomItems(params);
+        if (!drops.isEmpty()) {
+            drops.forEach((ItemStack item) -> consumer.accept(level, item));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    protected void addAdditionalSaveData(ValueOutput valueOutput) {
+    public void addAdditionalSaveData(CompoundTag valueOutput) {
         super.addAdditionalSaveData(valueOutput);
-        valueOutput.store(Shroomcraft.id("variant").toString(), ColorVariant.CODEC, this.getColorVariant());
+        CompoundTagHelper.store(valueOutput,
+                Shroomcraft.id("variant").toString(),
+                ColorVariant.CODEC,
+                this.getColorVariant());
     }
 
     @Override
-    protected void readAdditionalSaveData(ValueInput valueInput) {
+    public void readAdditionalSaveData(CompoundTag valueInput) {
         super.readAdditionalSaveData(valueInput);
-        valueInput.read(Shroomcraft.id("variant").toString(), ColorVariant.CODEC).ifPresent(this::setColorVariant);
+        CompoundTagHelper.read(valueInput, Shroomcraft.id("variant").toString(), ColorVariant.CODEC)
+                .ifPresent(this::setColorVariant);
     }
 
     @Override
-    public MushroomCow.Variant getVariant() {
-        return MushroomCow.Variant.RED;
+    public MushroomCow.MushroomType getVariant() {
+        return MushroomCow.MushroomType.RED;
     }
 
     public void setColorVariant(ColorVariant colorVariant) {
@@ -245,38 +290,13 @@ public class ModMushroomCow extends MushroomCow {
 
     @Nullable
     @Override
-    public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        return dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value() ?
-                castComponentValue((DataComponentType<T>) dataComponentType, this.getColorVariant()) :
-                super.get(dataComponentType);
-    }
-
-    @Override
-    protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
-        this.applyImplicitComponentIfPresent(dataComponentGetter,
-                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value());
-        super.applyImplicitComponents(dataComponentGetter);
-    }
-
-    @Override
-    protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
-        if (dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value()) {
-            this.setColorVariant(castComponentValue(ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(), object));
-            return true;
-        } else {
-            return super.applyImplicitComponent(dataComponentType, object);
-        }
-    }
-
-    @Nullable
-    @Override
     public MushroomCow getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        ModMushroomCow modMushroomCow = (ModMushroomCow) this.getType().create(level, EntitySpawnReason.BREEDING);
-        if (modMushroomCow != null) {
-            modMushroomCow.setColorVariant(this.getColorVariant());
+        Mooshroom mooshroom = (Mooshroom) this.getType().create(level);
+        if (mooshroom != null) {
+            mooshroom.setColorVariant(this.getColorVariant());
         }
 
-        return modMushroomCow;
+        return mooshroom;
     }
 
     @Override
@@ -315,10 +335,13 @@ public class ModMushroomCow extends MushroomCow {
 
         private final int typeIndex;
         public final Holder<Block> block;
+        public final ResourceKey<LootTable> shearingLootTable;
 
         ColorVariant(int typeIndex, Holder<Block> block) {
             this.typeIndex = typeIndex;
             this.block = block;
+            this.shearingLootTable = MobBlockVariant.getShearingLootTable(ModEntityTypes.MOOSHROOM_ENTITY_TYPE,
+                    Shroomcraft.id(this.getSerializedName()));
         }
 
         public static ColorVariant[] getOverworldVariants() {

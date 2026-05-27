@@ -37,57 +37,85 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                         ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
-        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.woodFromLogs(ModItems.STRIPPED_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_MUSHROOM_STEM.value());
-        this.woodFromLogs(ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.woodFromLogs(ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value(),
+        planksFromLog(recipeOutput, ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        planksFromLog(recipeOutput, ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        planksFromLog(recipeOutput,
+                ModItems.ORANGE_SHROOMWOOD_PLANKS.value(),
+                ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG,
+                4);
+        planksFromLog(recipeOutput,
+                ModItems.PURPLE_SHROOMWOOD_PLANKS.value(),
+                ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG,
+                4);
+        woodFromLogs(recipeOutput, ModItems.STRIPPED_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_MUSHROOM_STEM.value());
+        woodFromLogs(recipeOutput,
+                ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value(),
+                ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
+        woodFromLogs(recipeOutput,
+                ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
+        woodFromLogs(recipeOutput,
+                ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
-        ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(ModTags.MUSHROOMS_ITEM_TAG)
                 .requires(ModTags.MUSHROOMS_ITEM_TAG)
                 .requires(Items.BOWL)
-                .unlockedBy(getHasName(Items.MUSHROOM_STEW), this.has(Items.MUSHROOM_STEW))
-                .unlockedBy(getHasName(Items.BOWL), this.has(Items.BOWL))
-                .unlockedBy(getHasName(ModTags.MUSHROOMS_ITEM_TAG), this.has(ModTags.MUSHROOMS_ITEM_TAG))
-                .save(TransformingRecipeOutput.transformed(this.output, (Recipe<?> recipe) -> {
+                .unlockedBy(getHasName(Items.MUSHROOM_STEW), has(Items.MUSHROOM_STEW))
+                .unlockedBy(getHasName(Items.BOWL), has(Items.BOWL))
+                .unlockedBy(getHasName(ModTags.MUSHROOMS_ITEM_TAG), has(ModTags.MUSHROOMS_ITEM_TAG))
+                .save(TransformingRecipeOutput.transformed(recipeOutput, (Recipe<?> recipe) -> {
                     return new DistinctShapelessRecipe((ShapelessRecipe) recipe);
                 }));
-        this.shroombomb(ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());
-        this.shroombomb(ModItems.ORANGE_SHROOMBOMB.value(), ModItems.ORANGE_SHROOMSPORES.value());
-        this.shroombomb(ModItems.PURPLE_SHROOMBOMB.value(), ModItems.PURPLE_SHROOMSPORES.value());
-        this.shapeless(RecipeCategory.FOOD, ModItems.RED_SHROOMSPORES.value());
-        this.oneToOneConversionRecipe(Items.BROWN_DYE, ModItems.MUSHROOM_SPROUTS.value(), getItemName(Items.BROWN_DYE));
-        this.oneToOneConversionRecipe(Items.BLUE_DYE,
+        this.shroombomb(recipeOutput, ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());
+        this.shroombomb(recipeOutput, ModItems.ORANGE_SHROOMBOMB.value(), ModItems.ORANGE_SHROOMSPORES.value());
+        this.shroombomb(recipeOutput, ModItems.PURPLE_SHROOMBOMB.value(), ModItems.PURPLE_SHROOMSPORES.value());
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.RED_SHROOMSPORES.value());
+        oneToOneConversionRecipe(recipeOutput,
+                Items.BROWN_DYE,
+                ModItems.MUSHROOM_SPROUTS.value(),
+                getItemName(Items.BROWN_DYE));
+        oneToOneConversionRecipe(recipeOutput,
+                Items.BLUE_DYE,
                 ModItems.BLUE_MUSHROOM_SPROUTS.value(),
                 getItemName(Items.BLUE_DYE));
-        this.oneToOneConversionRecipe(Items.ORANGE_DYE,
+        oneToOneConversionRecipe(recipeOutput,
+                Items.ORANGE_DYE,
                 ModItems.ORANGE_MUSHROOM_SPROUTS.value(),
                 getItemName(Items.ORANGE_DYE));
-        this.oneToOneConversionRecipe(Items.PURPLE_DYE,
+        oneToOneConversionRecipe(recipeOutput,
+                Items.PURPLE_DYE,
                 ModItems.PURPLE_MUSHROOM_SPROUTS.value(),
                 getItemName(Items.PURPLE_DYE));
-        this.oneToOneConversionRecipe(ModItems.BROWN_SHROOMSPORES.value(), Items.BROWN_MUSHROOM, null, 2);
-        this.oneToOneConversionRecipe(ModItems.RED_SHROOMSPORES.value(), Items.RED_MUSHROOM, null, 2);
-        this.oneToOneConversionRecipe(ModItems.BLUE_SHROOMSPORES.value(), ModItems.BLUE_MUSHROOM.value(), null, 2);
-        this.oneToOneConversionRecipe(ModItems.ORANGE_SHROOMSPORES.value(), ModItems.ORANGE_MUSHROOM.value(), null, 2);
-        this.oneToOneConversionRecipe(ModItems.PURPLE_SHROOMSPORES.value(), ModItems.PURPLE_MUSHROOM.value(), null, 2);
+        oneToOneConversionRecipe(recipeOutput, ModItems.BROWN_SHROOMSPORES.value(), Items.BROWN_MUSHROOM, null, 2);
+        oneToOneConversionRecipe(recipeOutput, ModItems.RED_SHROOMSPORES.value(), Items.RED_MUSHROOM, null, 2);
+        oneToOneConversionRecipe(recipeOutput,
+                ModItems.BLUE_SHROOMSPORES.value(),
+                ModItems.BLUE_MUSHROOM.value(),
+                null,
+                2);
+        oneToOneConversionRecipe(recipeOutput,
+                ModItems.ORANGE_SHROOMSPORES.value(),
+                ModItems.ORANGE_MUSHROOM.value(),
+                null,
+                2);
+        oneToOneConversionRecipe(recipeOutput,
+                ModItems.PURPLE_SHROOMSPORES.value(),
+                ModItems.PURPLE_MUSHROOM.value(),
+                null,
+                2);
     }
 
-    public final void shroombomb(ItemLike result, ItemLike ingredient) {
-        ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.MISC, result)
+    public final void shroombomb(RecipeOutput recipeOutput, ItemLike result, ItemLike ingredient) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
                 .define('#', Items.PAPER)
                 .define('X', Items.GUNPOWDER)
                 .define('@', ingredient)
                 .pattern(" X ")
                 .pattern("#@#")
                 .pattern(" # ")
-                .unlockedBy(getHasName(ingredient), this.has(ingredient))
-                .save(this.output);
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
     }
 }

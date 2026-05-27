@@ -1,14 +1,14 @@
 package fuzs.shroomcraft.init;
 
+import fuzs.shroomcraft.world.item.ShroombombItem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.LingeringPotionItem;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.CustomData;
@@ -66,57 +66,50 @@ public class ModItems {
             ModBlocks.PURPLE_MUSHROOM_SPROUTS);
     public static final Holder.Reference<Item> BROWN_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
             "brown_shroomspores",
-            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_BROWN_MUSHROOM.value(), properties),
-            () -> new Item.Properties().useItemDescriptionPrefix());
+            (Item.Properties properties) -> new ItemNameBlockItem(ModBlocks.TINY_BROWN_MUSHROOM.value(), properties));
     public static final Holder.Reference<Item> RED_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem("red_shroomspores",
-            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_RED_MUSHROOM.value(), properties),
-            () -> new Item.Properties().useItemDescriptionPrefix());
+            (Item.Properties properties) -> new ItemNameBlockItem(ModBlocks.TINY_RED_MUSHROOM.value(), properties));
     public static final Holder.Reference<Item> BLUE_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
             "blue_shroomspores",
-            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_BLUE_MUSHROOM.value(), properties),
-            () -> new Item.Properties().useItemDescriptionPrefix());
+            (Item.Properties properties) -> new ItemNameBlockItem(ModBlocks.TINY_BLUE_MUSHROOM.value(), properties));
     public static final Holder.Reference<Item> ORANGE_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
             "orange_shroomspores",
-            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_ORANGE_MUSHROOM.value(), properties),
-            () -> new Item.Properties().useItemDescriptionPrefix());
+            (Item.Properties properties) -> new ItemNameBlockItem(ModBlocks.TINY_ORANGE_MUSHROOM.value(), properties));
     public static final Holder.Reference<Item> PURPLE_SHROOMSPORES = ModRegistry.REGISTRIES.registerItem(
             "purple_shroomspores",
-            (Item.Properties properties) -> new BlockItem(ModBlocks.TINY_PURPLE_MUSHROOM.value(), properties),
-            () -> new Item.Properties().useItemDescriptionPrefix());
-    public static final Holder.Reference<Item> SHROOMFIN = ModRegistry.REGISTRIES.registerItem("shroomfin",
+            (Item.Properties properties) -> new ItemNameBlockItem(ModBlocks.TINY_PURPLE_MUSHROOM.value(), properties));
+    public static final Holder.Reference<Item> SHROOMFIN = ModRegistry.REGISTRIES.registerSimpleItem("shroomfin",
             () -> new Item.Properties().food(SHROOMFIN_FOOD_PROPERTIES));
-    public static final Holder.Reference<Item> COOKED_SHROOMFIN = ModRegistry.REGISTRIES.registerItem("cooked_shroomfin",
+    public static final Holder.Reference<Item> COOKED_SHROOMFIN = ModRegistry.REGISTRIES.registerSimpleItem(
+            "cooked_shroomfin",
             () -> new Item.Properties().food(COOKED_SHROOMFIN_FOOD_PROPERTIES));
     public static final Holder.Reference<Item> SHROOMFIN_BUCKET = ModRegistry.REGISTRIES.registerItem("shroomfin_bucket",
-            (Item.Properties properties) -> new MobBucketItem(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(),
+            (Item.Properties properties) -> new MobBucketItem(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(),
                     Fluids.WATER,
                     SoundEvents.BUCKET_EMPTY_FISH,
                     properties),
             () -> new Item.Properties().stacksTo(1).component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY));
     public static final Holder.Reference<Item> SHROOMFIN_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
-            ModRegistry.SHROOMFIN_ENTITY_TYPE);
+            ModEntityTypes.SHROOMFIN_ENTITY_TYPE);
     public static final Holder.Reference<Item> CLUCKSHROOM_SPAWN_EGG = ModRegistry.REGISTRIES.registerSpawnEggItem(
-            ModRegistry.CLUCKSHROOM_ENTITY_TYPE);
+            ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE);
     public static final Holder.Reference<Item> BLUE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem("blue_shroombomb",
-            LingeringPotionItem::new,
+            ShroombombItem::new,
             () -> new Item.Properties().stacksTo(16)
-                    .useCooldown(0.5F)
                     .component(DataComponents.POTION_CONTENTS,
                             PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.BLINDNESS, 220))));
     public static final Holder.Reference<Item> ORANGE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem(
             "orange_shroombomb",
-            LingeringPotionItem::new,
+            ShroombombItem::new,
             () -> new Item.Properties().stacksTo(16)
-                    .useCooldown(0.5F)
                     .component(DataComponents.POTION_CONTENTS,
                             PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.POISON, 220))));
     public static final Holder.Reference<Item> PURPLE_SHROOMBOMB = ModRegistry.REGISTRIES.registerItem(
             "purple_shroombomb",
-            LingeringPotionItem::new,
+            ShroombombItem::new,
             () -> new Item.Properties().stacksTo(16)
-                    .useCooldown(0.5F)
                     .component(DataComponents.POTION_CONTENTS,
-                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.NAUSEA, 140))));
+                            PotionContents.EMPTY.withEffectAdded(new MobEffectInstance(MobEffects.CONFUSION, 140))));
 
     public static void bootstrap() {
         // NO-OP

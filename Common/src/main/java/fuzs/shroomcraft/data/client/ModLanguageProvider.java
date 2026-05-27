@@ -3,10 +3,7 @@ package fuzs.shroomcraft.data.client;
 import fuzs.puzzleslib.api.client.data.v2.AbstractLanguageProvider;
 import fuzs.puzzleslib.api.data.v2.core.DataProviderContext;
 import fuzs.shroomcraft.Shroomcraft;
-import fuzs.shroomcraft.init.ModBlockFamilies;
-import fuzs.shroomcraft.init.ModBlocks;
-import fuzs.shroomcraft.init.ModItems;
-import fuzs.shroomcraft.init.ModRegistry;
+import fuzs.shroomcraft.init.*;
 
 public class ModLanguageProvider extends AbstractLanguageProvider {
 
@@ -64,9 +61,9 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         translationBuilder.add(ModItems.BLUE_SHROOMSPORES.value(), "Blue Shroomspores");
         translationBuilder.add(ModItems.ORANGE_SHROOMSPORES.value(), "Orange Shroomspores");
         translationBuilder.add(ModItems.PURPLE_SHROOMSPORES.value(), "Purple Shroomspores");
-        translationBuilder.add(ModRegistry.MOOSHROOM_ENTITY_TYPE.value(), "Mooshroom");
-        translationBuilder.add(ModRegistry.SHROOMFIN_ENTITY_TYPE.value(), "Shroomfin");
-        translationBuilder.add(ModRegistry.CLUCKSHROOM_ENTITY_TYPE.value(), "Cluckshroom");
+        translationBuilder.add(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(), "Mooshroom");
+        translationBuilder.add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(), "Shroomfin");
+        translationBuilder.add(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(), "Cluckshroom");
         translationBuilder.add(ModItems.SHROOMFIN.value(), "Shroomfin");
         translationBuilder.add(ModItems.COOKED_SHROOMFIN.value(), "Cooked Shroomfin");
         translationBuilder.add(ModItems.SHROOMFIN_BUCKET.value(), "Bucket of Shroomfin");

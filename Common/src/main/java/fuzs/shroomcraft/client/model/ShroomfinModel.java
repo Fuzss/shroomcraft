@@ -1,16 +1,16 @@
 package fuzs.shroomcraft.client.model;
 
-import net.minecraft.client.model.EntityModel;
+import fuzs.puzzleslib.api.client.renderer.v1.model.RootedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 
-public class ShroomfinModel extends EntityModel<LivingEntityRenderState> {
+public class ShroomfinModel<T extends Entity> extends RootedEntityModel<T> {
     private final ModelPart tailFin;
 
     public ShroomfinModel(ModelPart root) {
@@ -46,9 +46,9 @@ public class ShroomfinModel extends EntityModel<LivingEntityRenderState> {
     }
 
     @Override
-    public void setupAnim(LivingEntityRenderState renderState) {
-        super.setupAnim(renderState);
-        float rotationAmount = renderState.isInWater ? 1.0F : 1.5F;
-        this.tailFin.yRot = -rotationAmount * 0.45F * Mth.sin(0.6F * renderState.ageInTicks);
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        float rotationAmount = entity.isInWater() ? 1.0F : 1.5F;
+        this.tailFin.yRot = -rotationAmount * 0.45F * Mth.sin(0.6F * ageInTicks);
     }
 }

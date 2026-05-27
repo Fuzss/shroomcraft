@@ -14,9 +14,12 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -262,16 +265,21 @@ public class Mooshroom extends MushroomCow {
     @Override
     public void addAdditionalSaveData(CompoundTag valueOutput) {
         super.addAdditionalSaveData(valueOutput);
+        valueOutput.remove("Type");
+        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
         CompoundTagHelper.store(valueOutput,
                 Shroomcraft.id("variant").toString(),
                 ColorVariant.CODEC,
+                registryOps,
                 this.getColorVariant());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag valueInput) {
+        valueInput.remove("Type");
         super.readAdditionalSaveData(valueInput);
-        CompoundTagHelper.read(valueInput, Shroomcraft.id("variant").toString(), ColorVariant.CODEC)
+        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
+        CompoundTagHelper.read(valueInput, Shroomcraft.id("variant").toString(), ColorVariant.CODEC, registryOps)
                 .ifPresent(this::setColorVariant);
     }
 

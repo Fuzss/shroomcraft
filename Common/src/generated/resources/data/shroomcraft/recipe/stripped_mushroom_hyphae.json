@@ -3,7 +3,9 @@
   "category": "building",
   "group": "bark",
   "key": {
-    "#": "shroomcraft:stripped_mushroom_stem"
+    "#": {
+      "item": "shroomcraft:stripped_mushroom_stem"
+    }
   },
   "pattern": [
     "##",

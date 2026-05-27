@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:orange_dye_from_orange_mushroom_sprouts"
+        "recipe": "shroomcraft:orange_dye_from_orange_mushroom_sprouts"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:orange_dye_from_orange_mushroom_sprouts"
+      "shroomcraft:orange_dye_from_orange_mushroom_sprouts"
     ]
   }
 }

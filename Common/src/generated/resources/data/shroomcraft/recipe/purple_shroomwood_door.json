@@ -3,7 +3,9 @@
   "category": "redstone",
   "group": "wooden_door",
   "key": {
-    "#": "shroomcraft:purple_shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:purple_shroomwood_planks"
+    }
   },
   "pattern": [
     "##",

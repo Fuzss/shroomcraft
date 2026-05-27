@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:brown_shroomspores_from_brown_mushroom"
+        "recipe": "shroomcraft:brown_shroomspores_from_brown_mushroom"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:brown_shroomspores_from_brown_mushroom"
+      "shroomcraft:brown_shroomspores_from_brown_mushroom"
     ]
   }
 }

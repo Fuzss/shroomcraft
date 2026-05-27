@@ -3,8 +3,12 @@
   "category": "redstone",
   "group": "wooden_fence_gate",
   "key": {
-    "#": "minecraft:stick",
-    "W": "shroomcraft:shroomwood_planks"
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "shroomcraft:shroomwood_planks"
+    }
   },
   "pattern": [
     "#W#",

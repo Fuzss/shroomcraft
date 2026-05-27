@@ -3,7 +3,9 @@
   "category": "building",
   "group": "wooden_stairs",
   "key": {
-    "#": "shroomcraft:purple_shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:purple_shroomwood_planks"
+    }
   },
   "pattern": [
     "#  ",

@@ -3,7 +3,9 @@
   "category": "misc",
   "group": "orange_dye",
   "ingredients": [
-    "shroomcraft:orange_mushroom_sprouts"
+    {
+      "item": "shroomcraft:orange_mushroom_sprouts"
+    }
   ],
   "result": {
     "count": 1,

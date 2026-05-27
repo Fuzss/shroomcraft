@@ -15,7 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:mushroom_stew"
+            "items": "shroomcraft:mushroom_stew"
           }
         ]
       },
@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:mushroom_stew"
+        "recipe": "shroomcraft:mushroom_stew"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -48,7 +48,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:mushroom_stew"
+      "shroomcraft:mushroom_stew"
     ]
   }
 }

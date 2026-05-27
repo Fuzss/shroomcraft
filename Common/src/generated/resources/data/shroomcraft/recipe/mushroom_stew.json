@@ -2,9 +2,15 @@
   "type": "shroomcraft:crafting_shapeless_distinct",
   "category": "misc",
   "ingredients": [
-    "#shroomcraft:mushrooms",
-    "#shroomcraft:mushrooms",
-    "minecraft:bowl"
+    {
+      "tag": "shroomcraft:mushrooms"
+    },
+    {
+      "tag": "shroomcraft:mushrooms"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
   ],
   "result": {
     "count": 1,

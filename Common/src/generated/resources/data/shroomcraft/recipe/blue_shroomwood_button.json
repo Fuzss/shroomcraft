@@ -3,7 +3,9 @@
   "category": "redstone",
   "group": "wooden_button",
   "ingredients": [
-    "shroomcraft:blue_shroomwood_planks"
+    {
+      "item": "shroomcraft:blue_shroomwood_planks"
+    }
   ],
   "result": {
     "count": 1,

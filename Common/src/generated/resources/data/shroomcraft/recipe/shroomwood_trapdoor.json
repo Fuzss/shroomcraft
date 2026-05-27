@@ -3,7 +3,9 @@
   "category": "redstone",
   "group": "wooden_trapdoor",
   "key": {
-    "#": "shroomcraft:shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:shroomwood_planks"
+    }
   },
   "pattern": [
     "###",

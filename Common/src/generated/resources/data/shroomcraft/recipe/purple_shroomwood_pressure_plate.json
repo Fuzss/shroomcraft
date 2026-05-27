@@ -3,7 +3,9 @@
   "category": "redstone",
   "group": "wooden_pressure_plate",
   "key": {
-    "#": "shroomcraft:purple_shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:purple_shroomwood_planks"
+    }
   },
   "pattern": [
     "##"

@@ -3,8 +3,12 @@
   "category": "misc",
   "group": "hanging_sign",
   "key": {
-    "#": "shroomcraft:stripped_mushroom_stem",
-    "X": "minecraft:iron_chain"
+    "#": {
+      "item": "shroomcraft:stripped_mushroom_stem"
+    },
+    "X": {
+      "item": "minecraft:chain"
+    }
   },
   "pattern": [
     "X X",

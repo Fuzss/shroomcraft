@@ -12,8 +12,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -241,18 +244,22 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Override
     public void addAdditionalSaveData(CompoundTag valueOutput) {
         super.addAdditionalSaveData(valueOutput);
+        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
         CompoundTagHelper.store(valueOutput,
                 Shroomcraft.id("variant").toString(),
                 MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
+                registryOps,
                 this.getBlockVariant());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag valueInput) {
         super.readAdditionalSaveData(valueInput);
+        RegistryOps<Tag> registryOps = this.registryAccess().createSerializationContext(NbtOps.INSTANCE);
         CompoundTagHelper.read(valueInput,
                 Shroomcraft.id("variant").toString(),
-                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY)).ifPresent(this::setBlockVariant);
+                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
+                registryOps).ifPresent(this::setBlockVariant);
     }
 
     @Nullable

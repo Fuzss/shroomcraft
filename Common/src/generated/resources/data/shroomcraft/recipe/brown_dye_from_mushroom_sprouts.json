@@ -3,7 +3,9 @@
   "category": "misc",
   "group": "brown_dye",
   "ingredients": [
-    "shroomcraft:mushroom_sprouts"
+    {
+      "item": "shroomcraft:mushroom_sprouts"
+    }
   ],
   "result": {
     "count": 1,

@@ -3,7 +3,9 @@
   "category": "misc",
   "group": "boat",
   "key": {
-    "#": "shroomcraft:purple_shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:purple_shroomwood_planks"
+    }
   },
   "pattern": [
     "# #",

@@ -3,8 +3,12 @@
   "category": "misc",
   "group": "wooden_fence",
   "key": {
-    "#": "minecraft:stick",
-    "W": "shroomcraft:blue_shroomwood_planks"
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "shroomcraft:blue_shroomwood_planks"
+    }
   },
   "pattern": [
     "W#W",

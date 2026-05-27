@@ -25,16 +25,20 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
 
     @Override
     public void addRecipes(RecipeOutput recipeOutput) {
-        this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
+        this.generateFor(recipeOutput,
+                ModBlockFamilies.SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,
                         ModBlocks.STRIPPED_MUSHROOM_STEM.value()));
-        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+        this.generateFor(recipeOutput,
+                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
                         ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()));
-        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+        this.generateFor(recipeOutput,
+                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
                         ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()));
-        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+        this.generateFor(recipeOutput,
+                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                         ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
         planksFromLog(recipeOutput, ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
@@ -57,7 +61,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         woodFromLogs(recipeOutput,
                 ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
                 ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
+        this.foodCooking(recipeOutput, ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(ModTags.MUSHROOMS_ITEM_TAG)
                 .requires(ModTags.MUSHROOMS_ITEM_TAG)
@@ -65,7 +69,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
                 .unlockedBy(getHasName(Items.MUSHROOM_STEW), has(Items.MUSHROOM_STEW))
                 .unlockedBy(getHasName(Items.BOWL), has(Items.BOWL))
                 .unlockedBy(getHasName(ModTags.MUSHROOMS_ITEM_TAG), has(ModTags.MUSHROOMS_ITEM_TAG))
-                .save(TransformingRecipeOutput.transformed(recipeOutput, (Recipe<?> recipe) -> {
+                .save(new TransformingRecipeOutput(recipeOutput, (Recipe<?> recipe) -> {
                     return new DistinctShapelessRecipe((ShapelessRecipe) recipe);
                 }));
         this.shroombomb(recipeOutput, ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());

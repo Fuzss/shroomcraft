@@ -3,8 +3,12 @@
   "category": "misc",
   "group": "chest_boat",
   "ingredients": [
-    "minecraft:chest",
-    "shroomcraft:purple_shroomwood_boat"
+    {
+      "item": "minecraft:chest"
+    },
+    {
+      "item": "shroomcraft:purple_shroomwood_boat"
+    }
   ],
   "result": {
     "count": 1,

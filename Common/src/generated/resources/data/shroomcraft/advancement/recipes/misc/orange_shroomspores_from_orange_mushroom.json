@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:orange_shroomspores_from_orange_mushroom"
+        "recipe": "shroomcraft:orange_shroomspores_from_orange_mushroom"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:orange_shroomspores_from_orange_mushroom"
+      "shroomcraft:orange_shroomspores_from_orange_mushroom"
     ]
   }
 }

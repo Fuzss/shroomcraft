@@ -3,7 +3,9 @@
   "category": "misc",
   "group": "purple_dye",
   "ingredients": [
-    "shroomcraft:purple_mushroom_sprouts"
+    {
+      "item": "shroomcraft:purple_mushroom_sprouts"
+    }
   ],
   "result": {
     "count": 1,

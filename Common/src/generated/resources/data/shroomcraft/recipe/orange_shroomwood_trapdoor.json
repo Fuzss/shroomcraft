@@ -3,7 +3,9 @@
   "category": "redstone",
   "group": "wooden_trapdoor",
   "key": {
-    "#": "shroomcraft:orange_shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:orange_shroomwood_planks"
+    }
   },
   "pattern": [
     "###",

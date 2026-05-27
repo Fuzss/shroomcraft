@@ -2,9 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:paper",
-    "@": "shroomcraft:purple_shroomspores",
-    "X": "minecraft:gunpowder"
+    "#": {
+      "item": "minecraft:paper"
+    },
+    "@": {
+      "item": "shroomcraft:purple_shroomspores"
+    },
+    "X": {
+      "item": "minecraft:gunpowder"
+    }
   },
   "pattern": [
     " X ",

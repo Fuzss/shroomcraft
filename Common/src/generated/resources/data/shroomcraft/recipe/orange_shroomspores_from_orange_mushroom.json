@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "shroomcraft:orange_mushroom"
+    {
+      "item": "shroomcraft:orange_mushroom"
+    }
   ],
   "result": {
     "count": 2,

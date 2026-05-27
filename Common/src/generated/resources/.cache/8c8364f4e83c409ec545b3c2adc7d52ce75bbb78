@@ -1,4 +1,4 @@
-// 1.21.11	2025-12-16T10:05:28.04673	Tags for minecraft:item mod id vanilla
+// 1.21.1	2026-05-27T12:16:57.146018	Tags for minecraft:item mod id vanilla
 79c0f9ca27ac03e80158b4a106853ccac90b6801 data/c/tags/item/buckets/entity_water.json
 e13d907658818b458b7d47640f55aaf2a478be90 data/minecraft/tags/item/boats.json
 213984831583dbb1ab24b8eb03224eaa2dbeba15 data/minecraft/tags/item/chest_boats.json
@@ -13,7 +13,6 @@ b018dff3bfaa5429e712bef7e2cb2b1047374924 data/minecraft/tags/item/logs_that_burn
 32a60f0f98a12ea006372e19cba7f54236b655a2 data/minecraft/tags/item/wooden_doors.json
 13ee764bf6059cd11184f08cdba928efa7e2eef2 data/minecraft/tags/item/wooden_fences.json
 15a6466cc811b03585a40ccb125215cf4ddd8282 data/minecraft/tags/item/wooden_pressure_plates.json
-b700f8b03cabbdb1ec444a3d7376843611d2d006 data/minecraft/tags/item/wooden_shelves.json
 4da15371c02469beb4201b9a1bb45a5a962e3b3c data/minecraft/tags/item/wooden_slabs.json
 c6e69d6953dda60ad28c9dcf355b98994843e2ec data/minecraft/tags/item/wooden_stairs.json
 22c5d97fb8be61deaa8fb413a16de7ae79672e5f data/minecraft/tags/item/wooden_trapdoors.json

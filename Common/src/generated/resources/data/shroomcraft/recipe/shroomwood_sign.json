@@ -3,8 +3,12 @@
   "category": "misc",
   "group": "wooden_sign",
   "key": {
-    "#": "shroomcraft:shroomwood_planks",
-    "X": "minecraft:stick"
+    "#": {
+      "item": "shroomcraft:shroomwood_planks"
+    },
+    "X": {
+      "item": "minecraft:stick"
+    }
   },
   "pattern": [
     "###",

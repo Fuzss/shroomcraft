@@ -3,7 +3,9 @@
   "category": "building",
   "group": "planks",
   "ingredients": [
-    "#shroomcraft:shroomwood_logs"
+    {
+      "tag": "shroomcraft:shroomwood_logs"
+    }
   ],
   "result": {
     "count": 4,

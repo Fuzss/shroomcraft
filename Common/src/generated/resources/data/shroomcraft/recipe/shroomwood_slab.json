@@ -3,7 +3,9 @@
   "category": "building",
   "group": "wooden_slab",
   "key": {
-    "#": "shroomcraft:shroomwood_planks"
+    "#": {
+      "item": "shroomcraft:shroomwood_planks"
+    }
   },
   "pattern": [
     "###"

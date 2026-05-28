@@ -74,7 +74,7 @@ public class ShroombombItem extends ThrowablePotionItem {
         @Override
         protected boolean isLingering() {
             // We can override this without introducing a new entity type, as the relevant method is only called on the server.
-            // Although this custom entity will not be presistent across reloads, but this is good enough for now.
+            // Unfortunately, this custom entity will default back to the vanilla entity across reloads though, but this is good enough for now.
             return true;
         }
     }

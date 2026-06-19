@@ -1,13 +1,23 @@
 package fuzs.shroomcraft.common.data.loot;
 
+import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.common.api.data.v2.AbstractLootProvider;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModBlocks;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Map;
+import java.util.function.BiConsumer;
+
 public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
+    public static final Map<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>> VARIANT_PROVIDERS = ImmutableMap.<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>>builder()
+            .putAll(AbstractLootProvider.Blocks.VARIANT_PROVIDERS)
+            .put(BlockSetVariant.LOG, BlockLootSubProvider::dropWhenSilkTouch)
+            .buildKeepingLast();
 
     public ModBlockLootProvider(DataProviderContext context) {
         super(context);
@@ -30,17 +40,6 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
                 (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.ORANGE_MUSHROOM_BLOCK.value()));
         this.add(ModBlocks.PURPLE_MUSHROOM_BLOCK.value(),
                 (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.PURPLE_MUSHROOM_BLOCK.value()));
-        this.dropWhenSilkTouch(ModBlocks.BLUE_MUSHROOM_STEM.value());
-        this.dropWhenSilkTouch(ModBlocks.ORANGE_MUSHROOM_STEM.value());
-        this.dropWhenSilkTouch(ModBlocks.PURPLE_MUSHROOM_STEM.value());
-        this.dropSelf(ModBlocks.STRIPPED_MUSHROOM_STEM.value());
-        this.dropSelf(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.dropSelf(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.dropSelf(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value());
-        this.dropSelf(ModBlocks.STRIPPED_MUSHROOM_HYPHAE.value());
-        this.dropSelf(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
-        this.dropSelf(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
-        this.dropSelf(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
         this.dropSelf(ModBlocks.SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());

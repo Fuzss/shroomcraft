@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_sign_rot_3",
+  "textures": {
+    "all": "shroomcraft:block/purple_shroomwood_hanging_sign",
+    "particle": "shroomcraft:block/stripped_purple_mushroom_stem"
+  }
+}

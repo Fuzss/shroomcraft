@@ -17,6 +17,8 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 
+import java.util.Collections;
+
 public class ModRecipeProvider extends AbstractRecipeProvider {
 
     public ModRecipeProvider(DataProviderContext context) {
@@ -27,16 +29,20 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
     public void addRecipes(RecipeOutput recipeOutput) {
         this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_MUSHROOM_STEM.value()));
+                        ModBlocks.STRIPPED_MUSHROOM_STEM.value()),
+                Collections.emptyMap());
         this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()));
+                        ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()),
+                Collections.emptyMap());
         this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()));
+                        ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()),
+                Collections.emptyMap());
         this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
                 createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
+                        ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()),
+                Collections.emptyMap());
         this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
@@ -62,16 +68,18 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.shroombomb(ModItems.ORANGE_SHROOMBOMB.value(), ModItems.ORANGE_SHROOMSPORES.value());
         this.shroombomb(ModItems.PURPLE_SHROOMBOMB.value(), ModItems.PURPLE_SHROOMSPORES.value());
         this.shapeless(RecipeCategory.FOOD, ModItems.RED_SHROOMSPORES.value());
-        this.oneToOneConversionRecipe(Items.BROWN_DYE, ModItems.MUSHROOM_SPROUTS.value(), getItemName(Items.BROWN_DYE));
-        this.oneToOneConversionRecipe(Items.BLUE_DYE,
+        this.oneToOneConversionRecipe(Items.DYE.brown(),
+                ModItems.MUSHROOM_SPROUTS.value(),
+                getItemName(Items.DYE.brown()));
+        this.oneToOneConversionRecipe(Items.DYE.blue(),
                 ModItems.BLUE_MUSHROOM_SPROUTS.value(),
-                getItemName(Items.BLUE_DYE));
-        this.oneToOneConversionRecipe(Items.ORANGE_DYE,
+                getItemName(Items.DYE.blue()));
+        this.oneToOneConversionRecipe(Items.DYE.orange(),
                 ModItems.ORANGE_MUSHROOM_SPROUTS.value(),
-                getItemName(Items.ORANGE_DYE));
-        this.oneToOneConversionRecipe(Items.PURPLE_DYE,
+                getItemName(Items.DYE.orange()));
+        this.oneToOneConversionRecipe(Items.DYE.purple(),
                 ModItems.PURPLE_MUSHROOM_SPROUTS.value(),
-                getItemName(Items.PURPLE_DYE));
+                getItemName(Items.DYE.purple()));
         this.oneToOneConversionRecipe(ModItems.BROWN_SHROOMSPORES.value(), Items.BROWN_MUSHROOM, null, 2);
         this.oneToOneConversionRecipe(ModItems.RED_SHROOMSPORES.value(), Items.RED_MUSHROOM, null, 2);
         this.oneToOneConversionRecipe(ModItems.BLUE_SHROOMSPORES.value(), ModItems.BLUE_MUSHROOM.value(), null, 2);

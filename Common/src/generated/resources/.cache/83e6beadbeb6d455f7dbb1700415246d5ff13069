@@ -1,4 +1,4 @@
-// 26.1.2	2026-04-29T00:05:50.686423	Entity Type Loot Tables
-96655b2991d1eaef78b5c5d02e3a9930f0b1022a data/shroomcraft/loot_table/entities/cluckshroom.json
-e5c169014d35a9f0d4ed1e6b2f4b5c445e364abe data/shroomcraft/loot_table/entities/mooshroom.json
-c613c743d49d087267bacf7eccf94a6612d52e22 data/shroomcraft/loot_table/entities/shroomfin.json
+// 26.2	2026-06-19T13:35:09.70263	Entity Type Loot Tables
+cb01e427edf7cc980b2a907a9057c45be03bdbd6 data/shroomcraft/loot_table/entities/cluckshroom.json
+ff6ff6243f59ac2eb7bd9908437fc358e088158c data/shroomcraft/loot_table/entities/mooshroom.json
+b379c06cc7d2d7886661fd2acb859f85b51f9bcd data/shroomcraft/loot_table/entities/shroomfin.json

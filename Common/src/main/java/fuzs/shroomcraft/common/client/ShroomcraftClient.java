@@ -17,11 +17,6 @@ import net.minecraft.client.model.object.boat.BoatModel;
 public class ShroomcraftClient implements ClientModConstructor {
 
     @Override
-    public void onClientSetup() {
-        ModBlockFamilies.getAllBlockSetFamilies().forEach(ClientBlockSetFamily::register);
-    }
-
-    @Override
     public void onRegisterEntityRenderers(EntityRenderersContext context) {
         ClientBlockSetFamily.registerFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
                 context,

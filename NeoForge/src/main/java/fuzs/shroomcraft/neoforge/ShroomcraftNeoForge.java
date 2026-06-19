@@ -7,10 +7,10 @@ import fuzs.shroomcraft.common.data.ModRecipeProvider;
 import fuzs.shroomcraft.common.data.loot.ModBlockLootProvider;
 import fuzs.shroomcraft.common.data.loot.ModEntityLootProvider;
 import fuzs.shroomcraft.common.data.loot.ModShearingLootProvider;
-import fuzs.shroomcraft.common.data.tags.ModBlockTagProvider;
-import fuzs.shroomcraft.common.data.tags.ModCluckshroomVariantTagProvider;
-import fuzs.shroomcraft.common.data.tags.ModEntityTypeTagProvider;
-import fuzs.shroomcraft.common.data.tags.ModItemTagProvider;
+import fuzs.shroomcraft.common.data.tags.ModBlockTagsProvider;
+import fuzs.shroomcraft.common.data.tags.ModCluckshroomVariantTagsProvider;
+import fuzs.shroomcraft.common.data.tags.ModEntityTypeTagsProvider;
+import fuzs.shroomcraft.common.data.tags.ModItemTagsProvider;
 import fuzs.shroomcraft.common.init.ModRegistry;
 import net.neoforged.fml.common.Mod;
 
@@ -24,10 +24,10 @@ public class ShroomcraftNeoForge {
                 ModBlockLootProvider::new,
                 ModEntityLootProvider::new,
                 ModShearingLootProvider::new,
-                ModBlockTagProvider::new,
-                ModItemTagProvider::new,
-                ModEntityTypeTagProvider::new,
-                ModCluckshroomVariantTagProvider::new,
+                ModBlockTagsProvider::new,
+                ModItemTagsProvider::new,
+                ModEntityTypeTagsProvider::new,
+                ModCluckshroomVariantTagsProvider::new,
                 ModRecipeProvider::new);
     }
 }

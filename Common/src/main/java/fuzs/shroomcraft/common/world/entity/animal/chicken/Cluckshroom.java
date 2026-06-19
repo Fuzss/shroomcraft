@@ -165,7 +165,7 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Override
     public void shear(ServerLevel serverLevel, SoundSource soundSource, ItemStack shears) {
         serverLevel.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, soundSource, 1.0F, 1.0F);
-        this.convertTo(EntityType.CHICKEN, ConversionParams.single(this, false, false), (Chicken chicken) -> {
+        this.convertTo(EntityTypes.CHICKEN, ConversionParams.single(this, false, false), (Chicken chicken) -> {
             serverLevel.sendParticles(ParticleTypes.EXPLOSION,
                     this.getX(),
                     this.getY(0.5),

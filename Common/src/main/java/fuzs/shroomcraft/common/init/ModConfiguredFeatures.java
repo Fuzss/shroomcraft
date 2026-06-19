@@ -15,10 +15,10 @@ import net.minecraft.world.level.block.MultifaceSpreadeableBlock;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.CompositeFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.MultifaceGrowthConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleRandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class ModConfiguredFeatures {
@@ -100,8 +100,8 @@ public class ModConfiguredFeatures {
         FeatureUtils.register(context,
                 MUSHROOM_ISLAND_VEGETATION_CONFIGURED_FEATURE,
                 Feature.SIMPLE_RANDOM_SELECTOR,
-                new SimpleRandomFeatureConfiguration(HolderSet.direct(PlacementUtils.inlinePlaced(
-                                configuredFeatureLookup.getOrThrow(TreeFeatures.HUGE_BROWN_MUSHROOM)),
+                new CompositeFeatureConfiguration(HolderSet.direct(PlacementUtils.inlinePlaced(configuredFeatureLookup.getOrThrow(
+                                TreeFeatures.HUGE_BROWN_MUSHROOM)),
                         PlacementUtils.inlinePlaced(configuredFeatureLookup.getOrThrow(TreeFeatures.HUGE_RED_MUSHROOM)),
                         PlacementUtils.inlinePlaced(configuredFeatureLookup.getOrThrow(
                                 HUGE_BLUE_MUSHROOM_CONFIGURED_FEATURE)),

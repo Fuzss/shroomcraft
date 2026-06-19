@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_hanging_sign",
+  "textures": {
+    "all": "shroomcraft:block/orange_shroomwood_hanging_sign",
+    "particle": "shroomcraft:block/stripped_orange_mushroom_stem"
+  }
+}

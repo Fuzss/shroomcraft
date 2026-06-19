@@ -12,7 +12,7 @@ import fuzs.shroomcraft.common.init.*;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.common.world.entity.animal.chicken.Cluckshroom;
 import fuzs.shroomcraft.common.world.entity.animal.cow.Mooshroom;
-import net.minecraft.advancements.criterion.LocationPredicate;
+import net.minecraft.advancements.predicates.LocationPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;

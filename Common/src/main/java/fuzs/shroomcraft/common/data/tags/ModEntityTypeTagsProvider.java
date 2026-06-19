@@ -10,9 +10,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 
-public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>> {
+public class ModEntityTypeTagsProvider extends AbstractTagProvider<EntityType<?>> {
 
-    public ModEntityTypeTagProvider(DataProviderContext context) {
+    public ModEntityTypeTagsProvider(DataProviderContext context) {
         super(Registries.ENTITY_TYPE, context);
     }
 
@@ -21,10 +21,10 @@ public class ModEntityTypeTagProvider extends AbstractTagProvider<EntityType<?>>
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
             this.generateFor(blockSetFamily.getEntityVariants(), VARIANT_ENTITY_TYPE_TAGS);
         });
-        this.tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value());
-        this.tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value());
-        this.tag(EntityTypeTags.AQUATIC).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value());
-        this.tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value());
-        this.tag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value());
+        this.tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE);
+        this.tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE);
+        this.tag(EntityTypeTags.AQUATIC).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE);
+        this.tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH).add(ModEntityTypes.SHROOMFIN_ENTITY_TYPE);
+        this.tag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE);
     }
 }

@@ -1,11 +1,24 @@
 package fuzs.shroomcraft.common.data.client;
 
+import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.common.api.client.data.v2.AbstractLanguageProvider;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.Shroomcraft;
 import fuzs.shroomcraft.common.init.*;
 
+import java.util.Map;
+import java.util.function.UnaryOperator;
+
 public class ModLanguageProvider extends AbstractLanguageProvider {
+    public static final Map<BlockSetVariant, UnaryOperator<String>> VARIANT_BLOCK_NAMES = ImmutableMap.<BlockSetVariant, UnaryOperator<String>>builder()
+            .putAll(AbstractLanguageProvider.VARIANT_BLOCK_NAMES)
+            .put(BlockSetVariant.LOG, (String baseName) -> baseName + " Stem")
+            .put(BlockSetVariant.WOOD, (String baseName) -> baseName + " Hyphae")
+            .put(BlockSetVariant.STRIPPED_LOG, (String baseName) -> "Stripped " + baseName + " Stem")
+            .put(BlockSetVariant.STRIPPED_WOOD, (String baseName) -> "Stripped " + baseName + " Hyphae")
+            .buildKeepingLast();
 
     public ModLanguageProvider(DataProviderContext context) {
         super(context);
@@ -31,17 +44,6 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         translationBuilder.add(ModBlocks.BLUE_MUSHROOM_BLOCK.value(), "Blue Mushroom Block");
         translationBuilder.add(ModBlocks.ORANGE_MUSHROOM_BLOCK.value(), "Orange Mushroom Block");
         translationBuilder.add(ModBlocks.PURPLE_MUSHROOM_BLOCK.value(), "Purple Mushroom Block");
-        translationBuilder.add(ModBlocks.BLUE_MUSHROOM_STEM.value(), "Blue Mushroom Stem");
-        translationBuilder.add(ModBlocks.ORANGE_MUSHROOM_STEM.value(), "Orange Mushroom Stem");
-        translationBuilder.add(ModBlocks.PURPLE_MUSHROOM_STEM.value(), "Purple Mushroom Stem");
-        translationBuilder.add(ModBlocks.STRIPPED_MUSHROOM_STEM.value(), "Stripped Mushroom Stem");
-        translationBuilder.add(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value(), "Stripped Blue Mushroom Stem");
-        translationBuilder.add(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value(), "Stripped Orange Mushroom Stem");
-        translationBuilder.add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value(), "Stripped Purple Mushroom Stem");
-        translationBuilder.add(ModBlocks.STRIPPED_MUSHROOM_HYPHAE.value(), "Stripped Mushroom Hyphae");
-        translationBuilder.add(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE.value(), "Stripped Blue Mushroom Hyphae");
-        translationBuilder.add(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value(), "Stripped Orange Mushroom Hyphae");
-        translationBuilder.add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(), "Stripped Purple Mushroom Hyphae");
         translationBuilder.add(ModBlocks.MYCELIAL_GROWTH.value(), "Mycelial Growth");
         translationBuilder.add(ModBlocks.MUSHROOM_SPROUTS.value(), "Mushroom Sprouts");
         translationBuilder.add(ModBlocks.BLUE_MUSHROOM_SPROUTS.value(), "Blue Mushroom Sprouts");
@@ -75,5 +77,12 @@ public class ModLanguageProvider extends AbstractLanguageProvider {
         translationBuilder.add(ModItems.BLUE_SHROOMBOMB.value(), "effect.empty", "Blue Shroombomb");
         translationBuilder.add(ModItems.ORANGE_SHROOMBOMB.value(), "effect.empty", "Orange Shroombomb");
         translationBuilder.add(ModItems.PURPLE_SHROOMBOMB.value(), "effect.empty", "Purple Shroombomb");
+    }
+
+    @Override
+    public void generateFor(TranslationBuilder translationBuilder, BlockSetFamily blockSetFamily, String baseName) {
+        this.generateFor(translationBuilder::add, blockSetFamily.getBlockVariants(), VARIANT_BLOCK_NAMES, baseName);
+        this.generateFor(translationBuilder::add, blockSetFamily.getItemVariants(), VARIANT_ITEM_NAMES, baseName);
+        this.generateFor(translationBuilder::add, blockSetFamily.getEntityVariants(), VARIANT_ENTITY_NAMES, baseName);
     }
 }

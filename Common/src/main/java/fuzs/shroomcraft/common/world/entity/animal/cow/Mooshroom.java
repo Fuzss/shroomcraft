@@ -68,7 +68,7 @@ public class Mooshroom extends MushroomCow {
     }
 
     public static void onEntityLoad(Entity entity, ServerLevel serverLevel, boolean isLoadedFromDisk, @Nullable EntitySpawnReason entitySpawnReason) {
-        if (!isLoadedFromDisk && entitySpawnReason != null && entity.getType() == EntityType.MOOSHROOM
+        if (!isLoadedFromDisk && entitySpawnReason != null && entity.is(EntityTypeIds.MOOSHROOM)
                 && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
                 entity.blockPosition(),
                 serverLevel.getRandom())) {

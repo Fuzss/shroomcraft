@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
-      "model": "shroomcraft:block/orange_shroomwood_sign"
+    "facing=east": {
+      "model": "shroomcraft:block/orange_shroomwood_wall_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "shroomcraft:block/orange_shroomwood_wall_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "shroomcraft:block/orange_shroomwood_wall_sign"
+    },
+    "facing=west": {
+      "model": "shroomcraft:block/orange_shroomwood_wall_sign",
+      "y": 90
     }
   }
 }

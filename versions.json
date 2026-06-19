@@ -1,7 +1,8 @@
 {
   "branches": {
     "1.21.11": "archived",
-    "26.1.x": "primary",
-    "1.21.1": "maintained"
+    "26.1.x": "maintained",
+    "1.21.1": "maintained",
+    "26.2.x": "primary"
   }
 }

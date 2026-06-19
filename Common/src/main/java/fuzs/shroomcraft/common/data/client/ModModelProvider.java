@@ -1,7 +1,10 @@
 package fuzs.shroomcraft.common.data.client;
 
+import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.common.api.client.data.v2.AbstractModelProvider;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModBlocks;
 import fuzs.shroomcraft.common.init.ModItems;
@@ -10,6 +13,9 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class ModModelProvider extends AbstractModelProvider {
     public static final TextureSlot GLOW_LICHEN_TEXTURE_SLOT = TextureSlot.create("glow_lichen");
@@ -36,20 +42,16 @@ public class ModModelProvider extends AbstractModelProvider {
         blockModelGenerators.createTrivialCube(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
         this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.SHROOMWOOD_FAMILY,
-                createVariantWoodBlockProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_MUSHROOM_STEM.value()));
+                createVariantMushroomBlockProviders(ModBlockFamilies.SHROOMWOOD_FAMILY));
         this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                createVariantWoodBlockProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()));
+                createVariantMushroomBlockProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY));
         this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                createVariantWoodBlockProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()));
+                createVariantMushroomBlockProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY));
         this.generateForBlocks(blockModelGenerators,
                 ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                createVariantWoodBlockProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()));
+                createVariantMushroomBlockProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY));
         blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.PlantType.NOT_TINTED);
@@ -62,21 +64,6 @@ public class ModModelProvider extends AbstractModelProvider {
         blockModelGenerators.createMushroomBlock(ModBlocks.BLUE_MUSHROOM_BLOCK.value());
         blockModelGenerators.createMushroomBlock(ModBlocks.ORANGE_MUSHROOM_BLOCK.value());
         blockModelGenerators.createMushroomBlock(ModBlocks.PURPLE_MUSHROOM_BLOCK.value());
-        blockModelGenerators.createMushroomBlock(ModBlocks.BLUE_MUSHROOM_STEM.value());
-        blockModelGenerators.createMushroomBlock(ModBlocks.ORANGE_MUSHROOM_STEM.value());
-        blockModelGenerators.createMushroomBlock(ModBlocks.PURPLE_MUSHROOM_STEM.value());
-        blockModelGenerators.woodProvider(ModBlocks.STRIPPED_MUSHROOM_STEM.value())
-                .logWithHorizontal(ModBlocks.STRIPPED_MUSHROOM_STEM.value())
-                .wood(ModBlocks.STRIPPED_MUSHROOM_HYPHAE.value());
-        blockModelGenerators.woodProvider(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value())
-                .logWithHorizontal(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value())
-                .wood(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
-        blockModelGenerators.woodProvider(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value())
-                .logWithHorizontal(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value())
-                .wood(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
-        blockModelGenerators.woodProvider(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value())
-                .logWithHorizontal(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value())
-                .wood(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
         blockModelGenerators.createMultiface(ModBlocks.MYCELIAL_GROWTH.value());
         GLOW_LICHEN_PROVIDER.create(ModBlocks.MYCELIAL_GROWTH.value(), blockModelGenerators.modelOutput);
         blockModelGenerators.createNetherRoots(ModBlocks.MUSHROOM_SPROUTS.value(),
@@ -112,6 +99,42 @@ public class ModModelProvider extends AbstractModelProvider {
                 BlockStateProperties.AGE_1,
                 0,
                 1);
+    }
+
+    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantMushroomBlockProviders(BlockSetFamily blockSetFamily) {
+        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
+                .putAll(createVariantWoodBlockProviders(blockSetFamily))
+                .put(BlockSetVariant.LOG, BlockModelGenerators::createMushroomBlock)
+                .buildKeepingLast();
+    }
+
+    /**
+     * TODO use from Puzzles Lib
+     */
+    @Deprecated
+    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantWoodBlockProviders(BlockSetFamily blockSetFamily) {
+        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
+                .put(BlockSetVariant.LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
+                })
+                .put(BlockSetVariant.WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
+                            .get(BlockSetVariant.LOG)
+                            .value()).wood(block);
+                })
+                .put(BlockSetVariant.STRIPPED_LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
+                })
+                .put(BlockSetVariant.STRIPPED_WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
+                            .get(BlockSetVariant.STRIPPED_LOG)
+                            .value()).wood(block);
+                })
+                .put(BlockSetVariant.SHELF, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.createShelf(block,
+                            blockSetFamily.getBlockVariants().get(BlockSetVariant.STRIPPED_LOG).value());
+                })
+                .build();
     }
 
     @Override

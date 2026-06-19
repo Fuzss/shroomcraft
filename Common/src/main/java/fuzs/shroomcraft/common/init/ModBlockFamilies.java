@@ -45,6 +45,9 @@ public class ModBlockFamilies {
         // NO-OP
     }
 
+    /**
+     * @see BlockSetFamily#wooden(RegistryManager, Holder.Reference, String)
+     */
     private static BlockSetFamily.Writable wooden(RegistryManager registries, Holder.Reference<Block> baseBlock, String baseName) {
         return BlockSetFamily.base(registries, baseBlock, baseName)
                 .configureBlockFamily((BlockFamily.Builder blockFamily) -> {

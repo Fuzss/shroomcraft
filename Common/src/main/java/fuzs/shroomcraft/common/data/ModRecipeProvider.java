@@ -58,18 +58,10 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
 
     @Override
     public void addRecipes(RecipeOutput recipeOutput) {
-        this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.SHROOMWOOD_FAMILY),
-                Collections.emptyMap());
-        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY),
-                Collections.emptyMap());
-        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY),
-                Collections.emptyMap());
-        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY),
-                Collections.emptyMap());
+        this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY);
+        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY);
+        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY);
+        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY);
         this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
@@ -106,6 +98,11 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.oneToOneConversionRecipe(ModItems.BLUE_SHROOMSPORES.value(), ModItems.BLUE_MUSHROOM.value(), null, 2);
         this.oneToOneConversionRecipe(ModItems.ORANGE_SHROOMSPORES.value(), ModItems.ORANGE_MUSHROOM.value(), null, 2);
         this.oneToOneConversionRecipe(ModItems.PURPLE_SHROOMSPORES.value(), ModItems.PURPLE_MUSHROOM.value(), null, 2);
+    }
+
+    @Override
+    public final void generateFor(BlockSetFamily blockSetFamily) {
+        this.generateFor(blockSetFamily, createVariantWoodProviders(blockSetFamily), Collections.emptyMap());
     }
 
     public final void shroombomb(ItemLike result, ItemLike ingredient) {

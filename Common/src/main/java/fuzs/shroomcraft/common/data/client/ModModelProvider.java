@@ -34,13 +34,6 @@ public class ModModelProvider extends AbstractModelProvider {
                 .put(GLOW_LICHEN_TEXTURE_SLOT, TextureMapping.getBlockTexture(block));
     }
 
-    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantMushroomBlockProviders(BlockSetFamily blockSetFamily) {
-        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
-                .putAll(createVariantWoodBlockProviders(blockSetFamily))
-                .put(BlockSetVariant.LOG, BlockModelGenerators::createMushroomBlock)
-                .buildKeepingLast();
-    }
-
     /**
      * TODO use from Puzzles Lib
      */
@@ -70,24 +63,23 @@ public class ModModelProvider extends AbstractModelProvider {
                 .build();
     }
 
+    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantMushroomBlockProviders(BlockSetFamily blockSetFamily) {
+        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
+                .putAll(createVariantWoodBlockProviders(blockSetFamily))
+                .put(BlockSetVariant.LOG, BlockModelGenerators::createMushroomBlock)
+                .buildKeepingLast();
+    }
+
     @Override
     public void addBlockModels(BlockModelGenerators blockModelGenerators) {
         blockModelGenerators.createTrivialCube(ModBlocks.SHROOMWOOD_PLANKS.value());
         blockModelGenerators.createTrivialCube(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
         blockModelGenerators.createTrivialCube(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());
         blockModelGenerators.createTrivialCube(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
-        this.generateForBlocks(blockModelGenerators,
-                ModBlockFamilies.SHROOMWOOD_FAMILY,
-                createVariantMushroomBlockProviders(ModBlockFamilies.SHROOMWOOD_FAMILY));
-        this.generateForBlocks(blockModelGenerators,
-                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                createVariantMushroomBlockProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY));
-        this.generateForBlocks(blockModelGenerators,
-                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                createVariantMushroomBlockProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY));
-        this.generateForBlocks(blockModelGenerators,
-                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                createVariantMushroomBlockProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY));
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.SHROOMWOOD_FAMILY);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY);
         blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.PlantType.NOT_TINTED);
@@ -135,6 +127,13 @@ public class ModModelProvider extends AbstractModelProvider {
                 BlockStateProperties.AGE_1,
                 0,
                 1);
+    }
+
+    @Override
+    public final void generateForBlocks(BlockModelGenerators blockModelGenerators, BlockSetFamily blockSetFamily) {
+        this.generateForBlocks(blockModelGenerators,
+                blockSetFamily,
+                createVariantMushroomBlockProviders(blockSetFamily));
     }
 
     @Override

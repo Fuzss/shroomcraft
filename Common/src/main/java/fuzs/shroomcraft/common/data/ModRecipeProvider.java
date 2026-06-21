@@ -1,23 +1,24 @@
 package fuzs.shroomcraft.common.data;
 
+import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.common.api.data.v2.AbstractRecipeProvider;
 import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
 import fuzs.puzzleslib.common.api.data.v2.recipes.TransformingRecipeOutput;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
+import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
-import fuzs.shroomcraft.common.init.ModBlocks;
 import fuzs.shroomcraft.common.init.ModItems;
 import fuzs.shroomcraft.common.init.ModTags;
 import fuzs.shroomcraft.common.world.item.crafting.DistinctShapelessRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 public class ModRecipeProvider extends AbstractRecipeProvider {
 
@@ -25,34 +26,54 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         super(context);
     }
 
+    /**
+     * TODO use from Puzzles Lib
+     */
+    @Deprecated
+    public static Map<BlockSetVariant, FamilyRecipeProvider> createVariantWoodProviders(BlockSetFamily blockSetFamily) {
+        return ImmutableMap.<BlockSetVariant, FamilyRecipeProvider>builder()
+                .put(BlockSetVariant.WOOD,
+                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
+                            recipeProvider.woodFromLogs(result, blockSetFamily.getItem(BlockSetVariant.LOG).value());
+                        })
+                .put(BlockSetVariant.STRIPPED_WOOD,
+                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
+                            recipeProvider.woodFromLogs(result,
+                                    blockSetFamily.getItem(BlockSetVariant.STRIPPED_LOG).value());
+                        })
+                .put(BlockSetVariant.SHELF,
+                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
+                            recipeProvider.shelf(result, blockSetFamily.getItem(BlockSetVariant.STRIPPED_LOG).value());
+                        })
+                .put(BlockSetVariant.BOAT,
+                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
+                            recipeProvider.woodenBoat(result, input);
+                        })
+                .put(BlockSetVariant.CHEST_BOAT,
+                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
+                            recipeProvider.chestBoat(result, blockSetFamily.getItem(BlockSetVariant.BOAT).value());
+                        })
+                .build();
+    }
+
     @Override
     public void addRecipes(RecipeOutput recipeOutput) {
         this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_MUSHROOM_STEM.value()),
+                createVariantWoodProviders(ModBlockFamilies.SHROOMWOOD_FAMILY),
                 Collections.emptyMap());
         this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM.value()),
+                createVariantWoodProviders(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY),
                 Collections.emptyMap());
         this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM.value()),
+                createVariantWoodProviders(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY),
                 Collections.emptyMap());
         this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
-                        ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM.value()),
+                createVariantWoodProviders(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY),
                 Collections.emptyMap());
         this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.woodFromLogs(ModItems.STRIPPED_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_MUSHROOM_STEM.value());
-        this.woodFromLogs(ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value(), ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
-        this.woodFromLogs(ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value(),
-                ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
-        this.woodFromLogs(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value(),
-                ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
         ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
                 .requires(ModTags.MUSHROOMS_ITEM_TAG)

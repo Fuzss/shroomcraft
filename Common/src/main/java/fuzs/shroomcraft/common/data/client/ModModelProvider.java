@@ -34,6 +34,42 @@ public class ModModelProvider extends AbstractModelProvider {
                 .put(GLOW_LICHEN_TEXTURE_SLOT, TextureMapping.getBlockTexture(block));
     }
 
+    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantMushroomBlockProviders(BlockSetFamily blockSetFamily) {
+        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
+                .putAll(createVariantWoodBlockProviders(blockSetFamily))
+                .put(BlockSetVariant.LOG, BlockModelGenerators::createMushroomBlock)
+                .buildKeepingLast();
+    }
+
+    /**
+     * TODO use from Puzzles Lib
+     */
+    @Deprecated
+    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantWoodBlockProviders(BlockSetFamily blockSetFamily) {
+        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
+                .put(BlockSetVariant.LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
+                })
+                .put(BlockSetVariant.WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
+                            .get(BlockSetVariant.LOG)
+                            .value()).wood(block);
+                })
+                .put(BlockSetVariant.STRIPPED_LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
+                })
+                .put(BlockSetVariant.STRIPPED_WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
+                            .get(BlockSetVariant.STRIPPED_LOG)
+                            .value()).wood(block);
+                })
+                .put(BlockSetVariant.SHELF, (BlockModelGenerators blockModelGenerators, Block block) -> {
+                    blockModelGenerators.createShelf(block,
+                            blockSetFamily.getBlockVariants().get(BlockSetVariant.STRIPPED_LOG).value());
+                })
+                .build();
+    }
+
     @Override
     public void addBlockModels(BlockModelGenerators blockModelGenerators) {
         blockModelGenerators.createTrivialCube(ModBlocks.SHROOMWOOD_PLANKS.value());
@@ -99,42 +135,6 @@ public class ModModelProvider extends AbstractModelProvider {
                 BlockStateProperties.AGE_1,
                 0,
                 1);
-    }
-
-    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantMushroomBlockProviders(BlockSetFamily blockSetFamily) {
-        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
-                .putAll(createVariantWoodBlockProviders(blockSetFamily))
-                .put(BlockSetVariant.LOG, BlockModelGenerators::createMushroomBlock)
-                .buildKeepingLast();
-    }
-
-    /**
-     * TODO use from Puzzles Lib
-     */
-    @Deprecated
-    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantWoodBlockProviders(BlockSetFamily blockSetFamily) {
-        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
-                .put(BlockSetVariant.LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
-                })
-                .put(BlockSetVariant.WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
-                            .get(BlockSetVariant.LOG)
-                            .value()).wood(block);
-                })
-                .put(BlockSetVariant.STRIPPED_LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
-                })
-                .put(BlockSetVariant.STRIPPED_WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
-                            .get(BlockSetVariant.STRIPPED_LOG)
-                            .value()).wood(block);
-                })
-                .put(BlockSetVariant.SHELF, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.createShelf(block,
-                            blockSetFamily.getBlockVariants().get(BlockSetVariant.STRIPPED_LOG).value());
-                })
-                .build();
     }
 
     @Override

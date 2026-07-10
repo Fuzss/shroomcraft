@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/glow_lichen",
+  "textures": {
+    "glow_lichen": "shroomcraft:block/mycelial_growth",
+    "particle": "shroomcraft:block/mycelial_growth"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "shroomcraft:block/purple_shroomwood_planks",
+    "side": "shroomcraft:block/purple_shroomwood_planks",
+    "top": "shroomcraft:block/purple_shroomwood_planks"
+  }
+}

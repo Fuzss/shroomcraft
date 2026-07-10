@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "shroomcraft:block/tiny_red_mushroom_stage0"
+  }
+}

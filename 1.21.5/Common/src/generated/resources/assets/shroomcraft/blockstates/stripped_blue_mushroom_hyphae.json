@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "shroomcraft:block/stripped_blue_mushroom_hyphae",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "shroomcraft:block/stripped_blue_mushroom_hyphae"
+    },
+    "axis=z": {
+      "model": "shroomcraft:block/stripped_blue_mushroom_hyphae",
+      "x": 90
+    }
+  }
+}

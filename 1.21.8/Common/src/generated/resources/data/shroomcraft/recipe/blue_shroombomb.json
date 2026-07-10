@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:paper",
+    "@": "shroomcraft:blue_shroomspores",
+    "X": "minecraft:gunpowder"
+  },
+  "pattern": [
+    " X ",
+    "#@#",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "id": "shroomcraft:blue_shroombomb"
+  }
+}

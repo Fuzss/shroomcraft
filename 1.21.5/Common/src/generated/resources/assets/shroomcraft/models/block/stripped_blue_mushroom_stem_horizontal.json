@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "shroomcraft:block/stripped_blue_mushroom_stem_top",
+    "side": "shroomcraft:block/stripped_blue_mushroom_stem"
+  }
+}

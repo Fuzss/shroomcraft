@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "shroomcraft:orange_shroomwood_planks",
+  "result": {
+    "count": 1,
+    "id": "shroomcraft:orange_shroomwood_stairs"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "values": {
+    "minecraft:mushroom_stem": {
+      "stripped_block": "shroomcraft:stripped_mushroom_stem"
+    },
+    "shroomcraft:blue_mushroom_stem": {
+      "stripped_block": "shroomcraft:stripped_blue_mushroom_stem"
+    },
+    "shroomcraft:orange_mushroom_stem": {
+      "stripped_block": "shroomcraft:stripped_orange_mushroom_stem"
+    },
+    "shroomcraft:purple_mushroom_stem": {
+      "stripped_block": "shroomcraft:stripped_purple_mushroom_stem"
+    }
+  }
+}

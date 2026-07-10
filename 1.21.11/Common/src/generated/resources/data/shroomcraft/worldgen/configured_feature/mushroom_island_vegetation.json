@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:simple_random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:huge_brown_mushroom",
+        "placement": []
+      },
+      {
+        "feature": "minecraft:huge_red_mushroom",
+        "placement": []
+      },
+      {
+        "feature": "shroomcraft:huge_blue_mushroom",
+        "placement": []
+      },
+      {
+        "feature": "shroomcraft:huge_orange_mushroom",
+        "placement": []
+      },
+      {
+        "feature": "shroomcraft:huge_purple_mushroom",
+        "placement": []
+      }
+    ]
+  }
+}

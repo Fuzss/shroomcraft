@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "shroomcraft:block/blue_shroomwood_slab"
+    },
+    "type=double": {
+      "model": "shroomcraft:block/blue_shroomwood_planks"
+    },
+    "type=top": {
+      "model": "shroomcraft:block/blue_shroomwood_slab_top"
+    }
+  }
+}

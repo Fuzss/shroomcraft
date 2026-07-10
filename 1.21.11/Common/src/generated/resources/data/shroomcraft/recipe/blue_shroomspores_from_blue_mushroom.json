@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "shroomcraft:blue_mushroom"
+  ],
+  "result": {
+    "count": 2,
+    "id": "shroomcraft:blue_shroomspores"
+  }
+}

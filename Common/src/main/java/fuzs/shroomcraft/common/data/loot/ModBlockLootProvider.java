@@ -35,11 +35,11 @@ public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
         this.dropPottedContents(ModBlocks.POTTED_ORANGE_MUSHROOM.value());
         this.dropPottedContents(ModBlocks.POTTED_PURPLE_MUSHROOM.value());
         this.add(ModBlocks.BLUE_MUSHROOM_BLOCK.value(),
-                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.BLUE_MUSHROOM_BLOCK.value()));
+                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.BLUE_MUSHROOM.value()));
         this.add(ModBlocks.ORANGE_MUSHROOM_BLOCK.value(),
-                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.ORANGE_MUSHROOM_BLOCK.value()));
+                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.ORANGE_MUSHROOM.value()));
         this.add(ModBlocks.PURPLE_MUSHROOM_BLOCK.value(),
-                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.PURPLE_MUSHROOM_BLOCK.value()));
+                (Block block) -> this.createMushroomBlockDrop(block, ModBlocks.PURPLE_MUSHROOM.value()));
         this.dropSelf(ModBlocks.SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
         this.dropSelf(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());

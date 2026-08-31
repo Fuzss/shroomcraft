@@ -50,7 +50,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "shroomcraft:blue_mushroom_block"
+              "name": "shroomcraft:blue_mushroom"
             }
           ]
         }

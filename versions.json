@@ -1,8 +1,15 @@
 {
   "branches": {
+    "1.21.1": "maintained",
     "1.21.11": "archived",
     "26.1.x": "maintained",
-    "1.21.1": "maintained",
     "26.2.x": "primary"
+  },
+  "properties": {
+    "distributions.curseforge.id": "1371092",
+    "distributions.curseforge.slug": "shroomcraft",
+    "distributions.github.slug": "shroomcraft",
+    "distributions.modrinth.id": "ORxNgqTW",
+    "distributions.modrinth.slug": "shroomcraft"
   }
 }

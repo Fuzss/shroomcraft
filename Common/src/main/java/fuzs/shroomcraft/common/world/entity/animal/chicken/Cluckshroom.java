@@ -3,7 +3,8 @@ package fuzs.shroomcraft.common.world.entity.animal.chicken;
 import fuzs.puzzleslib.common.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.common.Shroomcraft;
 import fuzs.shroomcraft.common.init.CluckshroomVariants;
-import fuzs.shroomcraft.common.init.ModRegistry;
+import fuzs.shroomcraft.common.init.ModDataComponentTypes;
+import fuzs.shroomcraft.common.init.ModEntityDataSerializers;
 import fuzs.shroomcraft.common.init.ModTags;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
 import net.minecraft.core.BlockPos;
@@ -51,7 +52,7 @@ import java.util.stream.Collectors;
 public class Cluckshroom extends Chicken implements Shearable {
     private static final EntityDataAccessor<Holder<MobBlockVariant>> DATA_VARIANT_ID = SynchedEntityData.defineId(
             Cluckshroom.class,
-            ModRegistry.CLUCKSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
+            ModEntityDataSerializers.CLUCKSHROOM_VARIANT.value());
 
     @Nullable
     private UUID lastLightningBoltUUID;
@@ -76,9 +77,9 @@ public class Cluckshroom extends Chicken implements Shearable {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         Registry<MobBlockVariant> registry = this.registryAccess()
-                .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+                .lookupOrThrow(CluckshroomVariants.REGISTRY_KEY);
         builder.define(DATA_VARIANT_ID,
-                registry.get(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT).or(registry::getAny).orElseThrow());
+                registry.get(CluckshroomVariants.RED).or(registry::getAny).orElseThrow());
     }
 
     @Override
@@ -128,15 +129,15 @@ public class Cluckshroom extends Chicken implements Shearable {
     }
 
     public static Holder<MobBlockVariant> getSpawnVariant(RegistryAccess registryAccess, Holder<Biome> biome) {
-        Registry<MobBlockVariant> registry = registryAccess.lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+        Registry<MobBlockVariant> registry = registryAccess.lookupOrThrow(CluckshroomVariants.REGISTRY_KEY);
         return getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
             return holder.value().biomes().contains(biome);
         }).or(() -> getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
             TagKey<MobBlockVariant> tagKey =
-                    biome.is(BiomeTags.IS_NETHER) ? ModTags.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
-                            ModTags.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
+                    biome.is(BiomeTags.IS_NETHER) ? ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
+                            ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
             return holder.is(tagKey);
-        })).or(() -> registry.get(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT)).or(registry::getAny).orElseThrow();
+        })).or(() -> registry.get(CluckshroomVariants.RED)).or(registry::getAny).orElseThrow();
     }
 
     static Optional<Holder<MobBlockVariant>> getRandomSpawnVariant(Registry<MobBlockVariant> registry, Predicate<Holder<MobBlockVariant>> filter) {
@@ -154,7 +155,7 @@ public class Cluckshroom extends Chicken implements Shearable {
         UUID uuid = lightningBolt.getUUID();
         if (!uuid.equals(this.lastLightningBoltUUID)) {
             Registry<MobBlockVariant> registry = this.registryAccess()
-                    .lookupOrThrow(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY);
+                    .lookupOrThrow(CluckshroomVariants.REGISTRY_KEY);
             int newIndex = (registry.getIdOrThrow(this.getBlockVariant().value()) + 1) % registry.size();
             this.setBlockVariant(registry.get(newIndex).orElseThrow(NoSuchElementException::new));
             this.lastLightningBoltUUID = uuid;
@@ -207,7 +208,7 @@ public class Cluckshroom extends Chicken implements Shearable {
     protected void addAdditionalSaveData(ValueOutput valueOutput) {
         super.addAdditionalSaveData(valueOutput);
         valueOutput.store(Shroomcraft.id("variant").toString(),
-                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY),
+                MobBlockVariant.codec(CluckshroomVariants.REGISTRY_KEY),
                 this.getBlockVariant());
     }
 
@@ -215,13 +216,13 @@ public class Cluckshroom extends Chicken implements Shearable {
     protected void readAdditionalSaveData(ValueInput valueInput) {
         super.readAdditionalSaveData(valueInput);
         valueInput.read(Shroomcraft.id("variant").toString(),
-                MobBlockVariant.codec(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY)).ifPresent(this::setBlockVariant);
+                MobBlockVariant.codec(CluckshroomVariants.REGISTRY_KEY)).ifPresent(this::setBlockVariant);
     }
 
     @Nullable
     @Override
     public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        if (dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value()) {
+        if (dataComponentType == ModDataComponentTypes.MOB_BLOCK_VARIANT.value()) {
             return castComponentValue((DataComponentType<T>) dataComponentType, this.getBlockVariant());
         } else {
             return super.get(dataComponentType);
@@ -231,14 +232,14 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Override
     protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
         this.applyImplicitComponentIfPresent(dataComponentGetter,
-                ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value());
+                ModDataComponentTypes.MOB_BLOCK_VARIANT.value());
         super.applyImplicitComponents(dataComponentGetter);
     }
 
     @Override
     protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
-        if (dataComponentType == ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value()) {
-            this.setBlockVariant(castComponentValue(ModRegistry.MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE.value(), object));
+        if (dataComponentType == ModDataComponentTypes.MOB_BLOCK_VARIANT.value()) {
+            this.setBlockVariant(castComponentValue(ModDataComponentTypes.MOB_BLOCK_VARIANT.value(), object));
             return true;
         } else {
             return super.applyImplicitComponent(dataComponentType, object);

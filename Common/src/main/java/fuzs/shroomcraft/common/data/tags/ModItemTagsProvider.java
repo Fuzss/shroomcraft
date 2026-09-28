@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.common.data.tags;
 
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
-import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
+import fuzs.puzzleslib.common.api.data.v3.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v3.tags.AbstractTagsProvider;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModItems;
@@ -12,7 +12,7 @@ import net.minecraft.references.BlockItemIds;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 
-public class ModItemTagsProvider extends AbstractTagProvider<Item> {
+public class ModItemTagsProvider extends AbstractTagsProvider<Item> {
 
     public ModItemTagsProvider(DataProviderContext context) {
         super(Registries.ITEM, context);
@@ -29,21 +29,21 @@ public class ModItemTagsProvider extends AbstractTagProvider<Item> {
             this.generateFor(blockSetFamily.getItemVariants(), VARIANT_WOODEN_ITEM_TAGS);
         });
         this.tag(ItemTags.LOGS_THAT_BURN)
-                .addTag(ModTags.SHROOMWOOD_LOGS_ITEM_TAG,
-                        ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG,
-                        ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG,
-                        ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG);
-        this.tag(ModTags.SHROOMWOOD_LOGS_ITEM_TAG)
+                .addTag(ModTags.Items.SHROOMWOOD_LOGS_ITEM_TAG,
+                        ModTags.Items.BLUE_SHROOMWOOD_LOGS_ITEM_TAG,
+                        ModTags.Items.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG,
+                        ModTags.Items.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG);
+        this.tag(ModTags.Items.SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_MUSHROOM_STEM, ModItems.STRIPPED_MUSHROOM_HYPHAE);
-        this.tag(ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.Items.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_BLUE_MUSHROOM_STEM, ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.Items.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM, ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.Items.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
                 .add(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM, ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE);
         this.tag(ItemTags.FISHES).add(ModItems.SHROOMFIN, ModItems.COOKED_SHROOMFIN);
         this.tag(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN, ModItems.COOKED_SHROOMFIN);
-        this.tag(ModTags.MUSHROOMS_ITEM_TAG)
+        this.tag(ModTags.Items.MUSHROOMS_ITEM_TAG)
                 .add(BlockItemIds.BROWN_MUSHROOM.item(),
                         BlockItemIds.RED_MUSHROOM.item(),
                         BlockItemIds.CRIMSON_FUNGUS.item(),

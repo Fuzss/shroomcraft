@@ -18,25 +18,25 @@ public class ShroomcraftClient implements ClientModConstructor {
 
     @Override
     public void onRegisterEntityRenderers(EntityRenderersContext context) {
-        ClientBlockSetFamily.registerFor(ModBlockFamilies.SHROOMWOOD_FAMILY,
+        ClientBlockSetFamily.registerFor(ModBlockFamilies.SHROOMWOOD,
                 context,
                 ModModelLayers.SHROOMWOOD_BOAT,
                 ModModelLayers.SHROOMWOOD_CHEST_BOAT);
-        ClientBlockSetFamily.registerFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+        ClientBlockSetFamily.registerFor(ModBlockFamilies.BLUE_SHROOMWOOD,
                 context,
                 ModModelLayers.BLUE_SHROOMWOOD_BOAT,
                 ModModelLayers.BLUE_SHROOMWOOD_CHEST_BOAT);
-        ClientBlockSetFamily.registerFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+        ClientBlockSetFamily.registerFor(ModBlockFamilies.ORANGE_SHROOMWOOD,
                 context,
                 ModModelLayers.ORANGE_SHROOMWOOD_BOAT,
                 ModModelLayers.ORANGE_SHROOMWOOD_CHEST_BOAT);
-        ClientBlockSetFamily.registerFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+        ClientBlockSetFamily.registerFor(ModBlockFamilies.PURPLE_SHROOMWOOD,
                 context,
                 ModModelLayers.PURPLE_SHROOMWOOD_BOAT,
                 ModModelLayers.PURPLE_SHROOMWOOD_CHEST_BOAT);
-        context.registerEntityRenderer(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(), MooshroomRenderer::new);
-        context.registerEntityRenderer(ModEntityTypes.SHROOMFIN_ENTITY_TYPE.value(), ShroomfinRenderer::new);
-        context.registerEntityRenderer(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE.value(), CluckshroomRenderer::new);
+        context.registerEntityRenderer(ModEntityTypes.MOOSHROOM.value(), MooshroomRenderer::new);
+        context.registerEntityRenderer(ModEntityTypes.SHROOMFIN.value(), ShroomfinRenderer::new);
+        context.registerEntityRenderer(ModEntityTypes.CLUCKSHROOM.value(), CluckshroomRenderer::new);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package fuzs.shroomcraft.common.data.client;
 
 import com.google.common.collect.ImmutableMap;
-import fuzs.puzzleslib.common.api.client.data.v2.AbstractModelProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.client.data.v3.models.AbstractModelProvider;
+import fuzs.puzzleslib.common.api.data.v3.core.DataProviderContext;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
@@ -76,10 +76,10 @@ public class ModModelProvider extends AbstractModelProvider {
         blockModelGenerators.createTrivialCube(ModBlocks.BLUE_SHROOMWOOD_PLANKS.value());
         blockModelGenerators.createTrivialCube(ModBlocks.ORANGE_SHROOMWOOD_PLANKS.value());
         blockModelGenerators.createTrivialCube(ModBlocks.PURPLE_SHROOMWOOD_PLANKS.value());
-        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.SHROOMWOOD_FAMILY);
-        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY);
-        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY);
-        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.SHROOMWOOD);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.BLUE_SHROOMWOOD);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.ORANGE_SHROOMWOOD);
+        this.generateForBlocks(blockModelGenerators, ModBlockFamilies.PURPLE_SHROOMWOOD);
         blockModelGenerators.createPlantWithDefaultItem(ModBlocks.BLUE_MUSHROOM.value(),
                 ModBlocks.POTTED_BLUE_MUSHROOM.value(),
                 BlockModelGenerators.PlantType.NOT_TINTED);
@@ -138,15 +138,15 @@ public class ModModelProvider extends AbstractModelProvider {
 
     @Override
     public void addItemModels(ItemModelGenerators itemModelGenerators) {
-        this.generateForItems(itemModelGenerators, ModBlockFamilies.SHROOMWOOD_FAMILY, VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators, ModBlockFamilies.SHROOMWOOD, VARIANT_WOOD_ITEM_PROVIDERS);
         this.generateForItems(itemModelGenerators,
-                ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY,
+                ModBlockFamilies.BLUE_SHROOMWOOD,
                 VARIANT_WOOD_ITEM_PROVIDERS);
         this.generateForItems(itemModelGenerators,
-                ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY,
+                ModBlockFamilies.ORANGE_SHROOMWOOD,
                 VARIANT_WOOD_ITEM_PROVIDERS);
         this.generateForItems(itemModelGenerators,
-                ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY,
+                ModBlockFamilies.PURPLE_SHROOMWOOD,
                 VARIANT_WOOD_ITEM_PROVIDERS);
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.COOKED_SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);

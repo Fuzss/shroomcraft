@@ -1,11 +1,8 @@
 package fuzs.shroomcraft.common.world.level.block;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fuzs.shroomcraft.common.init.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -17,12 +14,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TinyMushroomCropBlock extends TorchflowerCropBlock {
-    public static final MapCodec<TorchflowerCropBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    propertiesCodec(),
-                    BuiltInRegistries.BLOCK.holderByNameCodec()
-                            .fieldOf("plant")
-                            .forGetter((TorchflowerCropBlock block) -> ((TinyMushroomCropBlock) block).plantBlock))
-            .apply(instance, TinyMushroomCropBlock::new));
     protected static final VoxelShape SHAPE = Block.box(5.0, 0.0, 5.0, 11.0, 6.0, 11.0);
 
     private final Holder<Block> plantBlock;
@@ -33,13 +24,8 @@ public class TinyMushroomCropBlock extends TorchflowerCropBlock {
     }
 
     @Override
-    public MapCodec<TorchflowerCropBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        return state.is(ModTags.SUPPORTS_TINY_MUSHROOM_BLOCK_TAG);
+        return state.is(ModTags.Blocks.SUPPORTS_TINY_MUSHROOM_BLOCK_TAG);
     }
 
     @Override

@@ -1,93 +1,55 @@
 package fuzs.shroomcraft.common.data.loot;
 
-import fuzs.puzzleslib.common.api.data.v2.AbstractLootProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v3.loot.AbstractLootSubProvider;
 import fuzs.shroomcraft.common.init.CluckshroomVariants;
 import fuzs.shroomcraft.common.init.ModEntityTypes;
 import fuzs.shroomcraft.common.init.ModItems;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
 import fuzs.shroomcraft.common.world.entity.animal.cow.MooshroomVariant;
+import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
-public class ModShearingLootProvider extends AbstractLootProvider.Simple {
+public class ModShearingLootProvider extends AbstractLootSubProvider {
 
-    public ModShearingLootProvider(DataProviderContext context) {
-        super(LootContextParamSets.SHEARING, context);
+    public ModShearingLootProvider(LootTableSubProvider.Context output) {
+        super(output);
     }
 
     @Override
-    public void addLootTables() {
-        this.add(MooshroomVariant.BLUE.shearingLootTable,
+    public void generate() {
+        this.registerMooshroomShearingDrops(MooshroomVariant.BLUE, ModItems.BLUE_MUSHROOM.value());
+        this.registerMooshroomShearingDrops(MooshroomVariant.ORANGE, ModItems.ORANGE_MUSHROOM.value());
+        this.registerMooshroomShearingDrops(MooshroomVariant.PURPLE, ModItems.PURPLE_MUSHROOM.value());
+        this.registerMooshroomShearingDrops(MooshroomVariant.CRIMSON, Items.CRIMSON_FUNGUS);
+        this.registerMooshroomShearingDrops(MooshroomVariant.WARPED, Items.WARPED_FUNGUS);
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.RED, Items.RED_MUSHROOM);
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.BROWN, Items.BROWN_MUSHROOM);
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.CRIMSON, Items.CRIMSON_FUNGUS);
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.WARPED, Items.WARPED_FUNGUS);
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.BLUE, ModItems.BLUE_MUSHROOM.value());
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.ORANGE, ModItems.ORANGE_MUSHROOM.value());
+        this.registerCluckshroomShearingDrops(CluckshroomVariants.PURPLE, ModItems.PURPLE_MUSHROOM.value());
+    }
+
+    public final void registerMooshroomShearingDrops(MooshroomVariant variant, Item item) {
+        this.output.accept(variant.shearingLoot,
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(5.0F))
-                                .add(LootItem.lootTableItem(ModItems.BLUE_MUSHROOM.value()))));
-        this.add(MooshroomVariant.ORANGE.shearingLootTable,
+                                .setRolls(ContextIntProviders.exactly(5))
+                                .add(LootItem.lootTableItem(item))));
+    }
+
+    public final void registerCluckshroomShearingDrops(ResourceKey<MobBlockVariant> variant, Item item) {
+        this.output.accept(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM, variant),
                 LootTable.lootTable()
                         .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(5.0F))
-                                .add(LootItem.lootTableItem(ModItems.ORANGE_MUSHROOM.value()))));
-        this.add(MooshroomVariant.PURPLE.shearingLootTable,
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(5.0F))
-                                .add(LootItem.lootTableItem(ModItems.PURPLE_MUSHROOM.value()))));
-        this.add(MooshroomVariant.CRIMSON.shearingLootTable,
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(5.0F))
-                                .add(LootItem.lootTableItem(Items.CRIMSON_FUNGUS))));
-        this.add(MooshroomVariant.WARPED.shearingLootTable,
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(5.0F))
-                                .add(LootItem.lootTableItem(Items.WARPED_FUNGUS))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.RED_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(Items.RED_MUSHROOM))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.BROWN_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(Items.BROWN_MUSHROOM))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.CRIMSON_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(Items.CRIMSON_FUNGUS))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.WARPED_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(Items.WARPED_FUNGUS))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.BLUE_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(ModItems.BLUE_MUSHROOM.value()))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.ORANGE_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(ModItems.ORANGE_MUSHROOM.value()))));
-        this.add(MobBlockVariant.getShearingLootTable(ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-                        CluckshroomVariants.PURPLE_CLUCKSHROOM_VARIANT),
-                LootTable.lootTable()
-                        .withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(3.0F))
-                                .add(LootItem.lootTableItem(ModItems.PURPLE_MUSHROOM.value()))));
+                                .setRolls(ContextIntProviders.exactly(3))
+                                .add(LootItem.lootTableItem(item))));
     }
 }

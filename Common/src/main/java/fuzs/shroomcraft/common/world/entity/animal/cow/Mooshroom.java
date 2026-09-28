@@ -2,8 +2,9 @@ package fuzs.shroomcraft.common.world.entity.animal.cow;
 
 import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
 import fuzs.shroomcraft.common.Shroomcraft;
+import fuzs.shroomcraft.common.init.ModDataComponentTypes;
+import fuzs.shroomcraft.common.init.ModEntityDataSerializers;
 import fuzs.shroomcraft.common.init.ModEntityTypes;
-import fuzs.shroomcraft.common.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
@@ -49,7 +50,7 @@ import java.util.function.BiConsumer;
 
 public class Mooshroom extends MushroomCow {
     private static final EntityDataAccessor<MooshroomVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(Mooshroom.class,
-            ModRegistry.MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER.value());
+            ModEntityDataSerializers.MUSHROOM_VARIANT.value());
     private static final Set<EntitySpawnReason> VALID_SPAWN_REASONS = Set.of(EntitySpawnReason.SPAWNER,
             EntitySpawnReason.TRIAL_SPAWNER,
             EntitySpawnReason.SPAWN_ITEM_USE,
@@ -72,7 +73,7 @@ public class Mooshroom extends MushroomCow {
                 && VALID_SPAWN_REASONS.contains(entitySpawnReason) && getSpawnAsCustomEntityOdds(serverLevel,
                 entity.blockPosition(),
                 serverLevel.getRandom())) {
-            ((MushroomCow) entity).convertTo(ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value(),
+            ((MushroomCow) entity).convertTo(ModEntityTypes.MOOSHROOM.value(),
                     ConversionParams.single((MushroomCow) entity, false, false),
                     (Mooshroom mob) -> {
                         DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(mob.blockPosition());
@@ -92,7 +93,7 @@ public class Mooshroom extends MushroomCow {
     public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive()
-                && entity.getType() == ModEntityTypes.MOOSHROOM_ENTITY_TYPE.value()) {
+                && entity.getType() == ModEntityTypes.MOOSHROOM.value()) {
             if (level instanceof ServerLevel serverLevel) {
                 Optional<Mob> optional = spawnOffspringFromSpawnEgg(player,
                         (Mob) entity,
@@ -199,7 +200,7 @@ public class Mooshroom extends MushroomCow {
     @Override
     protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> key, ItemInstance tool, BiConsumer<ServerLevel, ItemStack> consumer) {
         super.dropFromShearingLootTable(level,
-                key == BuiltInLootTables.SHEAR_MOOSHROOM ? this.getCustomVariant().shearingLootTable : key,
+                key == BuiltInLootTables.SHEAR_MOOSHROOM ? this.getCustomVariant().shearingLoot : key,
                 tool,
                 consumer);
     }
@@ -233,7 +234,7 @@ public class Mooshroom extends MushroomCow {
     @Nullable
     @Override
     public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        return dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value() ?
+        return dataComponentType == ModDataComponentTypes.MOOSHROOM_VARIANT.value() ?
                 castComponentValue((DataComponentType<T>) dataComponentType, this.getCustomVariant()) :
                 super.get(dataComponentType);
     }
@@ -241,14 +242,14 @@ public class Mooshroom extends MushroomCow {
     @Override
     protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
         this.applyImplicitComponentIfPresent(dataComponentGetter,
-                ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value());
+                ModDataComponentTypes.MOOSHROOM_VARIANT.value());
         super.applyImplicitComponents(dataComponentGetter);
     }
 
     @Override
     protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
-        if (dataComponentType == ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value()) {
-            this.setCustomVariant(castComponentValue(ModRegistry.MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE.value(),
+        if (dataComponentType == ModDataComponentTypes.MOOSHROOM_VARIANT.value()) {
+            this.setCustomVariant(castComponentValue(ModDataComponentTypes.MOOSHROOM_VARIANT.value(),
                     object));
             return true;
         } else {

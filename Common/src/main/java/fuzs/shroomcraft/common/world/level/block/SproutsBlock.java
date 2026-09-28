@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.NetherRootsBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,21 +14,21 @@ import net.minecraft.world.level.block.state.BlockState;
 public class SproutsBlock extends NetherRootsBlock implements BonemealableBlock {
 
     public SproutsBlock(Properties properties) {
-        super(ModTags.SUPPORTS_MUSHROOM_SPROUTS_BLOCK_TAG, properties);
+        super(ModTags.Blocks.SUPPORTS_MUSHROOM_SPROUTS_BLOCK_TAG, properties);
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState, BonemealSource source) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level level, RandomSource randomSource, BlockPos blockPos, BlockState blockState) {
+    public boolean isBonemealSuccess(Level level, RandomSource randomSource, BlockPos blockPos, BlockState blockState, BonemealSource source) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel serverLevel, RandomSource randomSource, BlockPos blockPos, BlockState blockState) {
+    public void performBonemeal(ServerLevel serverLevel, RandomSource randomSource, BlockPos blockPos, BlockState blockState, BonemealSource source) {
         int successCounter = 0;
         label:
         for (int i = (this.getSpreadWidth() + 1) * 16 - 1; i >= 0; i--) {

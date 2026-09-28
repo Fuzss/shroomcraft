@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.neoforge.client;
 
 import fuzs.puzzleslib.common.api.client.core.v1.ClientModConstructor;
-import fuzs.puzzleslib.neoforge.api.data.v2.core.DataProviderHelper;
+import fuzs.puzzleslib.neoforge.api.data.v3.core.DataProviderBuilder;
 import fuzs.shroomcraft.common.Shroomcraft;
 import fuzs.shroomcraft.common.client.ShroomcraftClient;
 import fuzs.shroomcraft.common.data.client.ModLanguageProvider;
@@ -14,6 +14,6 @@ public class ShroomcraftNeoForgeClient {
 
     public ShroomcraftNeoForgeClient() {
         ClientModConstructor.construct(Shroomcraft.MOD_ID, ShroomcraftClient::new);
-        DataProviderHelper.registerDataProviders(Shroomcraft.MOD_ID, ModLanguageProvider::new, ModModelProvider::new);
+        DataProviderBuilder.of(Shroomcraft.MOD_ID).addProvider(ModLanguageProvider::new, ModModelProvider::new);
     }
 }

@@ -1,28 +1,27 @@
 package fuzs.shroomcraft.common.data.tags;
 
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
-import fuzs.puzzleslib.common.api.data.v2.tags.AbstractTagProvider;
+import fuzs.puzzleslib.common.api.data.v3.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v3.tags.AbstractTagsProvider;
 import fuzs.shroomcraft.common.init.CluckshroomVariants;
-import fuzs.shroomcraft.common.init.ModRegistry;
 import fuzs.shroomcraft.common.init.ModTags;
 import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
 import net.minecraft.core.HolderLookup;
 
-public class ModCluckshroomVariantTagsProvider extends AbstractTagProvider<MobBlockVariant> {
+public class ModCluckshroomVariantTagsProvider extends AbstractTagsProvider<MobBlockVariant> {
 
     public ModCluckshroomVariantTagsProvider(DataProviderContext context) {
-        super(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY, context);
+        super(CluckshroomVariants.REGISTRY_KEY, context);
     }
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
-        this.tag(ModTags.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
-                .add(CluckshroomVariants.RED_CLUCKSHROOM_VARIANT,
-                        CluckshroomVariants.BROWN_CLUCKSHROOM_VARIANT,
-                        CluckshroomVariants.BLUE_CLUCKSHROOM_VARIANT,
-                        CluckshroomVariants.ORANGE_CLUCKSHROOM_VARIANT,
-                        CluckshroomVariants.PURPLE_CLUCKSHROOM_VARIANT);
-        this.tag(ModTags.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
-                .add(CluckshroomVariants.CRIMSON_CLUCKSHROOM_VARIANT, CluckshroomVariants.WARPED_CLUCKSHROOM_VARIANT);
+        this.tag(ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
+                .add(CluckshroomVariants.RED,
+                        CluckshroomVariants.BROWN,
+                        CluckshroomVariants.BLUE,
+                        CluckshroomVariants.ORANGE,
+                        CluckshroomVariants.PURPLE);
+        this.tag(ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
+                .add(CluckshroomVariants.CRIMSON, CluckshroomVariants.WARPED);
     }
 }

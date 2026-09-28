@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.common.world.item.crafting;
 
 import com.mojang.serialization.MapCodec;
-import fuzs.shroomcraft.common.init.ModRegistry;
+import fuzs.shroomcraft.common.init.ModRecipeSerializers;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +39,7 @@ public class DistinctShapelessRecipe extends ShapelessRecipe {
 
     @Override
     public RecipeSerializer<ShapelessRecipe> getSerializer() {
-        return (RecipeSerializer<ShapelessRecipe>) (RecipeSerializer<?>) ModRegistry.DISTINCT_SHAPELESS_RECIPE_SERIALIZER.value();
+        return (RecipeSerializer<ShapelessRecipe>) (RecipeSerializer<?>) ModRecipeSerializers.DISTINCT_SHAPELESS_RECIPE.value();
     }
 
     @Override

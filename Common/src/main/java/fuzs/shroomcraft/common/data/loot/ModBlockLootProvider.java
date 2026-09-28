@@ -1,30 +1,30 @@
 package fuzs.shroomcraft.common.data.loot;
 
 import com.google.common.collect.ImmutableMap;
-import fuzs.puzzleslib.common.api.data.v2.AbstractLootProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
+import fuzs.puzzleslib.common.api.data.v3.loot.AbstractBlockLootSubProvider;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModBlocks;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class ModBlockLootProvider extends AbstractLootProvider.Blocks {
-    public static final Map<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>> VARIANT_PROVIDERS = ImmutableMap.<BlockSetVariant, BiConsumer<AbstractLootProvider.Blocks, Block>>builder()
-            .putAll(AbstractLootProvider.Blocks.VARIANT_PROVIDERS)
+public class ModBlockLootProvider extends AbstractBlockLootSubProvider {
+    public static final Map<BlockSetVariant, BiConsumer<AbstractBlockLootSubProvider, Block>> VARIANT_PROVIDERS = ImmutableMap.<BlockSetVariant, BiConsumer<AbstractBlockLootSubProvider, Block>>builder()
+            .putAll(AbstractBlockLootSubProvider.VARIANT_PROVIDERS)
             .put(BlockSetVariant.LOG, BlockLootSubProvider::dropWhenSilkTouch)
             .buildKeepingLast();
 
-    public ModBlockLootProvider(DataProviderContext context) {
-        super(context);
+    public ModBlockLootProvider(LootTableSubProvider.Context output) {
+        super(output);
     }
 
     @Override
-    public void addLootTables() {
+    public void generate() {
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
             this.generateFor(blockSetFamily, VARIANT_PROVIDERS);
         });

@@ -1,16 +1,17 @@
 package fuzs.shroomcraft.common.data;
 
 import com.google.common.collect.ImmutableMap;
-import fuzs.puzzleslib.common.api.data.v2.AbstractRecipeProvider;
-import fuzs.puzzleslib.common.api.data.v2.core.DataProviderContext;
-import fuzs.puzzleslib.common.api.data.v2.recipes.TransformingRecipeOutput;
+import fuzs.puzzleslib.common.api.data.v3.recipes.AbstractRecipeProvider;
+import fuzs.puzzleslib.common.api.data.v3.recipes.TransformingRecipeOutput;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModItems;
 import fuzs.shroomcraft.common.init.ModTags;
 import fuzs.shroomcraft.common.world.item.crafting.DistinctShapelessRecipe;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.data.recipes.*;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
@@ -22,8 +23,8 @@ import java.util.Optional;
 
 public class ModRecipeProvider extends AbstractRecipeProvider {
 
-    public ModRecipeProvider(DataProviderContext context) {
-        super(context);
+    public ModRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        super(recipeOutput, advancementOutput);
     }
 
     /**
@@ -57,23 +58,23 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
     }
 
     @Override
-    public void addRecipes(RecipeOutput recipeOutput) {
-        this.generateFor(ModBlockFamilies.SHROOMWOOD_FAMILY);
-        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY);
-        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY);
-        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY);
-        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+    public void buildRecipes() {
+        this.generateFor(ModBlockFamilies.SHROOMWOOD);
+        this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD);
+        this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD);
+        this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD);
+        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.Items.SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.Items.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.Items.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.Items.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
-        ShapelessRecipeBuilder.shapeless(this.items(), RecipeCategory.FOOD, Items.MUSHROOM_STEW)
-                .requires(ModTags.MUSHROOMS_ITEM_TAG)
-                .requires(ModTags.MUSHROOMS_ITEM_TAG)
+        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.FOOD, Items.MUSHROOM_STEW)
+                .requires(ModTags.Items.MUSHROOMS_ITEM_TAG)
+                .requires(ModTags.Items.MUSHROOMS_ITEM_TAG)
                 .requires(Items.BOWL)
                 .unlockedBy(getHasName(Items.MUSHROOM_STEW), this.has(Items.MUSHROOM_STEW))
                 .unlockedBy(getHasName(Items.BOWL), this.has(Items.BOWL))
-                .unlockedBy(getHasName(ModTags.MUSHROOMS_ITEM_TAG), this.has(ModTags.MUSHROOMS_ITEM_TAG))
+                .unlockedBy(getHasName(ModTags.Items.MUSHROOMS_ITEM_TAG), this.has(ModTags.Items.MUSHROOMS_ITEM_TAG))
                 .save(TransformingRecipeOutput.transformed(this.output, (Recipe<?> recipe) -> {
                     return new DistinctShapelessRecipe((ShapelessRecipe) recipe);
                 }));
@@ -106,7 +107,7 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
     }
 
     public final void shroombomb(ItemLike result, ItemLike ingredient) {
-        ShapedRecipeBuilder.shaped(this.items(), RecipeCategory.MISC, result)
+        ShapedRecipeBuilder.shaped(this.items, RecipeCategory.MISC, result)
                 .define('#', Items.PAPER)
                 .define('X', Items.GUNPOWDER)
                 .define('@', ingredient)

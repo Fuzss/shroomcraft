@@ -5,7 +5,7 @@ import fuzs.shroomcraft.common.Shroomcraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 
 public class ModModelLayers {
-    static final ModelLayerFactory MODEL_LAYERS = ModelLayerFactory.from(Shroomcraft.MOD_ID);
+    private static final ModelLayerFactory MODEL_LAYERS = ModelLayerFactory.from(Shroomcraft.MOD_ID);
     public static final ModelLayerLocation SHROOMWOOD_BOAT = MODEL_LAYERS.registerModelLayer("boat/shroomwood");
     public static final ModelLayerLocation SHROOMWOOD_CHEST_BOAT = MODEL_LAYERS.registerModelLayer(
             "chest_boat/shroomwood");

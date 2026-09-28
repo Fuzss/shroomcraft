@@ -2,67 +2,14 @@ package fuzs.shroomcraft.common.init;
 
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import fuzs.shroomcraft.common.Shroomcraft;
-import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
-import fuzs.shroomcraft.common.world.entity.animal.cow.MooshroomVariant;
-import fuzs.shroomcraft.common.world.item.crafting.DistinctShapelessRecipe;
-import fuzs.shroomcraft.common.world.level.levelgen.feature.HugeBlueMushroomFeature;
-import fuzs.shroomcraft.common.world.level.levelgen.feature.HugeOrangeMushroomFeature;
-import fuzs.shroomcraft.common.world.level.levelgen.feature.HugePurpleMushroomFeature;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 
 public class ModRegistry {
-    public static final ResourceKey<Registry<MobBlockVariant>> CLUCKSHROOM_VARIANT_REGISTRY_KEY = ResourceKey.createRegistryKey(
-            Shroomcraft.id("cluckshroom_variant"));
-    public static final RegistrySetBuilder REGISTRY_SET_BUILDER = new RegistrySetBuilder().add(ModRegistry.CLUCKSHROOM_VARIANT_REGISTRY_KEY,
-                    CluckshroomVariants::bootstrap)
-            .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
-            .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
-
     static final RegistryManager REGISTRIES = RegistryManager.from(Shroomcraft.MOD_ID);
-    public static final Holder.Reference<DataComponentType<MooshroomVariant>> MOOSHROOM_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
-            "mooshroom/variant",
-            (DataComponentType.Builder<MooshroomVariant> builder) -> builder.persistent(MooshroomVariant.CODEC)
-                    .networkSynchronized(MooshroomVariant.STREAM_CODEC));
-    public static final Holder.Reference<DataComponentType<Holder<MobBlockVariant>>> MOB_BLOCK_VARIANT_DATA_COMPONENT_TYPE = REGISTRIES.registerDataComponentType(
-            "mob_block_variant",
-            (DataComponentType.Builder<Holder<MobBlockVariant>> builder) -> builder.persistent(MobBlockVariant.codec(
-                            CLUCKSHROOM_VARIANT_REGISTRY_KEY))
-                    .networkSynchronized(MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)));
-    public static final Holder.Reference<EntityDataSerializer<MooshroomVariant>> MUSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
-            "mushroom_variant",
-            () -> EntityDataSerializer.forValueType(MooshroomVariant.STREAM_CODEC));
-    public static final Holder.Reference<EntityDataSerializer<Holder<MobBlockVariant>>> CLUCKSHROOM_VARIANT_ENTITY_DATA_SERIALIZER = REGISTRIES.registerEntityDataSerializer(
-            "cluckshroom_variant",
-            () -> EntityDataSerializer.forValueType(MobBlockVariant.streamCodec(CLUCKSHROOM_VARIANT_REGISTRY_KEY)));
-    public static final Holder.Reference<RecipeSerializer<DistinctShapelessRecipe>> DISTINCT_SHAPELESS_RECIPE_SERIALIZER = REGISTRIES.register(
-            Registries.RECIPE_SERIALIZER,
-            "crafting_shapeless_distinct",
-            () -> DistinctShapelessRecipe.SERIALIZER);
-    public static final Holder.Reference<Feature<HugeMushroomFeatureConfiguration>> HUGE_PURPLE_MUSHROOM_FEATURE = REGISTRIES.register(
-            Registries.FEATURE,
-            "huge_purple_mushroom",
-            () -> new HugePurpleMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
-    public static final Holder.Reference<Feature<HugeMushroomFeatureConfiguration>> HUGE_ORANGE_MUSHROOM_FEATURE = REGISTRIES.register(
-            Registries.FEATURE,
-            "huge_orange_mushroom",
-            () -> new HugeOrangeMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
-    public static final Holder.Reference<Feature<HugeMushroomFeatureConfiguration>> HUGE_BLUE_MUSHROOM_FEATURE = REGISTRIES.register(
-            Registries.FEATURE,
-            "huge_red_mushroom",
-            () -> new HugeBlueMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
     public static final Holder.Reference<CreativeModeTab> CREATIVE_MODE_TAB = REGISTRIES.registerCreativeModeTab(() -> new ItemStack(
             ModItems.ORANGE_MUSHROOM), generator -> {
         return (CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output) -> {
@@ -76,7 +23,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.SHROOMWOOD_FAMILY.getItemVariants().values().forEach((Holder.Reference<Item> holder) -> {
+            ModBlockFamilies.SHROOMWOOD.getItemVariants().values().forEach((Holder.Reference<Item> holder) -> {
                 output.accept(holder.value());
             });
 
@@ -87,7 +34,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.BLUE_SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.BLUE_SHROOMWOOD_FAMILY.getItemVariants()
+            ModBlockFamilies.BLUE_SHROOMWOOD.getItemVariants()
                     .values()
                     .forEach((Holder.Reference<Item> holder) -> {
                         output.accept(holder.value());
@@ -100,7 +47,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.ORANGE_SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.ORANGE_SHROOMWOOD_FAMILY.getItemVariants()
+            ModBlockFamilies.ORANGE_SHROOMWOOD.getItemVariants()
                     .values()
                     .forEach((Holder.Reference<Item> holder) -> {
                         output.accept(holder.value());
@@ -113,7 +60,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.PURPLE_SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.PURPLE_SHROOMWOOD_FAMILY.getItemVariants()
+            ModBlockFamilies.PURPLE_SHROOMWOOD.getItemVariants()
                     .values()
                     .forEach((Holder.Reference<Item> holder) -> {
                         output.accept(holder.value());
@@ -141,10 +88,13 @@ public class ModRegistry {
     });
 
     public static void bootstrap() {
-        ModBlocks.bootstrap();
-        ModEntityTypes.bootstrap();
-        ModItems.bootstrap();
         ModBlockFamilies.bootstrap();
-        ModTags.bootstrap();
+        ModBlocks.bootstrap();
+        ModDataComponentTypes.bootstrap();
+        ModEntityDataSerializers.bootstrap();
+        ModEntityTypes.bootstrap();
+        ModFeatureTypes.bootstrap();
+        ModItems.bootstrap();
+        ModRecipeSerializers.bootstrap();
     }
 }

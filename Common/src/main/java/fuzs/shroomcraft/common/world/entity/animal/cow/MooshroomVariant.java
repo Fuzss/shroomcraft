@@ -45,12 +45,12 @@ public enum MooshroomVariant implements StringRepresentable {
 
     private final int id;
     public final Holder<Block> block;
-    public final ResourceKey<LootTable> shearingLootTable;
+    public final ResourceKey<LootTable> shearingLoot;
 
     MooshroomVariant(int id, Holder<Block> block) {
         this.id = id;
         this.block = block;
-        this.shearingLootTable = MobBlockVariant.getShearingLootTable(ModEntityTypes.MOOSHROOM_ENTITY_TYPE,
+        this.shearingLoot = MobBlockVariant.getShearingLootTable(ModEntityTypes.MOOSHROOM,
                 Shroomcraft.id(this.getSerializedName()));
     }
 

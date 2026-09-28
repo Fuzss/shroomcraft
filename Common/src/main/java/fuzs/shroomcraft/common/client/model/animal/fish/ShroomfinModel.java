@@ -1,21 +1,17 @@
 package fuzs.shroomcraft.common.client.model.animal.fish;
 
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.animal.fish.CodModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.util.Mth;
 
-public class ShroomfinModel extends EntityModel<LivingEntityRenderState> {
-    private final ModelPart tailFin;
+public class ShroomfinModel extends CodModel {
 
     public ShroomfinModel(ModelPart root) {
         super(root);
-        this.tailFin = root.getChild("tail_fin");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -43,12 +39,5 @@ public class ShroomfinModel extends EntityModel<LivingEntityRenderState> {
                 CubeListBuilder.create().texOffs(20, 20).addBox(0.0F, -4.0F, 1.0F, 0.0F, 8.0F, 4.0F),
                 PartPose.offset(0.0F, 21.0F, 6.0F));
         return LayerDefinition.create(meshDefinition, 48, 48);
-    }
-
-    @Override
-    public void setupAnim(LivingEntityRenderState renderState) {
-        super.setupAnim(renderState);
-        float rotationAmount = renderState.isInWater ? 1.0F : 1.5F;
-        this.tailFin.yRot = -rotationAmount * 0.45F * Mth.sin(0.6F * renderState.ageInTicks);
     }
 }

@@ -1,26 +1,40 @@
 package fuzs.shroomcraft.common.world.level.levelgen.feature;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.AbstractHugeMushroomFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class HugeBlueMushroomFeature extends AbstractHugeMushroomFeature {
+public record HugeBlueMushroomFeature(Holder<BlockStateProvider> capProvider,
+                                      Holder<BlockStateProvider> stemProvider,
+                                      int foliageRadius,
+                                      BlockPredicate canPlaceOn) implements AbstractHugeMushroomFeature {
+    public static final MapCodec<HugeBlueMushroomFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                    BlockStateProvider.CODEC.fieldOf("cap_provider").forGetter(HugeBlueMushroomFeature::capProvider),
+                    BlockStateProvider.CODEC.fieldOf("stem_provider").forGetter(HugeBlueMushroomFeature::stemProvider),
+                    Codec.INT.optionalFieldOf("foliage_radius", 2).forGetter(HugeBlueMushroomFeature::foliageRadius),
+                    BlockPredicate.CODEC.fieldOf("can_place_on").forGetter(HugeBlueMushroomFeature::canPlaceOn))
+            .apply(instance, HugeBlueMushroomFeature::new));
 
-    public HugeBlueMushroomFeature(Codec<HugeMushroomFeatureConfiguration> codec) {
-        super(codec);
+    @Override
+    public MapCodec<HugeBlueMushroomFeature> codec() {
+        return CODEC;
     }
 
     @Override
-    protected void makeCap(WorldGenLevel level, RandomSource random, BlockPos pos, int treeHeight, BlockPos.MutableBlockPos mutablePos, HugeMushroomFeatureConfiguration config) {
+    public void makeCap(WorldGenLevel level, RandomSource random, BlockPos pos, int treeHeight, BlockPos.MutableBlockPos mutablePos) {
         for (int i = treeHeight - 3; i <= treeHeight; i++) {
-            int j = i < treeHeight ? config.foliageRadius() - 1 : config.foliageRadius() - 2;
-            int k = config.foliageRadius() - 3;
+            int j = i < treeHeight ? this.foliageRadius - 1 : this.foliageRadius - 2;
+            int k = this.foliageRadius - 3;
 
             for (int l = -j; l <= j; l++) {
                 for (int m = -j; m <= j; m++) {
@@ -35,7 +49,7 @@ public class HugeBlueMushroomFeature extends AbstractHugeMushroomFeature {
                         int offsetZ = m + (i == treeHeight - 2 && Math.abs(m) > Math.abs(l) ? Mth.sign(m) : 0);
                         mutablePos.setWithOffset(pos, offsetX, i, offsetZ);
                         if (!level.getBlockState(mutablePos).isSolidRender()) {
-                            BlockState blockState = config.capProvider().getState(level, random, pos);
+                            BlockState blockState = this.capProvider.value().getState(level, random, pos);
                             if (blockState.hasProperty(HugeMushroomBlock.WEST) && blockState.hasProperty(
                                     HugeMushroomBlock.EAST) && blockState.hasProperty(HugeMushroomBlock.NORTH)
                                     && blockState.hasProperty(HugeMushroomBlock.SOUTH) && blockState.hasProperty(
@@ -58,7 +72,7 @@ public class HugeBlueMushroomFeature extends AbstractHugeMushroomFeature {
     }
 
     @Override
-    protected int getTreeRadiusForHeight(int unused, int height, int foliageRadius, int y) {
+    public int getTreeRadiusForHeight(int unused, int height, int foliageRadius, int y) {
         int i = 0;
         if (y < height && y >= height - 3) {
             i = foliageRadius;

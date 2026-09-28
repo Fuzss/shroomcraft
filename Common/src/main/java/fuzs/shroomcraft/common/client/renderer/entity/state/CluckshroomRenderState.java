@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 
 public class CluckshroomRenderState extends ChickenRenderState {
     public Identifier textureLocation = MobBlockVariant.transformTextureLocation(MobBlockVariant.getTextureLocation(
-            ModEntityTypes.CLUCKSHROOM_ENTITY_TYPE,
-            CluckshroomVariants.RED_CLUCKSHROOM_VARIANT));
+            ModEntityTypes.CLUCKSHROOM,
+            CluckshroomVariants.RED));
     public final BlockModelRenderState blockModel = new BlockModelRenderState();
 }

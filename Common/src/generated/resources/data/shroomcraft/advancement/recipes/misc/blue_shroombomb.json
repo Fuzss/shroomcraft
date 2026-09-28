@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:blue_shroombomb"
+        "recipes": "shroomcraft:blue_shroombomb"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

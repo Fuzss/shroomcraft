@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:shroomwood_stairs"
+        "recipes": "shroomcraft:shroomwood_stairs"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

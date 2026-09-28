@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:purple_shroomwood_slab"
+        "recipes": "shroomcraft:purple_shroomwood_slab"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:cooked_shroomfin"
+        "recipes": "shroomcraft:cooked_shroomfin"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

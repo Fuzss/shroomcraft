@@ -1,0 +1,30 @@
+{
+  "type": "shroomcraft:huge_orange_mushroom",
+  "can_place_on": {
+    "type": "minecraft:matching_block_tag",
+    "tag": "shroomcraft:huge_orange_mushroom_can_place_on"
+  },
+  "cap_provider": {
+    "id": "shroomcraft:orange_mushroom_block",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "true",
+      "west": "true"
+    }
+  },
+  "foliage_radius": 3,
+  "stem_provider": {
+    "id": "shroomcraft:orange_mushroom_stem",
+    "properties": {
+      "down": "false",
+      "east": "true",
+      "north": "true",
+      "south": "true",
+      "up": "false",
+      "west": "true"
+    }
+  }
+}

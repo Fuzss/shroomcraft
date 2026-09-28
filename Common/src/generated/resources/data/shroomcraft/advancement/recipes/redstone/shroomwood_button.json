@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:shroomwood_button"
+        "recipes": "shroomcraft:shroomwood_button"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

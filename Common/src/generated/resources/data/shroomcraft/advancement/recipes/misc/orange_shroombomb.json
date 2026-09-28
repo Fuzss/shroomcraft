@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:orange_shroombomb"
+        "recipes": "shroomcraft:orange_shroombomb"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:orange_shroomwood_pressure_plate"
+        "recipes": "shroomcraft:orange_shroomwood_pressure_plate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

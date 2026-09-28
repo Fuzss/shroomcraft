@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:shroomwood_planks"
+        "recipes": "shroomcraft:shroomwood_planks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

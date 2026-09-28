@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:purple_shroomwood_trapdoor"
+        "recipes": "shroomcraft:purple_shroomwood_trapdoor"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

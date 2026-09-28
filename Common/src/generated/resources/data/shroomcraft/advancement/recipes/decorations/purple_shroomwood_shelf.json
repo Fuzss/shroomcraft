@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:purple_shroomwood_shelf"
+        "recipes": "shroomcraft:purple_shroomwood_shelf"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "shroomcraft:stripped_purple_mushroom_hyphae"
+        "recipes": "shroomcraft:stripped_purple_mushroom_hyphae"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -62,15 +62,6 @@ public final class BiomeModificationsHandler {
                                     placedFeatureLookup.getOrThrow(ModPlacedFeatures.MYCELIAL_GROWTH));
                     transformation.generation()
                             .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    placedFeatureLookup.getOrThrow(ModPlacedFeatures.BLUE_MUSHROOM_NORMAL));
-                    transformation.generation()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    placedFeatureLookup.getOrThrow(ModPlacedFeatures.ORANGE_MUSHROOM_NORMAL));
-                    transformation.generation()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                                    placedFeatureLookup.getOrThrow(ModPlacedFeatures.PURPLE_MUSHROOM_NORMAL));
-                    transformation.generation()
-                            .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                                     placedFeatureLookup.getOrThrow(ModPlacedFeatures.BLUE_MUSHROOM_MUSHROOM_FIELDS));
                     transformation.generation()
                             .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,

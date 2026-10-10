@@ -1,0 +1,13 @@
+{
+  "type": "shroomcraft:crafting_shapeless_distinct",
+  "category": "misc",
+  "ingredients": [
+    "#shroomcraft:mushrooms",
+    "#shroomcraft:mushrooms",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:mushroom_stew"
+  }
+}

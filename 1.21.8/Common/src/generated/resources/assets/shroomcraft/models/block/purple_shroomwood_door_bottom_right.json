@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "shroomcraft:block/purple_shroomwood_door_bottom",
+    "top": "shroomcraft:block/purple_shroomwood_door_top"
+  }
+}

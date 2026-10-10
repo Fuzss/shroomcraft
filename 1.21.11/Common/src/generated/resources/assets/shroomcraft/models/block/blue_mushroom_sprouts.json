@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "shroomcraft:block/blue_mushroom_sprouts"
+  }
+}

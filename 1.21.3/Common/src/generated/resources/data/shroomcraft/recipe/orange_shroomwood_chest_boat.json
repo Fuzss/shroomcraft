@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "chest_boat",
+  "ingredients": [
+    "minecraft:chest",
+    "shroomcraft:orange_shroomwood_boat"
+  ],
+  "result": {
+    "count": 1,
+    "id": "shroomcraft:orange_shroomwood_chest_boat"
+  }
+}

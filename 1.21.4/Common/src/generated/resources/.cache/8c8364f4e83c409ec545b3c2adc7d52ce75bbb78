@@ -1,0 +1,20 @@
+// 1.21.4	2025-02-12T11:59:52.151491	Tags for minecraft:item mod id vanilla
+79c0f9ca27ac03e80158b4a106853ccac90b6801 data/c/tags/item/buckets/entity_water.json
+cf1dd974f05c67156ffb861dca638001d7105332 data/minecraft/tags/item/boats.json
+3e3846d9dcf795d7372ab2d2f98c6b2980602378 data/minecraft/tags/item/chest_boats.json
+c3c4c303f038accf2b2fb4ed8c0520a90eb79779 data/minecraft/tags/item/fence_gates.json
+4bd9d4eab83c976f1d7d0ce4342bf31ee3b8238e data/minecraft/tags/item/fishes.json
+2a3a936975b042dcff570b1e17e46bd9c0cc4fdc data/minecraft/tags/item/planks.json
+4bd9d4eab83c976f1d7d0ce4342bf31ee3b8238e data/minecraft/tags/item/wolf_food.json
+1069b07a0a20bee38a9dd90b165bf7cb2fd5259e data/minecraft/tags/item/wooden_buttons.json
+b476557d6934183f68abd2d37ab3acc97ea0e9bf data/minecraft/tags/item/wooden_doors.json
+b9f8b84aa4fac79bce4d73988fc97544c6f0f844 data/minecraft/tags/item/wooden_fences.json
+b1b061554481626f470dfb0f082e0e9834051382 data/minecraft/tags/item/wooden_pressure_plates.json
+a7fd9f0ddd7222143acb96015324e553f215e0f6 data/minecraft/tags/item/wooden_slabs.json
+1c32276c6de387f20752662eb1195d4392f426cc data/minecraft/tags/item/wooden_stairs.json
+9143dc466852a3368fd741e5b2a50b2bf318f821 data/minecraft/tags/item/wooden_trapdoors.json
+683e1a56d3740ed0b9dc2537281a5ee7f30c58ed data/shroomcraft/tags/item/blue_shroomwood_logs.json
+de033213bbc0cd88b4ad40ef05f12b811d099b00 data/shroomcraft/tags/item/mushrooms.json
+c8e77b5e152a66b5edf11504dd9e90ee15c85dc4 data/shroomcraft/tags/item/orange_shroomwood_logs.json
+9d3ee68940ca72cff3204ff6c64ccbd3fcb97b7f data/shroomcraft/tags/item/purple_shroomwood_logs.json
+56b60ef138ab3d84e83b5f44db733bc1e22265bb data/shroomcraft/tags/item/shroomwood_logs.json

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "brown_dye",
+  "ingredients": [
+    "shroomcraft:mushroom_sprouts"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:brown_dye"
+  }
+}

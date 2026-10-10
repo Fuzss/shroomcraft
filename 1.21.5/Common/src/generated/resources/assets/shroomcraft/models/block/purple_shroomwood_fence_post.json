@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "shroomcraft:block/purple_shroomwood_planks"
+  }
+}

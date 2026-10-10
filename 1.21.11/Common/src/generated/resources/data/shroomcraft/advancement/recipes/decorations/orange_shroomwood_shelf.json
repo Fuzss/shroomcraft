@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_stripped_orange_mushroom_stem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "shroomcraft:stripped_orange_mushroom_stem"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "shroomcraft:orange_shroomwood_shelf"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_stripped_orange_mushroom_stem"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "shroomcraft:orange_shroomwood_shelf"
+    ]
+  }
+}

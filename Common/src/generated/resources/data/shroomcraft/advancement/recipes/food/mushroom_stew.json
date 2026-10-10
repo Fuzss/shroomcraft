@@ -41,9 +41,9 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_mushrooms",
       "has_bowl",
-      "has_mushroom_stew"
+      "has_mushroom_stew",
+      "has_mushrooms"
     ]
   ],
   "rewards": {

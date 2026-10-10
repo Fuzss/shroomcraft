@@ -72,7 +72,7 @@ public record MobBlockVariant(Identifier textureLocation,
 
     public static Identifier getTextureLocation(Holder.Reference<? extends EntityType<?>> entityType, ResourceKey<MobBlockVariant> resourceKey) {
         String path = entityType.key().identifier().getPath();
-        return resourceKey.identifier().withPath((String string) -> "entity/" + path + "/" + string + "_" + path);
+        return resourceKey.identifier().withPath((String string) -> "entity/" + path + "/" + path + "_" + string);
     }
 
     public static ResourceKey<LootTable> getShearingLootTable(Holder.Reference<? extends EntityType<?>> entityType, ResourceKey<MobBlockVariant> resourceKey) {

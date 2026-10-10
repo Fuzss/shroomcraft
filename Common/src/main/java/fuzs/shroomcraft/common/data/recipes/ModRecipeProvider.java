@@ -1,4 +1,4 @@
-package fuzs.shroomcraft.common.data;
+package fuzs.shroomcraft.common.data.recipes;
 
 import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.common.api.data.v3.recipes.AbstractRecipeProvider;
@@ -63,18 +63,18 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.generateFor(ModBlockFamilies.ORANGE_SHROOMWOOD);
         this.generateFor(ModBlockFamilies.BLUE_SHROOMWOOD);
         this.generateFor(ModBlockFamilies.PURPLE_SHROOMWOOD);
-        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.Items.SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.Items.BLUE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.Items.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
-        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.Items.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG, 4);
+        this.planksFromLog(ModItems.SHROOMWOOD_PLANKS.value(), ModTags.Items.SHROOMWOOD_LOGS, 4);
+        this.planksFromLog(ModItems.BLUE_SHROOMWOOD_PLANKS.value(), ModTags.Items.BLUE_SHROOMWOOD_LOGS, 4);
+        this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.Items.ORANGE_SHROOMWOOD_LOGS, 4);
+        this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.Items.PURPLE_SHROOMWOOD_LOGS, 4);
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
         ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.FOOD, Items.MUSHROOM_STEW)
-                .requires(ModTags.Items.MUSHROOMS_ITEM_TAG)
-                .requires(ModTags.Items.MUSHROOMS_ITEM_TAG)
+                .requires(ModTags.Items.MUSHROOMS)
+                .requires(ModTags.Items.MUSHROOMS)
                 .requires(Items.BOWL)
                 .unlockedBy(getHasName(Items.MUSHROOM_STEW), this.has(Items.MUSHROOM_STEW))
                 .unlockedBy(getHasName(Items.BOWL), this.has(Items.BOWL))
-                .unlockedBy(getHasName(ModTags.Items.MUSHROOMS_ITEM_TAG), this.has(ModTags.Items.MUSHROOMS_ITEM_TAG))
+                .unlockedBy(getHasName(ModTags.Items.MUSHROOMS), this.has(ModTags.Items.MUSHROOMS))
                 .save(TransformingRecipeOutput.transformed(this.output, (Recipe<?> recipe) -> {
                     return new DistinctShapelessRecipe((ShapelessRecipe) recipe);
                 }));

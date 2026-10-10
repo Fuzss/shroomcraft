@@ -50,7 +50,7 @@ public class ModFeatures {
                                 .setValue(HugeMushroomBlock.UP, Boolean.FALSE)
                                 .setValue(HugeMushroomBlock.DOWN, Boolean.FALSE)),
                         3,
-                        BlockPredicate.matchesTag(ModTags.Blocks.HUGE_BLUE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)));
+                        BlockPredicate.matchesTag(ModTags.Blocks.HUGE_BLUE_MUSHROOM_CAN_PLACE_ON)));
         context.register(HUGE_ORANGE_MUSHROOM,
                 new HugeOrangeMushroomFeature(BlockStateProvider.holderOf(ModBlocks.ORANGE_MUSHROOM_BLOCK.value()
                         .defaultBlockState()
@@ -60,7 +60,7 @@ public class ModFeatures {
                                 .setValue(HugeMushroomBlock.UP, Boolean.FALSE)
                                 .setValue(HugeMushroomBlock.DOWN, Boolean.FALSE)),
                         3,
-                        BlockPredicate.matchesTag(ModTags.Blocks.HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)));
+                        BlockPredicate.matchesTag(ModTags.Blocks.HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON)));
         context.register(HUGE_PURPLE_MUSHROOM,
                 new HugePurpleMushroomFeature(BlockStateProvider.holderOf(ModBlocks.PURPLE_MUSHROOM_BLOCK.value()
                         .defaultBlockState()
@@ -70,7 +70,7 @@ public class ModFeatures {
                                 .setValue(HugeMushroomBlock.UP, Boolean.FALSE)
                                 .setValue(HugeMushroomBlock.DOWN, Boolean.FALSE)),
                         3,
-                        BlockPredicate.matchesTag(ModTags.Blocks.HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)));
+                        BlockPredicate.matchesTag(ModTags.Blocks.HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON)));
         HolderGetter<Feature> featureLookup = context.lookup(Registries.FEATURE);
         context.register(MUSHROOM_ISLAND_VEGETATION,
                 new SimpleRandomSelectorFeature(HolderSet.direct(PlacementUtils.inlinePlaced(featureLookup.getOrThrow(

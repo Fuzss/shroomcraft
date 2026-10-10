@@ -3,7 +3,7 @@ package fuzs.shroomcraft.neoforge;
 import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.neoforge.api.data.v3.core.DataProviderBuilder;
 import fuzs.shroomcraft.common.Shroomcraft;
-import fuzs.shroomcraft.common.data.ModRecipeProvider;
+import fuzs.shroomcraft.common.data.recipes.ModRecipeProvider;
 import fuzs.shroomcraft.common.data.loot.ModBlockLootProvider;
 import fuzs.shroomcraft.common.data.loot.ModEntityLootProvider;
 import fuzs.shroomcraft.common.data.loot.ModShearingLootProvider;

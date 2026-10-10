@@ -38,20 +38,20 @@ public class ModBlockTagsProvider extends AbstractTagsProvider<Block> {
                         ModBlocks.ORANGE_MUSHROOM_STEM,
                         ModBlocks.PURPLE_MUSHROOM_STEM);
         this.tag(BlockItemTags.LOGS_THAT_BURN.block())
-                .addTag(ModTags.Blocks.SHROOMWOOD_LOGS_BLOCK_TAG,
-                        ModTags.Blocks.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG,
-                        ModTags.Blocks.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG,
-                        ModTags.Blocks.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG);
-        this.tag(ModTags.Blocks.SHROOMWOOD_LOGS_BLOCK_TAG)
+                .addTag(ModTags.Blocks.SHROOMWOOD_LOGS,
+                        ModTags.Blocks.BLUE_SHROOMWOOD_LOGS,
+                        ModTags.Blocks.ORANGE_SHROOMWOOD_LOGS,
+                        ModTags.Blocks.PURPLE_SHROOMWOOD_LOGS);
+        this.tag(ModTags.Blocks.SHROOMWOOD_LOGS)
                 .add(ModBlocks.STRIPPED_MUSHROOM_STEM, ModBlocks.STRIPPED_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Blocks.BLUE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModTags.Blocks.BLUE_SHROOMWOOD_LOGS)
                 .add(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM, ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Blocks.ORANGE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModTags.Blocks.ORANGE_SHROOMWOOD_LOGS)
                 .add(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM, ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Blocks.PURPLE_SHROOMWOOD_LOGS_BLOCK_TAG)
+        this.tag(ModTags.Blocks.PURPLE_SHROOMWOOD_LOGS)
                 .add(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM, ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Blocks.SUPPORTS_MUSHROOM_SPROUTS_BLOCK_TAG).addTag(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
-        this.tag(ModTags.Blocks.SUPPORTS_TINY_MUSHROOM_BLOCK_TAG).addTag(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
+        this.tag(ModTags.Blocks.SUPPORTS_MUSHROOM_SPROUTS).addTag(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
+        this.tag(ModTags.Blocks.SUPPORTS_TINY_MUSHROOM).addTag(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
         this.tag(BlockTags.CROPS)
                 .add(ModBlocks.TINY_BROWN_MUSHROOM,
                         ModBlocks.TINY_RED_MUSHROOM,
@@ -86,19 +86,19 @@ public class ModBlockTagsProvider extends AbstractTagsProvider<Block> {
                         ModBlocks.ORANGE_MUSHROOM_SPROUTS,
                         ModBlocks.PURPLE_MUSHROOM_SPROUTS)
                 .add(ModBlocks.BLUE_MUSHROOM, ModBlocks.ORANGE_MUSHROOM, ModBlocks.PURPLE_MUSHROOM);
-        this.tag(ModTags.Blocks.HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)
+        this.tag(ModTags.Blocks.HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON)
                 .addTag(BlockTags.SUBSTRATE_OVERWORLD)
                 .add(BlockItemIds.MYCELIUM.block(),
                         BlockItemIds.PODZOL.block(),
                         BlockItemIds.CRIMSON_NYLIUM.block(),
                         BlockItemIds.WARPED_NYLIUM.block());
-        this.tag(ModTags.Blocks.HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)
+        this.tag(ModTags.Blocks.HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON)
                 .addTag(BlockTags.SUBSTRATE_OVERWORLD)
                 .add(BlockItemIds.MYCELIUM.block(),
                         BlockItemIds.PODZOL.block(),
                         BlockItemIds.CRIMSON_NYLIUM.block(),
                         BlockItemIds.WARPED_NYLIUM.block());
-        this.tag(ModTags.Blocks.HUGE_BLUE_MUSHROOM_CAN_PLACE_ON_BLOCK_TAG)
+        this.tag(ModTags.Blocks.HUGE_BLUE_MUSHROOM_CAN_PLACE_ON)
                 .addTag(BlockTags.SUBSTRATE_OVERWORLD)
                 .add(BlockItemIds.MYCELIUM.block(),
                         BlockItemIds.PODZOL.block(),

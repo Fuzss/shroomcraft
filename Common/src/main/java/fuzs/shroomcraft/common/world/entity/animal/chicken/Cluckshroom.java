@@ -134,8 +134,8 @@ public class Cluckshroom extends Chicken implements Shearable {
             return holder.value().biomes().contains(biome);
         }).or(() -> getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
             TagKey<MobBlockVariant> tagKey =
-                    biome.is(BiomeTags.IS_NETHER) ? ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG :
-                            ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG;
+                    biome.is(BiomeTags.IS_NETHER) ? ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM :
+                            ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM;
             return holder.is(tagKey);
         })).or(() -> registry.get(CluckshroomVariants.RED)).or(registry::getAny).orElseThrow();
     }

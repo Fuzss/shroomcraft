@@ -15,13 +15,13 @@ public class ModCluckshroomVariantTagsProvider extends AbstractTagsProvider<MobB
 
     @Override
     public void addTags(HolderLookup.Provider registries) {
-        this.tag(ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
+        this.tag(ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM)
                 .add(CluckshroomVariants.RED,
                         CluckshroomVariants.BROWN,
                         CluckshroomVariants.BLUE,
                         CluckshroomVariants.ORANGE,
                         CluckshroomVariants.PURPLE);
-        this.tag(ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM_VARIANT_TAG)
+        this.tag(ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM)
                 .add(CluckshroomVariants.CRIMSON, CluckshroomVariants.WARPED);
     }
 }

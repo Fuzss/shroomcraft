@@ -25,7 +25,7 @@ public class TinyMushroomCropBlock extends TorchflowerCropBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        return state.is(ModTags.Blocks.SUPPORTS_TINY_MUSHROOM_BLOCK_TAG);
+        return state.is(ModTags.Blocks.SUPPORTS_TINY_MUSHROOM);
     }
 
     @Override

@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class SproutsBlock extends NetherRootsBlock implements BonemealableBlock {
 
     public SproutsBlock(Properties properties) {
-        super(ModTags.Blocks.SUPPORTS_MUSHROOM_SPROUTS_BLOCK_TAG, properties);
+        super(ModTags.Blocks.SUPPORTS_MUSHROOM_SPROUTS, properties);
     }
 
     @Override

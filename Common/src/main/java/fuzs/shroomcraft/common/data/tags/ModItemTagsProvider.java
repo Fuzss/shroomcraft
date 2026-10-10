@@ -29,21 +29,21 @@ public class ModItemTagsProvider extends AbstractTagsProvider<Item> {
             this.generateFor(blockSetFamily.getItemVariants(), VARIANT_WOODEN_ITEM_TAGS);
         });
         this.tag(ItemTags.LOGS_THAT_BURN)
-                .addTag(ModTags.Items.SHROOMWOOD_LOGS_ITEM_TAG,
-                        ModTags.Items.BLUE_SHROOMWOOD_LOGS_ITEM_TAG,
-                        ModTags.Items.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG,
-                        ModTags.Items.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG);
-        this.tag(ModTags.Items.SHROOMWOOD_LOGS_ITEM_TAG)
+                .addTag(ModTags.Items.SHROOMWOOD_LOGS,
+                        ModTags.Items.BLUE_SHROOMWOOD_LOGS,
+                        ModTags.Items.ORANGE_SHROOMWOOD_LOGS,
+                        ModTags.Items.PURPLE_SHROOMWOOD_LOGS);
+        this.tag(ModTags.Items.SHROOMWOOD_LOGS)
                 .add(ModItems.STRIPPED_MUSHROOM_STEM, ModItems.STRIPPED_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Items.BLUE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.Items.BLUE_SHROOMWOOD_LOGS)
                 .add(ModItems.STRIPPED_BLUE_MUSHROOM_STEM, ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Items.ORANGE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.Items.ORANGE_SHROOMWOOD_LOGS)
                 .add(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM, ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE);
-        this.tag(ModTags.Items.PURPLE_SHROOMWOOD_LOGS_ITEM_TAG)
+        this.tag(ModTags.Items.PURPLE_SHROOMWOOD_LOGS)
                 .add(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM, ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE);
         this.tag(ItemTags.FISHES).add(ModItems.SHROOMFIN, ModItems.COOKED_SHROOMFIN);
         this.tag(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN, ModItems.COOKED_SHROOMFIN);
-        this.tag(ModTags.Items.MUSHROOMS_ITEM_TAG)
+        this.tag(ModTags.Items.MUSHROOMS)
                 .add(BlockItemIds.BROWN_MUSHROOM.item(),
                         BlockItemIds.RED_MUSHROOM.item(),
                         BlockItemIds.CRIMSON_FUNGUS.item(),

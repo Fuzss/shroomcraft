@@ -1,0 +1,7 @@
+{
+  "asset_id": "shroomcraft:entity/mooshroom/mooshroom_crimson",
+  "baby_asset_id": "shroomcraft:entity/mooshroom/mooshroom_crimson_baby",
+  "biomes": "minecraft:crimson_forest",
+  "carried_block": "minecraft:crimson_fungus",
+  "shearing_loot_table": "shroomcraft:shearing/mooshroom/crimson"
+}

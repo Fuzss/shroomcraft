@@ -1,5 +1,6 @@
 {
   "asset_id": "shroomcraft:entity/cluckshroom/cluckshroom_brown",
+  "baby_asset_id": "shroomcraft:entity/cluckshroom/cluckshroom_brown_baby",
   "carried_block": "minecraft:brown_mushroom",
   "shearing_loot_table": "shroomcraft:shearing/cluckshroom/brown"
 }

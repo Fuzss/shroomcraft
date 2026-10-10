@@ -1,0 +1,6 @@
+{
+  "asset_id": "shroomcraft:entity/mooshroom/mooshroom_blue",
+  "baby_asset_id": "shroomcraft:entity/mooshroom/mooshroom_blue_baby",
+  "carried_block": "shroomcraft:blue_mushroom",
+  "shearing_loot_table": "shroomcraft:shearing/mooshroom/blue"
+}

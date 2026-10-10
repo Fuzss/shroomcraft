@@ -18,11 +18,11 @@ import java.util.Map;
 
 public class MooshroomRenderer extends AgeableMobRenderer<Mooshroom, MooshroomRenderState, CowModel> {
     private static final Map<MooshroomVariant, Identifier> TEXTURES = ImmutableMap.<MooshroomVariant, Identifier>builder()
-            .put(MooshroomVariant.BLUE, Shroomcraft.id("textures/entity/cow/blue_mooshroom.png"))
-            .put(MooshroomVariant.ORANGE, Shroomcraft.id("textures/entity/cow/orange_mooshroom.png"))
-            .put(MooshroomVariant.PURPLE, Shroomcraft.id("textures/entity/cow/purple_mooshroom.png"))
-            .put(MooshroomVariant.CRIMSON, Shroomcraft.id("textures/entity/cow/crimson_mooshroom.png"))
-            .put(MooshroomVariant.WARPED, Shroomcraft.id("textures/entity/cow/warped_mooshroom.png"))
+            .put(MooshroomVariant.BLUE, Shroomcraft.id("textures/entity/mooshroom/blue_mooshroom.png"))
+            .put(MooshroomVariant.ORANGE, Shroomcraft.id("textures/entity/mooshroom/orange_mooshroom.png"))
+            .put(MooshroomVariant.PURPLE, Shroomcraft.id("textures/entity/mooshroom/purple_mooshroom.png"))
+            .put(MooshroomVariant.CRIMSON, Shroomcraft.id("textures/entity/mooshroom/crimson_mooshroom.png"))
+            .put(MooshroomVariant.WARPED, Shroomcraft.id("textures/entity/mooshroom/warped_mooshroom.png"))
             .build();
 
     private final BlockModelResolver blockModelResolver;

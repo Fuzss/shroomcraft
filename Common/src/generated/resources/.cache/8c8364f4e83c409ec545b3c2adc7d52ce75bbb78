@@ -1,4 +1,4 @@
-// 26.3	2026-09-28T19:02:24.341606	Tags for minecraft:item mod id vanilla
+// 26.3	2026-10-10T12:06:56.073921	Tags for minecraft:item mod id vanilla
 79c0f9ca27ac03e80158b4a106853ccac90b6801 data/c/tags/item/buckets/entity_water.json
 9fd274adfac6eabbb9f2d591fc815e8357a25fe6 data/c/tags/item/natural_logs.json
 67082649512ab0aae01464850021dcd0689fa805 data/c/tags/item/stripped_logs.json
@@ -9,6 +9,7 @@ e7d43edd8f6b80a45c746fd51aedf1e3030f492d data/minecraft/tags/item/fence_gates.js
 1f679a210be292ec03fb4fd83e97ad4b5dc3eb71 data/minecraft/tags/item/fishes.json
 beb44a791b5f081c80682357551b350cf1a59c9f data/minecraft/tags/item/hanging_signs.json
 b018dff3bfaa5429e712bef7e2cb2b1047374924 data/minecraft/tags/item/logs_that_burn.json
+18a23d7f7336037e027c42e34eeeb56f36647ac7 data/minecraft/tags/item/mushrooms.json
 541b419cdafcf1202b33140bde30561a1ed69b9b data/minecraft/tags/item/planks.json
 181f7b3005321b55a94006fa20c87c469a7ca188 data/minecraft/tags/item/signs.json
 1f679a210be292ec03fb4fd83e97ad4b5dc3eb71 data/minecraft/tags/item/wolf_food.json
@@ -21,7 +22,6 @@ b700f8b03cabbdb1ec444a3d7376843611d2d006 data/minecraft/tags/item/wooden_shelves
 c6e69d6953dda60ad28c9dcf355b98994843e2ec data/minecraft/tags/item/wooden_stairs.json
 22c5d97fb8be61deaa8fb413a16de7ae79672e5f data/minecraft/tags/item/wooden_trapdoors.json
 1f8ce3dcb2df8a364b569b9ac5aa81176eb48bf9 data/shroomcraft/tags/item/blue_shroomwood_logs.json
-369cb20c7073b98f09da2f8c529b1286ffe84f2d data/shroomcraft/tags/item/mushrooms.json
 5f8bb525b7ec5dcc7177c5e468307dfb6fe610a4 data/shroomcraft/tags/item/orange_shroomwood_logs.json
 192fa96be1427b854512866039db259a0ca38166 data/shroomcraft/tags/item/purple_shroomwood_logs.json
 a8654ec12a4e91eda4db4645d71b896eaa148e76 data/shroomcraft/tags/item/shroomwood_logs.json

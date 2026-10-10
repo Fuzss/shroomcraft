@@ -1,5 +1,5 @@
 {
-  "asset_id": "shroomcraft:entity/cluckshroom/crimson_cluckshroom",
+  "asset_id": "shroomcraft:entity/cluckshroom/cluckshroom_crimson",
   "biomes": "minecraft:crimson_forest",
   "carried_block": "minecraft:crimson_fungus",
   "shearing_loot_table": "shroomcraft:shearing/cluckshroom/crimson"

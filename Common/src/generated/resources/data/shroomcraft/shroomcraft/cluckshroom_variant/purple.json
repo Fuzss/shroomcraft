@@ -1,5 +1,5 @@
 {
-  "asset_id": "shroomcraft:entity/cluckshroom/purple_cluckshroom",
+  "asset_id": "shroomcraft:entity/cluckshroom/cluckshroom_purple",
   "carried_block": "shroomcraft:purple_mushroom",
   "shearing_loot_table": "shroomcraft:shearing/cluckshroom/purple"
 }

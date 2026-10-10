@@ -11,6 +11,8 @@ import fuzs.shroomcraft.common.client.renderer.entity.MooshroomRenderer;
 import fuzs.shroomcraft.common.client.renderer.entity.ShroomfinRenderer;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModEntityTypes;
+import net.minecraft.client.model.animal.chicken.AdultChickenModel;
+import net.minecraft.client.model.animal.chicken.BabyChickenModel;
 import net.minecraft.client.model.animal.cow.BabyCowModel;
 import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.model.object.boat.BoatModel;
@@ -53,8 +55,7 @@ public class ShroomcraftClient implements ClientModConstructor {
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM, CowModel::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.MOOSHROOM_BABY, BabyCowModel::createBodyLayer);
         context.registerLayerDefinition(ModModelLayers.SHROOMFIN, ShroomfinModel::createBodyLayer);
-        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, CluckshroomRenderer::createBodyLayer);
-        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM_BABY,
-                () -> CluckshroomRenderer.createBodyLayer().apply(CluckshroomRenderer.BABY_TRANSFORMER));
+        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM, AdultChickenModel::createBodyLayer);
+        context.registerLayerDefinition(ModModelLayers.CLUCKSHROOM_BABY, BabyChickenModel::createBodyLayer);
     }
 }

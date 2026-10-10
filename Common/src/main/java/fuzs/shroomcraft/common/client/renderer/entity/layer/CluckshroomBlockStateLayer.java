@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import fuzs.shroomcraft.common.client.renderer.entity.state.CluckshroomRenderState;
 import net.minecraft.client.model.animal.chicken.AdultChickenModel;
+import net.minecraft.client.model.animal.chicken.ChickenModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -15,9 +16,9 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
  *
  * @see net.minecraft.client.renderer.entity.layers.MushroomCowMushroomLayer
  */
-public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderState, AdultChickenModel> {
+public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderState, ChickenModel> {
 
-    public CluckshroomBlockStateLayer(RenderLayerParent<CluckshroomRenderState, AdultChickenModel> renderer) {
+    public CluckshroomBlockStateLayer(RenderLayerParent<CluckshroomRenderState, ChickenModel> renderer) {
         super(renderer);
     }
 
@@ -41,7 +42,7 @@ public class CluckshroomBlockStateLayer extends RenderLayer<CluckshroomRenderSta
                         packedOverlay);
                 poseStack.popPose();
                 poseStack.pushPose();
-                this.getParentModel().head.translateAndRotate(poseStack);
+                ((AdultChickenModel) this.getParentModel()).head.translateAndRotate(poseStack);
                 poseStack.translate(0.03F, -0.6F, -0.03F);
                 poseStack.rotate(Axis.YP.rotationDegrees(-48.0F));
                 poseStack.scale(-0.5F, -0.5F, 0.5F);

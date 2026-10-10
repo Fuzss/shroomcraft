@@ -19,7 +19,7 @@ public class ModEntityTypeTagsProvider extends AbstractTagsProvider<EntityType<?
     @Override
     public void addTags(HolderLookup.Provider registries) {
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            this.generateFor(blockSetFamily.getEntityVariants(), VARIANT_ENTITY_TYPE_TAGS);
+            this.generateFor(blockSetFamily.getGeneratedEntityVariants(), VARIANT_ENTITY_TYPE_TAGS);
         });
         this.tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS).add(ModEntityTypes.SHROOMFIN);
         this.tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER).add(ModEntityTypes.SHROOMFIN);

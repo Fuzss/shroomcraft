@@ -5,14 +5,18 @@ import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.puzzleslib.common.api.init.v3.registry.RegistryManager;
 import net.minecraft.core.Holder;
 import net.minecraft.data.BlockFamily;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.stream.Stream;
 
 public class ModBlockFamilies {
     public static final BlockSetFamily SHROOMWOOD = wooden(ModRegistry.REGISTRIES,
             ModBlocks.SHROOMWOOD_PLANKS,
-            "shroomwood").registerBlock(BlockSetVariant.STRIPPED_LOG, ModBlocks.STRIPPED_MUSHROOM_STEM)
+            "shroomwood").provideBlock(BlockSetVariant.LOG, Blocks.MUSHROOM_STEM.builtInRegistryHolder())
+            .provideItem(BlockSetVariant.LOG, Items.MUSHROOM_STEM.builtInRegistryHolder())
+            .registerBlock(BlockSetVariant.STRIPPED_LOG, ModBlocks.STRIPPED_MUSHROOM_STEM)
             .registerItem(BlockSetVariant.STRIPPED_LOG, ModItems.STRIPPED_MUSHROOM_STEM)
             .registerBlock(BlockSetVariant.STRIPPED_WOOD, ModBlocks.STRIPPED_MUSHROOM_HYPHAE)
             .registerItem(BlockSetVariant.STRIPPED_WOOD, ModItems.STRIPPED_MUSHROOM_HYPHAE);

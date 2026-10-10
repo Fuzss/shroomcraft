@@ -25,7 +25,7 @@ public class ModItemTagsProvider extends AbstractTagsProvider<Item> {
                         ModItems.ORANGE_SHROOMWOOD_PLANKS,
                         ModItems.PURPLE_SHROOMWOOD_PLANKS);
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            this.generateFor(blockSetFamily.getItemVariants(), VARIANT_WOODEN_ITEM_TAGS);
+            this.generateFor(blockSetFamily.getGeneratedItemVariants(), VARIANT_WOODEN_ITEM_TAGS);
         });
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .addTag(ModTags.Items.SHROOMWOOD_LOGS,

@@ -27,7 +27,7 @@ public class ModBlockTagsProvider extends AbstractTagsProvider<Block> {
                         ModBlocks.ORANGE_SHROOMWOOD_PLANKS,
                         ModBlocks.PURPLE_SHROOMWOOD_PLANKS);
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            this.generateFor(blockSetFamily.getBlockVariants(), VARIANT_WOODEN_BLOCK_TAGS);
+            this.generateFor(blockSetFamily.getGeneratedBlockVariants(), VARIANT_WOODEN_BLOCK_TAGS);
         });
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.BLUE_MUSHROOM, ModBlocks.ORANGE_MUSHROOM, ModBlocks.PURPLE_MUSHROOM)

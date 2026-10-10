@@ -23,17 +23,13 @@ public class ModItems {
             .saturationModifier(0.6F)
             .build();
 
-    public static final Holder.Reference<Item> BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.BLUE_MUSHROOM,
+    public static final Holder.Reference<Item> BLUE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.BLUE_MUSHROOM,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
-    public static final Holder.Reference<Item> ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.ORANGE_MUSHROOM,
+    public static final Holder.Reference<Item> ORANGE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.ORANGE_MUSHROOM,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
-    public static final Holder.Reference<Item> PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.PURPLE_MUSHROOM,
+    public static final Holder.Reference<Item> PURPLE_MUSHROOM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.PURPLE_MUSHROOM,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
-    public static final Holder.Reference<Item> BLUE_MUSHROOM_BLOCK = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.BLUE_MUSHROOM_BLOCK,
+    public static final Holder.Reference<Item> BLUE_MUSHROOM_BLOCK = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.BLUE_MUSHROOM_BLOCK,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH));
     public static final Holder.Reference<Item> ORANGE_MUSHROOM_BLOCK = ModRegistry.REGISTRIES.registerBlockItem(
             ModBlocks.ORANGE_MUSHROOM_BLOCK,
@@ -41,14 +37,11 @@ public class ModItems {
     public static final Holder.Reference<Item> PURPLE_MUSHROOM_BLOCK = ModRegistry.REGISTRIES.registerBlockItem(
             ModBlocks.PURPLE_MUSHROOM_BLOCK,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH));
-    public static final Holder.Reference<Item> BLUE_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.BLUE_MUSHROOM_STEM,
+    public static final Holder.Reference<Item> BLUE_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.BLUE_MUSHROOM_STEM,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
-    public static final Holder.Reference<Item> ORANGE_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.ORANGE_MUSHROOM_STEM,
+    public static final Holder.Reference<Item> ORANGE_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.ORANGE_MUSHROOM_STEM,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
-    public static final Holder.Reference<Item> PURPLE_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.PURPLE_MUSHROOM_STEM,
+    public static final Holder.Reference<Item> PURPLE_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.PURPLE_MUSHROOM_STEM,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
     public static final Holder.Reference<Item> STRIPPED_MUSHROOM_STEM = ModRegistry.REGISTRIES.registerBlockItem(
             ModBlocks.STRIPPED_MUSHROOM_STEM);
@@ -73,11 +66,9 @@ public class ModItems {
             ModBlocks.ORANGE_SHROOMWOOD_PLANKS);
     public static final Holder.Reference<Item> PURPLE_SHROOMWOOD_PLANKS = ModRegistry.REGISTRIES.registerBlockItem(
             ModBlocks.PURPLE_SHROOMWOOD_PLANKS);
-    public static final Holder.Reference<Item> MYCELIAL_GROWTH = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.MYCELIAL_GROWTH,
+    public static final Holder.Reference<Item> MYCELIAL_GROWTH = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.MYCELIAL_GROWTH,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_LOW_MEDIUM));
-    public static final Holder.Reference<Item> MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(
-            ModBlocks.MUSHROOM_SPROUTS,
+    public static final Holder.Reference<Item> MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(ModBlocks.MUSHROOM_SPROUTS,
             () -> new Item.Properties().compostable(ContextIntProviders.COMPOSTABLE_LOW_MEDIUM));
     public static final Holder.Reference<Item> BLUE_MUSHROOM_SPROUTS = ModRegistry.REGISTRIES.registerBlockItem(
             ModBlocks.BLUE_MUSHROOM_SPROUTS,

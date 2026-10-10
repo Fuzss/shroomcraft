@@ -14,25 +14,20 @@ import fuzs.shroomcraft.common.world.entity.animal.chicken.Cluckshroom;
 import fuzs.shroomcraft.common.world.entity.animal.cow.Mooshroom;
 import net.minecraft.advancements.predicates.LocationPredicate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.chicken.Chicken;
 import net.minecraft.world.entity.animal.cow.Cow;
 import net.minecraft.world.entity.animal.fish.AbstractFish;
 import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.item.DispensibleContainerItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -46,15 +41,16 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.UniformContainerBase;
 import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
-import net.minecraft.world.level.storage.loot.providers.number.floats.ContextFloatProviders;
-import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class Shroomcraft implements ModConstructor {
     public static final String MOD_ID = "shroomcraft";
@@ -145,27 +141,24 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterGameplayContent(GameplayContentContext context) {
-        // Fuel values are added automatically based on wooden item tags.
-        context.registerFlammable(ModBlocks.SHROOMWOOD_PLANKS, 5, 20);
-        context.registerFlammable(ModBlocks.BLUE_SHROOMWOOD_PLANKS, 5, 20);
-        context.registerFlammable(ModBlocks.ORANGE_SHROOMWOOD_PLANKS, 5, 20);
-        context.registerFlammable(ModBlocks.PURPLE_SHROOMWOOD_PLANKS, 5, 20);
-        // TODO handle deprecation
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            blockSetFamily.registerFor(context, BlockSetFamily.VARIANT_WOODEN_FLAMMABLE);
+            context.registerFuel(blockSetFamily.getBaseBlock(), ContextIntProviders.COOKING_TIME_WOOD_BLOCKS);
+            context.registerFlammable(blockSetFamily.getBaseBlock(), 5, 20);
+            // We provide the stem blocks as logs, but the vanilla variants are fire-resistant, so we retain that behavior.
+            blockSetFamily.registerFor(context,
+                    filterVariants(BlockSetFamily.VARIANT_WOODEN_COOKING_TIME, Set.of(BlockSetVariant.LOG)),
+                    filterVariants(BlockSetFamily.VARIANT_WOODEN_FLAMMABLE, Set.of(BlockSetVariant.LOG)));
         });
-        context.registerFlammable(ModBlocks.STRIPPED_MUSHROOM_STEM, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_MUSHROOM_HYPHAE, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_BLUE_MUSHROOM_HYPHAE, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_ORANGE_MUSHROOM_HYPHAE, 5, 5);
-        context.registerFlammable(ModBlocks.STRIPPED_PURPLE_MUSHROOM_HYPHAE, 5, 5);
         context.registerStrippable(Blocks.MUSHROOM_STEM.builtInRegistryHolder(), ModBlocks.STRIPPED_MUSHROOM_STEM);
         context.registerStrippable(ModBlocks.BLUE_MUSHROOM_STEM, ModBlocks.STRIPPED_BLUE_MUSHROOM_STEM);
         context.registerStrippable(ModBlocks.ORANGE_MUSHROOM_STEM, ModBlocks.STRIPPED_ORANGE_MUSHROOM_STEM);
         context.registerStrippable(ModBlocks.PURPLE_MUSHROOM_STEM, ModBlocks.STRIPPED_PURPLE_MUSHROOM_STEM);
+    }
+
+    private static <T> Map<BlockSetVariant, T> filterVariants(Map<BlockSetVariant, T> values, Set<BlockSetVariant> skippedVariants) {
+        return values.entrySet().stream().filter((Map.Entry<BlockSetVariant, T> entry) -> {
+            return !skippedVariants.contains(entry.getKey());
+        }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     @Override
@@ -177,49 +170,6 @@ public class Shroomcraft implements ModConstructor {
     @Override
     public void onRegisterBiomeTransformations(BiomeTransformationsContext context) {
         BiomeModificationsHandler.onRegisterBiomeTransformations(context);
-    }
-
-    @Override
-    public void onRegisterItemComponentPatches(ItemComponentsContext context) {
-        ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
-            blockSetFamily.getItemVariants().forEach((BlockSetVariant variant, Holder.Reference<Item> item) -> {
-                ResourceKey<ContextIntProvider> cookingTime = getCookingTime(variant);
-                if (cookingTime != null) {
-                    context.registerItemComponentsPatch(item.value(),
-                            (components, builder, registries, patchedItem) -> {
-                                builder.set(DataComponents.COOKING_FUEL,
-                                        new CookingFuel(cookingTime,
-                                                ContextFloatProviders.COOKING_DEFAULT_SPEED_MULTIPLIER));
-                            });
-                }
-            });
-        });
-    }
-
-    /**
-     * @see net.minecraft.world.item.Items
-     */
-    @Nullable
-    private static ResourceKey<ContextIntProvider> getCookingTime(BlockSetVariant variant) {
-        if (variant == BlockSetVariant.SLAB) {
-            return ContextIntProviders.COOKING_TIME_WOOD_SLABS;
-        } else if (variant == BlockSetVariant.DOOR || variant == BlockSetVariant.SIGN) {
-            return ContextIntProviders.COOKING_TIME_WOOD_ITEMS_LARGE;
-        } else if (variant == BlockSetVariant.BUTTON) {
-            return ContextIntProviders.COOKING_TIME_WOOD_ITEMS_EXTRA_SMALL;
-        } else if (variant == BlockSetVariant.HANGING_SIGN) {
-            return ContextIntProviders.COOKING_TIME_HANGING_SIGNS;
-        } else if (variant == BlockSetVariant.BOAT || variant == BlockSetVariant.CHEST_BOAT) {
-            return ContextIntProviders.COOKING_TIME_BOATS;
-        } else if (variant == BlockSetVariant.LOG || variant == BlockSetVariant.WOOD
-                || variant == BlockSetVariant.STRIPPED_LOG || variant == BlockSetVariant.STRIPPED_WOOD
-                || variant == BlockSetVariant.STAIRS || variant == BlockSetVariant.FENCE
-                || variant == BlockSetVariant.FENCE_GATE || variant == BlockSetVariant.TRAPDOOR
-                || variant == BlockSetVariant.PRESSURE_PLATE || variant == BlockSetVariant.SHELF) {
-            return ContextIntProviders.COOKING_TIME_WOOD_BLOCKS;
-        } else {
-            return null;
-        }
     }
 
     public static Identifier id(String path) {

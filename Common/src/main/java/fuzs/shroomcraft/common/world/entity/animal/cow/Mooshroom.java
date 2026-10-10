@@ -1,12 +1,16 @@
 package fuzs.shroomcraft.common.world.entity.animal.cow;
 
-import fuzs.puzzleslib.common.api.event.v1.core.EventResultHolder;
+import com.mojang.datafixers.util.Either;
 import fuzs.shroomcraft.common.Shroomcraft;
 import fuzs.shroomcraft.common.init.ModDataComponentTypes;
 import fuzs.shroomcraft.common.init.ModEntityDataSerializers;
 import fuzs.shroomcraft.common.init.ModEntityTypes;
+import fuzs.shroomcraft.common.init.ModTags;
+import fuzs.shroomcraft.common.world.entity.animal.MobVariant;
+import fuzs.shroomcraft.common.world.entity.animal.MobVariantUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
@@ -17,16 +21,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Util;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.cow.MushroomCow;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -34,23 +35,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
 public class Mooshroom extends MushroomCow {
-    private static final EntityDataAccessor<MooshroomVariant> DATA_VARIANT_ID = SynchedEntityData.defineId(Mooshroom.class,
-            ModEntityDataSerializers.MUSHROOM_VARIANT.value());
+    private static final EntityDataAccessor<Holder<MobVariant>> DATA_VARIANT_ID = SynchedEntityData.defineId(
+            Mooshroom.class,
+            ModEntityDataSerializers.MOOSHROOM_VARIANT.value());
     private static final Set<EntitySpawnReason> VALID_SPAWN_REASONS = Set.of(EntitySpawnReason.SPAWNER,
             EntitySpawnReason.TRIAL_SPAWNER,
             EntitySpawnReason.SPAWN_ITEM_USE,
@@ -86,57 +85,11 @@ public class Mooshroom extends MushroomCow {
         if (serverLevel.getBiome(blockPos).is(BiomeTags.IS_NETHER)) {
             return true;
         } else {
-            return randomSource.nextInt(MooshroomVariant.OVERWORLD_VARIANTS.size() + 1) != 0;
-        }
-    }
-
-    public static EventResultHolder<InteractionResult> onEntityInteract(Player player, Level level, InteractionHand interactionHand, Entity entity, Vec3 hitVector) {
-        ItemStack itemInHand = player.getItemInHand(interactionHand);
-        if (itemInHand.is(Items.MOOSHROOM_SPAWN_EGG) && entity.isAlive()
-                && entity.getType() == ModEntityTypes.MOOSHROOM.value()) {
-            if (level instanceof ServerLevel serverLevel) {
-                Optional<Mob> optional = spawnOffspringFromSpawnEgg(player,
-                        (Mob) entity,
-                        serverLevel,
-                        entity.position(),
-                        itemInHand);
-                optional.ifPresent((Mob mob) -> {
-                    ((Mooshroom) entity).onOffspringSpawnedFromEgg(player, mob);
-                });
-                if (optional.isEmpty()) {
-                    return EventResultHolder.interrupt(InteractionResult.PASS);
-                } else {
-                    return EventResultHolder.interrupt(InteractionResult.CONSUME);
-                }
-            } else {
-                return EventResultHolder.interrupt(InteractionResult.SUCCESS);
-            }
-        }
-
-        return EventResultHolder.pass();
-    }
-
-    private static Optional<Mob> spawnOffspringFromSpawnEgg(Player player, Mob mob, ServerLevel serverLevel, Vec3 pos, ItemStack stack) {
-        Mob mob2;
-        if (mob instanceof AgeableMob) {
-            mob2 = ((AgeableMob) mob).getBreedOffspring(serverLevel, (AgeableMob) mob);
-        } else {
-            mob2 = null;
-        }
-
-        if (mob2 == null) {
-            return Optional.empty();
-        } else {
-            mob2.setBaby(true);
-            if (!mob2.isBaby()) {
-                return Optional.empty();
-            } else {
-                mob2.snapTo(pos.x(), pos.y(), pos.z(), 0.0F, 0.0F);
-                serverLevel.addFreshEntityWithPassengers(mob2);
-                mob2.setCustomName(stack.get(DataComponents.CUSTOM_NAME));
-                stack.consume(1, player);
-                return Optional.of(mob2);
-            }
+            int mooshroomVariants = serverLevel.registryAccess()
+                    .lookupOrThrow(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY)
+                    .size();
+            int vanillaVariants = MushroomCow.Variant.values().length;
+            return randomSource.nextFloat() < mooshroomVariants / (float) (mooshroomVariants + vanillaVariants);
         }
     }
 
@@ -152,14 +105,22 @@ public class Mooshroom extends MushroomCow {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_VARIANT_ID, MooshroomVariant.BLUE);
+        Registry<MobVariant> registry = this.registryAccess()
+                .lookupOrThrow(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY);
+        builder.define(DATA_VARIANT_ID, registry.getAny().orElseThrow());
     }
 
     @Override
     public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {
         UUID uuid = lightningBolt.getUUID();
         if (!uuid.equals(this.lastLightningBoltUUID)) {
-            this.setCustomVariant(this.getCustomVariant().apply(1));
+            Registry<MobVariant> registry = this.registryAccess()
+                    .lookupOrThrow(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY);
+            Holder<MobVariant> currentVariant = this.getBlockVariant();
+            TagKey<MobVariant> groupTag = currentVariant.is(ModTags.MooshroomVariants.NETHER_SPAWNS) ?
+                    ModTags.MooshroomVariants.NETHER_SPAWNS :
+                    ModTags.MooshroomVariants.DEFAULT_SPAWNS;
+            this.setBlockVariant(MobVariantUtil.getNextVariant(registry, currentVariant, groupTag));
             this.lastLightningBoltUUID = uuid;
             this.playSound(SoundEvents.MOOSHROOM_CONVERT, 2.0F, 1.0F);
         }
@@ -167,40 +128,29 @@ public class Mooshroom extends MushroomCow {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
-        MooshroomVariant variant;
-        if (spawnGroupData instanceof MooshroomGroupData mooshroomGroupData) {
-            variant = mooshroomGroupData.variant;
+        Holder<MobVariant> variant;
+        if (spawnGroupData instanceof MobVariantUtil.VariantGroupData variantGroupData) {
+            variant = variantGroupData.variant;
         } else {
-            variant = getRandomVariant(level, this.blockPosition());
-            spawnGroupData = new MooshroomGroupData(variant);
+            Holder<Biome> biome = level.getBiome(this.blockPosition());
+            variant = MobVariantUtil.getSpawnVariant(this.registryAccess()
+                    .lookupOrThrow(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY), biome, getFallbackTag(biome), level.getRandom());
+            spawnGroupData = new MobVariantUtil.VariantGroupData(variant);
         }
 
-        this.setCustomVariant(variant);
+        this.setBlockVariant(variant);
         return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
     }
 
-    private static MooshroomVariant getRandomVariant(LevelAccessor level, BlockPos pos) {
-        Holder<Biome> holder = level.getBiome(pos);
-        if (holder.is(Biomes.CRIMSON_FOREST)) {
-            return MooshroomVariant.CRIMSON;
-        } else if (holder.is(Biomes.WARPED_FOREST)) {
-            return MooshroomVariant.WARPED;
-        } else {
-            List<MooshroomVariant> variants;
-            if (holder.is(BiomeTags.IS_NETHER)) {
-                variants = MooshroomVariant.NETHER_VARIANTS;
-            } else {
-                variants = MooshroomVariant.OVERWORLD_VARIANTS;
-            }
-
-            return Util.getRandom(variants, level.getRandom());
-        }
+    private static TagKey<MobVariant> getFallbackTag(Holder<Biome> biome) {
+        return biome.is(BiomeTags.IS_NETHER) ? ModTags.MooshroomVariants.NETHER_SPAWNS :
+                ModTags.MooshroomVariants.DEFAULT_SPAWNS;
     }
 
     @Override
     protected void dropFromShearingLootTable(ServerLevel level, ResourceKey<LootTable> key, ItemInstance tool, BiConsumer<ServerLevel, ItemStack> consumer) {
         super.dropFromShearingLootTable(level,
-                key == BuiltInLootTables.SHEAR_MOOSHROOM ? this.getCustomVariant().shearingLoot : key,
+                key == BuiltInLootTables.SHEAR_MOOSHROOM ? this.getBlockVariant().value().shearingLootTable() : key,
                 tool,
                 consumer);
     }
@@ -209,13 +159,16 @@ public class Mooshroom extends MushroomCow {
     protected void addAdditionalSaveData(ValueOutput valueOutput) {
         super.addAdditionalSaveData(valueOutput);
         valueOutput.discard("Type");
-        valueOutput.store(Shroomcraft.id("variant").toString(), MooshroomVariant.CODEC, this.getCustomVariant());
+        valueOutput.store(Shroomcraft.id("variant").toString(),
+                MobVariant.codec(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY),
+                this.getBlockVariant());
     }
 
     @Override
     protected void readAdditionalSaveData(ValueInput valueInput) {
         super.readAdditionalSaveData(valueInput);
-        valueInput.read(Shroomcraft.id("variant").toString(), MooshroomVariant.CODEC).ifPresent(this::setCustomVariant);
+        valueInput.read(Shroomcraft.id("variant").toString(),
+                MobVariant.codec(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY)).ifPresent(this::setBlockVariant);
     }
 
     @Override
@@ -223,20 +176,24 @@ public class Mooshroom extends MushroomCow {
         return MushroomCow.Variant.RED;
     }
 
-    public void setCustomVariant(MooshroomVariant colorVariant) {
-        this.entityData.set(DATA_VARIANT_ID, colorVariant);
+    public void setBlockVariant(Holder<MobVariant> variant) {
+        this.entityData.set(DATA_VARIANT_ID, variant);
     }
 
-    public MooshroomVariant getCustomVariant() {
+    public Holder<MobVariant> getBlockVariant() {
         return this.entityData.get(DATA_VARIANT_ID);
     }
 
     @Nullable
     @Override
     public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        return dataComponentType == ModDataComponentTypes.MOOSHROOM_VARIANT.value() ?
-                castComponentValue((DataComponentType<T>) dataComponentType, this.getCustomVariant()) :
-                super.get(dataComponentType);
+        if (dataComponentType == ModDataComponentTypes.MOOSHROOM_VARIANT.value()) {
+            return castComponentValue((DataComponentType<T>) dataComponentType, Either.right(this.getBlockVariant()));
+        } else if (dataComponentType == DataComponents.MOOSHROOM_VARIANT) {
+            return null;
+        } else {
+            return super.get(dataComponentType);
+        }
     }
 
     @Override
@@ -249,9 +206,16 @@ public class Mooshroom extends MushroomCow {
     @Override
     protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
         if (dataComponentType == ModDataComponentTypes.MOOSHROOM_VARIANT.value()) {
-            this.setCustomVariant(castComponentValue(ModDataComponentTypes.MOOSHROOM_VARIANT.value(),
-                    object));
-            return true;
+            Optional<Holder<MobVariant>> optional = castComponentValue(ModDataComponentTypes.MOOSHROOM_VARIANT.value(),
+                    object).right();
+            if (optional.isPresent()) {
+                this.setBlockVariant(optional.get());
+                return true;
+            } else {
+                return false;
+            }
+        } else if (dataComponentType == DataComponents.MOOSHROOM_VARIANT) {
+            return false;
         } else {
             return super.applyImplicitComponent(dataComponentType, object);
         }
@@ -262,7 +226,7 @@ public class Mooshroom extends MushroomCow {
     public MushroomCow getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         Mooshroom mooshroom = (Mooshroom) this.getType().create(level, EntitySpawnReason.BREEDING);
         if (mooshroom != null) {
-            mooshroom.setCustomVariant(this.getCustomVariant());
+            mooshroom.setBlockVariant(this.getBlockVariant());
         }
 
         return mooshroom;
@@ -279,15 +243,6 @@ public class Mooshroom extends MushroomCow {
             return false;
         } else {
             return otherAnimal instanceof MushroomCow && this.isInLove() && otherAnimal.isInLove();
-        }
-    }
-
-    static class MooshroomGroupData extends AgeableMob.AgeableMobGroupData {
-        public final MooshroomVariant variant;
-
-        MooshroomGroupData(MooshroomVariant variant) {
-            super(true);
-            this.variant = variant;
         }
     }
 }

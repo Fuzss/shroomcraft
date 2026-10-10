@@ -2,15 +2,14 @@ package fuzs.shroomcraft.common.world.entity.animal.chicken;
 
 import fuzs.puzzleslib.common.api.util.v1.EntityHelper;
 import fuzs.shroomcraft.common.Shroomcraft;
-import fuzs.shroomcraft.common.init.CluckshroomVariants;
 import fuzs.shroomcraft.common.init.ModDataComponentTypes;
 import fuzs.shroomcraft.common.init.ModEntityDataSerializers;
 import fuzs.shroomcraft.common.init.ModTags;
-import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
+import fuzs.shroomcraft.common.world.entity.animal.MobVariant;
+import fuzs.shroomcraft.common.world.entity.animal.MobVariantUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleTypes;
@@ -45,12 +44,10 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 public class Cluckshroom extends Chicken implements Shearable {
-    private static final EntityDataAccessor<Holder<MobBlockVariant>> DATA_VARIANT_ID = SynchedEntityData.defineId(
+    private static final EntityDataAccessor<Holder<MobVariant>> DATA_VARIANT_ID = SynchedEntityData.defineId(
             Cluckshroom.class,
             ModEntityDataSerializers.CLUCKSHROOM_VARIANT.value());
 
@@ -76,10 +73,9 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        Registry<MobBlockVariant> registry = this.registryAccess()
-                .lookupOrThrow(CluckshroomVariants.REGISTRY_KEY);
-        builder.define(DATA_VARIANT_ID,
-                registry.get(CluckshroomVariants.RED).or(registry::getAny).orElseThrow());
+        Registry<MobVariant> registry = this.registryAccess()
+                .lookupOrThrow(fuzs.shroomcraft.common.init.CluckshroomVariants.REGISTRY_KEY);
+        builder.define(DATA_VARIANT_ID, registry.getAny().orElseThrow());
     }
 
     @Override
@@ -115,49 +111,36 @@ public class Cluckshroom extends Chicken implements Shearable {
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
-        Holder<MobBlockVariant> variant;
-        if (spawnGroupData instanceof MobBlockVariantGroupData mobBlockVariantGroupData) {
-            variant = mobBlockVariantGroupData.variant;
+        Holder<MobVariant> variant;
+        if (spawnGroupData instanceof MobVariantUtil.VariantGroupData variantGroupData) {
+            variant = variantGroupData.variant;
         } else {
             Holder<Biome> biome = level.getBiome(this.blockPosition());
-            variant = getSpawnVariant(this.registryAccess(), biome);
-            spawnGroupData = new MobBlockVariantGroupData(variant);
+            variant = MobVariantUtil.getSpawnVariant(this.registryAccess()
+                    .lookupOrThrow(fuzs.shroomcraft.common.init.CluckshroomVariants.REGISTRY_KEY), biome, getFallbackTag(biome), level.getRandom());
+            spawnGroupData = new MobVariantUtil.VariantGroupData(variant);
         }
 
         this.setBlockVariant(variant);
         return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
     }
 
-    public static Holder<MobBlockVariant> getSpawnVariant(RegistryAccess registryAccess, Holder<Biome> biome) {
-        Registry<MobBlockVariant> registry = registryAccess.lookupOrThrow(CluckshroomVariants.REGISTRY_KEY);
-        return getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
-            return holder.value().biomes().contains(biome);
-        }).or(() -> getRandomSpawnVariant(registry, (Holder<MobBlockVariant> holder) -> {
-            TagKey<MobBlockVariant> tagKey =
-                    biome.is(BiomeTags.IS_NETHER) ? ModTags.MobBlockVariants.NETHER_SPAWNS_CLUCKSHROOM :
-                            ModTags.MobBlockVariants.DEFAULT_SPAWNS_CLUCKSHROOM;
-            return holder.is(tagKey);
-        })).or(() -> registry.get(CluckshroomVariants.RED)).or(registry::getAny).orElseThrow();
-    }
-
-    static Optional<Holder<MobBlockVariant>> getRandomSpawnVariant(Registry<MobBlockVariant> registry, Predicate<Holder<MobBlockVariant>> filter) {
-        return Optional.ofNullable(registry.listElements()
-                .filter(filter)
-                .collect(Collectors.collectingAndThen(Collectors.toCollection(ArrayList::new),
-                        (List<Holder.Reference<MobBlockVariant>> list) -> {
-                            Collections.shuffle(list);
-                            return !list.isEmpty() ? list.getFirst() : null;
-                        })));
+    private static TagKey<MobVariant> getFallbackTag(Holder<Biome> biome) {
+        return biome.is(BiomeTags.IS_NETHER) ? ModTags.CluckshroomVariants.NETHER_SPAWNS :
+                ModTags.CluckshroomVariants.DEFAULT_SPAWNS;
     }
 
     @Override
     public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {
         UUID uuid = lightningBolt.getUUID();
         if (!uuid.equals(this.lastLightningBoltUUID)) {
-            Registry<MobBlockVariant> registry = this.registryAccess()
-                    .lookupOrThrow(CluckshroomVariants.REGISTRY_KEY);
-            int newIndex = (registry.getIdOrThrow(this.getBlockVariant().value()) + 1) % registry.size();
-            this.setBlockVariant(registry.get(newIndex).orElseThrow(NoSuchElementException::new));
+            Registry<MobVariant> registry = this.registryAccess()
+                    .lookupOrThrow(fuzs.shroomcraft.common.init.CluckshroomVariants.REGISTRY_KEY);
+            Holder<MobVariant> currentVariant = this.getBlockVariant();
+            TagKey<MobVariant> groupTag = currentVariant.is(ModTags.CluckshroomVariants.NETHER_SPAWNS) ?
+                    ModTags.CluckshroomVariants.NETHER_SPAWNS :
+                    ModTags.CluckshroomVariants.DEFAULT_SPAWNS;
+            this.setBlockVariant(MobVariantUtil.getNextVariant(registry, currentVariant, groupTag));
             this.lastLightningBoltUUID = uuid;
             this.playSound(SoundEvents.MOOSHROOM_CONVERT, 2.0F, 1.0F);
         }
@@ -196,11 +179,11 @@ public class Cluckshroom extends Chicken implements Shearable {
         return this.isAlive() && !this.isBaby();
     }
 
-    public void setBlockVariant(Holder<MobBlockVariant> variant) {
+    public void setBlockVariant(Holder<MobVariant> variant) {
         this.entityData.set(DATA_VARIANT_ID, variant);
     }
 
-    public Holder<MobBlockVariant> getBlockVariant() {
+    public Holder<MobVariant> getBlockVariant() {
         return this.entityData.get(DATA_VARIANT_ID);
     }
 
@@ -208,7 +191,7 @@ public class Cluckshroom extends Chicken implements Shearable {
     protected void addAdditionalSaveData(ValueOutput valueOutput) {
         super.addAdditionalSaveData(valueOutput);
         valueOutput.store(Shroomcraft.id("variant").toString(),
-                MobBlockVariant.codec(CluckshroomVariants.REGISTRY_KEY),
+                MobVariant.codec(fuzs.shroomcraft.common.init.CluckshroomVariants.REGISTRY_KEY),
                 this.getBlockVariant());
     }
 
@@ -216,13 +199,13 @@ public class Cluckshroom extends Chicken implements Shearable {
     protected void readAdditionalSaveData(ValueInput valueInput) {
         super.readAdditionalSaveData(valueInput);
         valueInput.read(Shroomcraft.id("variant").toString(),
-                MobBlockVariant.codec(CluckshroomVariants.REGISTRY_KEY)).ifPresent(this::setBlockVariant);
+                MobVariant.codec(fuzs.shroomcraft.common.init.CluckshroomVariants.REGISTRY_KEY)).ifPresent(this::setBlockVariant);
     }
 
     @Nullable
     @Override
     public <T> T get(DataComponentType<? extends T> dataComponentType) {
-        if (dataComponentType == ModDataComponentTypes.MOB_BLOCK_VARIANT.value()) {
+        if (dataComponentType == ModDataComponentTypes.CLUCKSHROOM_VARIANT.value()) {
             return castComponentValue((DataComponentType<T>) dataComponentType, this.getBlockVariant());
         } else {
             return super.get(dataComponentType);
@@ -232,14 +215,14 @@ public class Cluckshroom extends Chicken implements Shearable {
     @Override
     protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
         this.applyImplicitComponentIfPresent(dataComponentGetter,
-                ModDataComponentTypes.MOB_BLOCK_VARIANT.value());
+                ModDataComponentTypes.CLUCKSHROOM_VARIANT.value());
         super.applyImplicitComponents(dataComponentGetter);
     }
 
     @Override
     protected <T> boolean applyImplicitComponent(DataComponentType<T> dataComponentType, T object) {
-        if (dataComponentType == ModDataComponentTypes.MOB_BLOCK_VARIANT.value()) {
-            this.setBlockVariant(castComponentValue(ModDataComponentTypes.MOB_BLOCK_VARIANT.value(), object));
+        if (dataComponentType == ModDataComponentTypes.CLUCKSHROOM_VARIANT.value()) {
+            this.setBlockVariant(castComponentValue(ModDataComponentTypes.CLUCKSHROOM_VARIANT.value(), object));
             return true;
         } else {
             return super.applyImplicitComponent(dataComponentType, object);
@@ -255,19 +238,6 @@ public class Cluckshroom extends Chicken implements Shearable {
         }
 
         return cluckshroom;
-    }
-
-    public static class MobBlockVariantGroupData extends AgeableMob.AgeableMobGroupData {
-        public final Holder<MobBlockVariant> variant;
-
-        public MobBlockVariantGroupData(Holder<MobBlockVariant> variant) {
-            this(variant, true);
-        }
-
-        public MobBlockVariantGroupData(Holder<MobBlockVariant> variant, boolean shouldSpawnBaby) {
-            super(shouldSpawnBaby);
-            this.variant = variant;
-        }
     }
 
     public static class CluckshroomRandomStrollGoal extends WaterAvoidingRandomStrollGoal {

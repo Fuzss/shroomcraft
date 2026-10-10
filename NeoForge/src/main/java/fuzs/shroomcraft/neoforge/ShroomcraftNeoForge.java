@@ -11,9 +11,11 @@ import fuzs.shroomcraft.common.data.tags.ModBlockTagsProvider;
 import fuzs.shroomcraft.common.data.tags.ModCluckshroomVariantTagsProvider;
 import fuzs.shroomcraft.common.data.tags.ModEntityTypeTagsProvider;
 import fuzs.shroomcraft.common.data.tags.ModItemTagsProvider;
+import fuzs.shroomcraft.common.data.tags.ModMooshroomVariantTagsProvider;
 import fuzs.shroomcraft.common.init.CluckshroomVariants;
 import fuzs.shroomcraft.common.init.ModFeatures;
 import fuzs.shroomcraft.common.init.ModPlacedFeatures;
+import fuzs.shroomcraft.common.init.MooshroomVariants;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.fml.common.Mod;
@@ -25,12 +27,14 @@ public class ShroomcraftNeoForge {
         ModConstructor.construct(Shroomcraft.MOD_ID, Shroomcraft::new);
         DataProviderBuilder.of(Shroomcraft.MOD_ID)
                 .addWorldBootstrap(CluckshroomVariants.REGISTRY_KEY, CluckshroomVariants::bootstrap)
+                .addWorldBootstrap(MooshroomVariants.REGISTRY_KEY, MooshroomVariants::bootstrap)
                 .addWorldBootstrap(Registries.FEATURE, ModFeatures::bootstrap)
                 .addWorldBootstrap(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
                 .addProvider(ModBlockTagsProvider::new,
                         ModItemTagsProvider::new,
                         ModEntityTypeTagsProvider::new,
-                        ModCluckshroomVariantTagsProvider::new)
+                        ModCluckshroomVariantTagsProvider::new,
+                        ModMooshroomVariantTagsProvider::new)
                 .addLootProvider(ModBlockLootProvider::new, LootContextParamSets.BLOCK)
                 .addLootProvider(ModEntityLootProvider::new, LootContextParamSets.ENTITY)
                 .addLootProvider(ModShearingLootProvider::new, LootContextParamSets.SHEARING)

@@ -1,7 +1,7 @@
 package fuzs.shroomcraft.common.init;
 
 import fuzs.shroomcraft.common.Shroomcraft;
-import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
+import fuzs.shroomcraft.common.world.entity.animal.MobVariant;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -37,12 +37,21 @@ public class ModTags {
         }
     }
 
-    public static class MobBlockVariants {
-        public static final TagKey<MobBlockVariant> NETHER_SPAWNS_CLUCKSHROOM = register("nether_spawns");
-        public static final TagKey<MobBlockVariant> DEFAULT_SPAWNS_CLUCKSHROOM = register("default_spawns");
+    public static class MooshroomVariants {
+        public static final TagKey<MobVariant> DEFAULT_SPAWNS = register("default_spawns");
+        public static final TagKey<MobVariant> NETHER_SPAWNS = register("nether_spawns");
 
-        private static TagKey<MobBlockVariant> register(String name) {
-            return TagKey.create(CluckshroomVariants.REGISTRY_KEY, Shroomcraft.id(name));
+        private static TagKey<MobVariant> register(String name) {
+            return TagKey.create(fuzs.shroomcraft.common.init.MooshroomVariants.REGISTRY_KEY, Shroomcraft.id(name));
+        }
+    }
+
+    public static class CluckshroomVariants {
+        public static final TagKey<MobVariant> DEFAULT_SPAWNS = register("default_spawns");
+        public static final TagKey<MobVariant> NETHER_SPAWNS = register("nether_spawns");
+
+        private static TagKey<MobVariant> register(String name) {
+            return TagKey.create(fuzs.shroomcraft.common.init.CluckshroomVariants.REGISTRY_KEY, Shroomcraft.id(name));
         }
     }
 }

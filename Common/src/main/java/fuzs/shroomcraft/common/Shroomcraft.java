@@ -4,13 +4,12 @@ import fuzs.puzzleslib.common.api.core.v1.ModConstructor;
 import fuzs.puzzleslib.common.api.core.v1.context.*;
 import fuzs.puzzleslib.common.api.event.v1.AddBlockEntityTypeBlocksCallback;
 import fuzs.puzzleslib.common.api.event.v1.entity.ServerEntityEvents;
-import fuzs.puzzleslib.common.api.event.v1.entity.player.PlayerInteractEvents;
 import fuzs.puzzleslib.common.api.event.v1.server.LootTableLoadCallback;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.handler.BiomeModificationsHandler;
 import fuzs.shroomcraft.common.init.*;
-import fuzs.shroomcraft.common.world.entity.animal.MobBlockVariant;
+import fuzs.shroomcraft.common.world.entity.animal.MobVariant;
 import fuzs.shroomcraft.common.world.entity.animal.chicken.Cluckshroom;
 import fuzs.shroomcraft.common.world.entity.animal.cow.Mooshroom;
 import net.minecraft.advancements.predicates.LocationPredicate;
@@ -75,7 +74,6 @@ public class Shroomcraft implements ModConstructor {
             });
         });
         ServerEntityEvents.LOAD.register(Mooshroom::onEntityLoad);
-        PlayerInteractEvents.USE_ENTITY.register(Mooshroom::onEntityInteract);
         LootTableLoadCallback.EVENT.register((Identifier identifier, LootTable.Builder lootTable, HolderGetter.@Nullable Provider registries) -> {
             if (BuiltInLootTables.FISHING_FISH.identifier().equals(identifier)) {
                 MutableBoolean mutableBoolean = new MutableBoolean();
@@ -152,6 +150,7 @@ public class Shroomcraft implements ModConstructor {
         context.registerFlammable(ModBlocks.BLUE_SHROOMWOOD_PLANKS, 5, 20);
         context.registerFlammable(ModBlocks.ORANGE_SHROOMWOOD_PLANKS, 5, 20);
         context.registerFlammable(ModBlocks.PURPLE_SHROOMWOOD_PLANKS, 5, 20);
+        // TODO handle deprecation
         ModBlockFamilies.getAllBlockSetFamilies().forEach((BlockSetFamily blockSetFamily) -> {
             blockSetFamily.registerFor(context, BlockSetFamily.VARIANT_WOODEN_FLAMMABLE);
         });
@@ -171,7 +170,8 @@ public class Shroomcraft implements ModConstructor {
 
     @Override
     public void onRegisterDataPackRegistries(DataPackRegistriesContext context) {
-        context.registerSyncedRegistry(CluckshroomVariants.REGISTRY_KEY, MobBlockVariant.DIRECT_CODEC);
+        context.registerSyncedRegistry(CluckshroomVariants.REGISTRY_KEY, MobVariant.DIRECT_CODEC);
+        context.registerSyncedRegistry(MooshroomVariants.REGISTRY_KEY, MobVariant.DIRECT_CODEC);
     }
 
     @Override

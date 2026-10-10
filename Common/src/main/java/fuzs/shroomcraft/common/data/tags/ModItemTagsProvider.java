@@ -8,7 +8,6 @@ import fuzs.shroomcraft.common.init.ModItems;
 import fuzs.shroomcraft.common.init.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.references.BlockItemIds;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 
@@ -33,8 +32,7 @@ public class ModItemTagsProvider extends AbstractTagsProvider<Item> {
                         ModTags.Items.BLUE_SHROOMWOOD_LOGS,
                         ModTags.Items.ORANGE_SHROOMWOOD_LOGS,
                         ModTags.Items.PURPLE_SHROOMWOOD_LOGS);
-        this.tag(ModTags.Items.SHROOMWOOD_LOGS)
-                .add(ModItems.STRIPPED_MUSHROOM_STEM, ModItems.STRIPPED_MUSHROOM_HYPHAE);
+        this.tag(ModTags.Items.SHROOMWOOD_LOGS).add(ModItems.STRIPPED_MUSHROOM_STEM, ModItems.STRIPPED_MUSHROOM_HYPHAE);
         this.tag(ModTags.Items.BLUE_SHROOMWOOD_LOGS)
                 .add(ModItems.STRIPPED_BLUE_MUSHROOM_STEM, ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE);
         this.tag(ModTags.Items.ORANGE_SHROOMWOOD_LOGS)
@@ -43,12 +41,7 @@ public class ModItemTagsProvider extends AbstractTagsProvider<Item> {
                 .add(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM, ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE);
         this.tag(ItemTags.FISHES).add(ModItems.SHROOMFIN, ModItems.COOKED_SHROOMFIN);
         this.tag(ItemTags.WOLF_FOOD).add(ModItems.SHROOMFIN, ModItems.COOKED_SHROOMFIN);
-        this.tag(ModTags.Items.MUSHROOMS)
-                .add(BlockItemIds.BROWN_MUSHROOM.item(),
-                        BlockItemIds.RED_MUSHROOM.item(),
-                        BlockItemIds.CRIMSON_FUNGUS.item(),
-                        BlockItemIds.WARPED_FUNGUS.item())
-                .add(ModItems.BLUE_MUSHROOM, ModItems.ORANGE_MUSHROOM, ModItems.PURPLE_MUSHROOM);
+        this.tag(ItemTags.MUSHROOMS).add(ModItems.BLUE_MUSHROOM, ModItems.ORANGE_MUSHROOM, ModItems.PURPLE_MUSHROOM);
         this.tag("c:buckets/entity_water").add(ModItems.SHROOMFIN_BUCKET);
     }
 }

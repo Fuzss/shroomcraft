@@ -15,8 +15,7 @@ public class ModTags {
         public static final TagKey<Block> SHROOMWOOD_LOGS = register("shroomwood_logs");
         public static final TagKey<Block> SUPPORTS_MUSHROOM_SPROUTS = register("supports_mushroom_sprouts");
         public static final TagKey<Block> SUPPORTS_TINY_MUSHROOM = register("supports_tiny_mushroom");
-        public static final TagKey<Block> HUGE_BLUE_MUSHROOM_CAN_PLACE_ON = register(
-                "huge_blue_mushroom_can_place_on");
+        public static final TagKey<Block> HUGE_BLUE_MUSHROOM_CAN_PLACE_ON = register("huge_blue_mushroom_can_place_on");
         public static final TagKey<Block> HUGE_ORANGE_MUSHROOM_CAN_PLACE_ON = register(
                 "huge_orange_mushroom_can_place_on");
         public static final TagKey<Block> HUGE_PURPLE_MUSHROOM_CAN_PLACE_ON = register(
@@ -28,7 +27,6 @@ public class ModTags {
     }
 
     public static class Items {
-        public static final TagKey<Item> MUSHROOMS = register("mushrooms");
         public static final TagKey<Item> BLUE_SHROOMWOOD_LOGS = register("blue_shroomwood_logs");
         public static final TagKey<Item> ORANGE_SHROOMWOOD_LOGS = register("orange_shroomwood_logs");
         public static final TagKey<Item> PURPLE_SHROOMWOOD_LOGS = register("purple_shroomwood_logs");

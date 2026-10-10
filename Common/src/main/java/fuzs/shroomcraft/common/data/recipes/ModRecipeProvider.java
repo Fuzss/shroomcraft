@@ -1,20 +1,16 @@
 package fuzs.shroomcraft.common.data.recipes;
 
 import fuzs.puzzleslib.common.api.data.v3.recipes.AbstractRecipeProvider;
-import fuzs.puzzleslib.common.api.data.v3.recipes.TransformingRecipeOutput;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModItems;
 import fuzs.shroomcraft.common.init.ModTags;
-import fuzs.shroomcraft.common.world.item.crafting.DistinctShapelessRecipe;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.Collections;
@@ -36,16 +32,6 @@ public class ModRecipeProvider extends AbstractRecipeProvider {
         this.planksFromLog(ModItems.ORANGE_SHROOMWOOD_PLANKS.value(), ModTags.Items.ORANGE_SHROOMWOOD_LOGS, 4);
         this.planksFromLog(ModItems.PURPLE_SHROOMWOOD_PLANKS.value(), ModTags.Items.PURPLE_SHROOMWOOD_LOGS, 4);
         this.foodCooking(ModItems.COOKED_SHROOMFIN.value(), ModItems.SHROOMFIN.value());
-        ShapelessRecipeBuilder.shapeless(this.items, RecipeCategory.FOOD, Items.MUSHROOM_STEW)
-                .requires(ModTags.Items.MUSHROOMS)
-                .requires(ModTags.Items.MUSHROOMS)
-                .requires(Items.BOWL)
-                .unlockedBy(getHasName(Items.MUSHROOM_STEW), this.has(Items.MUSHROOM_STEW))
-                .unlockedBy(getHasName(Items.BOWL), this.has(Items.BOWL))
-                .unlockedBy(getHasName(ModTags.Items.MUSHROOMS), this.has(ModTags.Items.MUSHROOMS))
-                .save(TransformingRecipeOutput.transformed(this.output, (Recipe<?> recipe) -> {
-                    return new DistinctShapelessRecipe((ShapelessRecipe) recipe);
-                }));
         this.shroombomb(ModItems.BLUE_SHROOMBOMB.value(), ModItems.BLUE_SHROOMSPORES.value());
         this.shroombomb(ModItems.ORANGE_SHROOMBOMB.value(), ModItems.ORANGE_SHROOMSPORES.value());
         this.shroombomb(ModItems.PURPLE_SHROOMBOMB.value(), ModItems.PURPLE_SHROOMSPORES.value());

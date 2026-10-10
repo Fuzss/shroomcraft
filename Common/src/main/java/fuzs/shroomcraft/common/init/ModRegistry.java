@@ -23,7 +23,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.SHROOMWOOD.getItemVariants().values().forEach((Holder.Reference<Item> holder) -> {
+            ModBlockFamilies.SHROOMWOOD.getAllItemVariants().values().forEach((Holder.Reference<Item> holder) -> {
                 output.accept(holder.value());
             });
 
@@ -34,11 +34,9 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_BLUE_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_BLUE_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.BLUE_SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.BLUE_SHROOMWOOD.getItemVariants()
-                    .values()
-                    .forEach((Holder.Reference<Item> holder) -> {
-                        output.accept(holder.value());
-                    });
+            ModBlockFamilies.BLUE_SHROOMWOOD.getAllItemVariants().values().forEach((Holder.Reference<Item> holder) -> {
+                output.accept(holder.value());
+            });
 
             output.accept(ModItems.ORANGE_MUSHROOM.value());
             output.accept(ModItems.ORANGE_MUSHROOM_SPROUTS.value());
@@ -47,7 +45,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_ORANGE_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_ORANGE_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.ORANGE_SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.ORANGE_SHROOMWOOD.getItemVariants()
+            ModBlockFamilies.ORANGE_SHROOMWOOD.getAllItemVariants()
                     .values()
                     .forEach((Holder.Reference<Item> holder) -> {
                         output.accept(holder.value());
@@ -60,7 +58,7 @@ public class ModRegistry {
             output.accept(ModItems.STRIPPED_PURPLE_MUSHROOM_STEM.value());
             output.accept(ModItems.STRIPPED_PURPLE_MUSHROOM_HYPHAE.value());
             output.accept(ModItems.PURPLE_SHROOMWOOD_PLANKS.value());
-            ModBlockFamilies.PURPLE_SHROOMWOOD.getItemVariants()
+            ModBlockFamilies.PURPLE_SHROOMWOOD.getAllItemVariants()
                     .values()
                     .forEach((Holder.Reference<Item> holder) -> {
                         output.accept(holder.value());
@@ -95,6 +93,5 @@ public class ModRegistry {
         ModEntityTypes.bootstrap();
         ModFeatureTypes.bootstrap();
         ModItems.bootstrap();
-        ModRecipeSerializers.bootstrap();
     }
 }

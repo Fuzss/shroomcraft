@@ -34,35 +34,6 @@ public class ModModelProvider extends AbstractModelProvider {
                 .put(GLOW_LICHEN_TEXTURE_SLOT, TextureMapping.getBlockTexture(block));
     }
 
-    /**
-     * TODO use from Puzzles Lib
-     */
-    @Deprecated
-    public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantWoodBlockProviders(BlockSetFamily blockSetFamily) {
-        return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
-                .put(BlockSetVariant.LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
-                })
-                .put(BlockSetVariant.WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
-                            .get(BlockSetVariant.LOG)
-                            .value()).wood(block);
-                })
-                .put(BlockSetVariant.STRIPPED_LOG, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(block).logWithHorizontal(block);
-                })
-                .put(BlockSetVariant.STRIPPED_WOOD, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.woodProvider(blockSetFamily.getBlockVariants()
-                            .get(BlockSetVariant.STRIPPED_LOG)
-                            .value()).wood(block);
-                })
-                .put(BlockSetVariant.SHELF, (BlockModelGenerators blockModelGenerators, Block block) -> {
-                    blockModelGenerators.createShelf(block,
-                            blockSetFamily.getBlockVariants().get(BlockSetVariant.STRIPPED_LOG).value());
-                })
-                .build();
-    }
-
     public static Map<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>> createVariantMushroomBlockProviders(BlockSetFamily blockSetFamily) {
         return ImmutableMap.<BlockSetVariant, BiConsumer<BlockModelGenerators, Block>>builder()
                 .putAll(createVariantWoodBlockProviders(blockSetFamily))
@@ -139,15 +110,9 @@ public class ModModelProvider extends AbstractModelProvider {
     @Override
     public void addItemModels(ItemModelGenerators itemModelGenerators) {
         this.generateForItems(itemModelGenerators, ModBlockFamilies.SHROOMWOOD, VARIANT_WOOD_ITEM_PROVIDERS);
-        this.generateForItems(itemModelGenerators,
-                ModBlockFamilies.BLUE_SHROOMWOOD,
-                VARIANT_WOOD_ITEM_PROVIDERS);
-        this.generateForItems(itemModelGenerators,
-                ModBlockFamilies.ORANGE_SHROOMWOOD,
-                VARIANT_WOOD_ITEM_PROVIDERS);
-        this.generateForItems(itemModelGenerators,
-                ModBlockFamilies.PURPLE_SHROOMWOOD,
-                VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators, ModBlockFamilies.BLUE_SHROOMWOOD, VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators, ModBlockFamilies.ORANGE_SHROOMWOOD, VARIANT_WOOD_ITEM_PROVIDERS);
+        this.generateForItems(itemModelGenerators, ModBlockFamilies.PURPLE_SHROOMWOOD, VARIANT_WOOD_ITEM_PROVIDERS);
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.COOKED_SHROOMFIN.value(), ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SHROOMFIN_BUCKET.value(), ModelTemplates.FLAT_ITEM);

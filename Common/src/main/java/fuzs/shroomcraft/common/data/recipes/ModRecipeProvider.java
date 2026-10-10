@@ -1,16 +1,16 @@
 package fuzs.shroomcraft.common.data.recipes;
 
-import com.google.common.collect.ImmutableMap;
 import fuzs.puzzleslib.common.api.data.v3.recipes.AbstractRecipeProvider;
 import fuzs.puzzleslib.common.api.data.v3.recipes.TransformingRecipeOutput;
 import fuzs.puzzleslib.common.api.init.v3.family.BlockSetFamily;
-import fuzs.puzzleslib.common.api.init.v3.family.BlockSetVariant;
 import fuzs.shroomcraft.common.init.ModBlockFamilies;
 import fuzs.shroomcraft.common.init.ModItems;
 import fuzs.shroomcraft.common.init.ModTags;
 import fuzs.shroomcraft.common.world.item.crafting.DistinctShapelessRecipe;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
@@ -18,43 +18,11 @@ import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
 
 public class ModRecipeProvider extends AbstractRecipeProvider {
 
     public ModRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
         super(recipeOutput, advancementOutput);
-    }
-
-    /**
-     * TODO use from Puzzles Lib
-     */
-    @Deprecated
-    public static Map<BlockSetVariant, FamilyRecipeProvider> createVariantWoodProviders(BlockSetFamily blockSetFamily) {
-        return ImmutableMap.<BlockSetVariant, FamilyRecipeProvider>builder()
-                .put(BlockSetVariant.WOOD,
-                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
-                            recipeProvider.woodFromLogs(result, blockSetFamily.getItem(BlockSetVariant.LOG).value());
-                        })
-                .put(BlockSetVariant.STRIPPED_WOOD,
-                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
-                            recipeProvider.woodFromLogs(result,
-                                    blockSetFamily.getItem(BlockSetVariant.STRIPPED_LOG).value());
-                        })
-                .put(BlockSetVariant.SHELF,
-                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
-                            recipeProvider.shelf(result, blockSetFamily.getItem(BlockSetVariant.STRIPPED_LOG).value());
-                        })
-                .put(BlockSetVariant.BOAT,
-                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
-                            recipeProvider.woodenBoat(result, input);
-                        })
-                .put(BlockSetVariant.CHEST_BOAT,
-                        (RecipeProvider recipeProvider, ItemLike result, ItemLike input, Optional<String> recipeGroupPrefix, Optional<String> recipeUnlockedBy) -> {
-                            recipeProvider.chestBoat(result, blockSetFamily.getItem(BlockSetVariant.BOAT).value());
-                        })
-                .build();
     }
 
     @Override
